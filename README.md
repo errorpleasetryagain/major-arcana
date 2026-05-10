@@ -2,7 +2,7 @@
 
 > *One card. One night. One layer deeper.*
 
-A personal grimoire built card by card — a deep, immersive study of the 22 Major Arcana cards of the Tarot. Not fortune-telling. A map of the human soul, drawn by the ancients, encoded in symbol, and brought to life as a living interactive book.
+A personal grimoire built card by card — a deep, immersive study of the 22 Major Arcana cards of the Tarot. Not fortune telling. A map of the human soul, drawn by the ancients, encoded in symbol, and brought to life as a living interactive book.
 
 ---
 

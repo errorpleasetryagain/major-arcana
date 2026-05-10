@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>The Major Arcana — A Deep Study</title>
+<!-- fonts: system only, works offline -->
+<style>
+  :root {
+    --night: #080812;
+    --deep: #0d0d20;
+    --card-bg: #10102a;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --gold-pale: #f5e4a0;
+    --gold-dim: #8a7035;
+    --ivory: #f0ead8;
+    --soft: #d8d0e8;
+    --purple: #6b5b95;
+    --purple-dim: #3d3558;
+    --rose: #b06070;
+    --blue: #2a4a7a;
+    --sage: #4a7a50;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--night);
+    color: var(--ivory);
+    font-family: 'EB Garamond', Georgia, 'Times New Roman', serif;
+    font-size: 18px;
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* ── STARFIELD ── */
+  #stars {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle var(--d, 3s) ease-in-out infinite var(--delay, 0s);
+    opacity: var(--base-op, 0.4);
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: var(--base-op, 0.4); transform: scale(1); }
+    50% { opacity: 0.05; transform: scale(0.6); }
+  }
+
+  /* ── LAYOUT ── */
+  .page {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+  }
+
+  /* ── COVER ── */
+  #cover {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 60px 24px;
+    text-align: center;
+    background: radial-gradient(ellipse at 50% 30%, rgba(201,168,76,0.06) 0%, transparent 70%);
+  }
+
+  .cover-symbol {
+    font-size: 48px;
+    color: var(--gold);
+    margin-bottom: 32px;
+    animation: float 4s ease-in-out infinite;
+    text-shadow: 0 0 40px rgba(201,168,76,0.5);
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .cover-title {
+    font-family: 'Cinzel Decorative', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+    font-size: clamp(28px, 7vw, 52px);
+    color: var(--gold);
+    line-height: 1.2;
+    margin-bottom: 12px;
+    text-shadow: 0 0 60px rgba(201,168,76,0.3);
+    letter-spacing: 0.05em;
+  }
+
+  .cover-sub {
+    font-family: 'Cinzel', 'Palatino Linotype', Palatino, Georgia, serif;
+    font-size: clamp(13px, 3vw, 18px);
+    color: var(--gold-pale);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+    opacity: 0.8;
+  }
+
+  .cover-rule {
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 40px;
+  }
+
+  .cover-intro {
+    max-width: 480px;
+    font-size: 17px;
+    color: var(--soft);
+    line-height: 1.9;
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+
+  .cover-tagline {
+    font-family: 'Cinzel', 'Palatino Linotype', Palatino, Georgia, serif;
+    font-size: 13px;
+    color: var(--gold-dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 60px;
+  }
+
+  .nav-pills {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .nav-pill {
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.25);
+    color: var(--gold-pale);
+    font-family: 'Cinzel', 'Palatino Linotype', Palatino, Georgia, serif;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .nav-pill:hover {
+    background: rgba(201,168,76,0.18);
+    border-color: var(--gold);
+    color: var(--gold);
+    box-shadow: 0 0 20px rgba(201,168,76,0.15);
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--gold-dim);
+    font-family: 'Cinzel', 'Palatino Linotype', Palatino, Georgia, serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    animation: fade-up 2s ease-in-out infinite;
+  }
+  .scroll-arrow {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--gold-dim), transparent);
+  }
+  @keyframes fade-up {
+    0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+    50% { opacity: 0.9; transform: translateX(-50%) translateY(6px); }
+  }
+
+  /* ── CARD SECTION ── */
+  .card-section {
+    min-height: 100vh;
+    padding: 80px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  .card-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
+
+  /* ── TAROT CARD SVG ── */
+  .tarot-card-wrap {
+    width: min(260px, 80vw);
+    margin-bottom: 48px;
+    position: relative;
+  }
+
+  .tarot-card-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: card-glow 3s ease-in-out infinite;
+  }
+  @keyframes card-glow {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+
+  .tarot-card-wrap svg {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 0 30px rgba(201,168,76,0.25));
+    border-radius: 12px;
+  }
+
+  /* ── CARD HEADER ── */
+  .card-eyebrow {
+    font-family: 'Cinzel', 'Palatino Linotype', Palatino, Georgia, serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .card-title {
+    font-family: 'Cinzel Decorative', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+    font-size: clamp(30px, 8vw, 48px);
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 8px;
+    text-shadow: 0 0 40px rgba(201,168,76,0.2);
+  }
+
+  .card-tagline {
+    font-style: italic;
+    font-size: 17px;
+    color: var(--gold-pale);
+    text-align: center;
+    margin-bottom: 48px;
+    opacity: 0.85;
+  }
+
+  /* ── GOLD RULE ── */
+  .rule {
+    width: 100%;
+    max-width: 560px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    margin: 32px auto;
+  }
+  .rule.short {
+    max-width: 200px;
+    background: linear-gradient(90deg, transparent, var(--purple), transparent);
+  }
+
+  /* ── CONTENT ── */
+  .content {
+    max-width: 600px;
+    width: 100%;
+  }
+
+  .section-title {
+    font-family: 'Cinzel', 'Palatino Linotype', Palatino, Georgia, serif;
+    font-size: 14px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 14px;
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-title::before {
+    content: '✦';
+    color: var(--gold-dim);
+    font-size: 10px;
+  }
+
+  p {
+    color: var(--soft);
+    margin-bottom: 18px;
+    font-size: 17px;
+  }
+
+  .pull-quote {
+    border-left: 2px solid var(--gold-dim);
+    padding: 20px 24px;
+    margin: 36px 0;
+    background: rgba(201,168,76,0.04);
+    border-radius: 0 8px 8px 0;
+  }
+  .pull-quote p {
+    font-style: italic;
+    font-size: 18px;
+    color: var(--gold-pale);
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  .keyword-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .keyword-item {
+    background: rgba(201,168,76,0.05);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .keyword-label {
+    font-family: 'Cinzel', 'Palatino Linotype', Palatino, Georgia, serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .keyword-value {
+    font-size: 14px;
+    color: var(--soft);
+    line-height: 1.5;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    margin: 24px 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+  th {
+    font-family: 'Cinzel', 'Palatino Linotype', Palatino, Georgia, serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border-bottom: 1px solid var(--gold-dim);
+    padding: 10px 14px;
+    text-align: left;
+    background: rgba(201,168,76,0.05);
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: var(--soft);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  .closing-quote {
+    text-align: center;
+    padding: 40px 0;
+  }
+  .closing-quote p {
+    font-style: italic;
+    font-size: 19px;
+    color: var(--gold-pale);
+    max-width: 440px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  /* ── FOOTER NAV ── */
+  .section-nav {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 60px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: 'Cinzel', 'Palatino Linotype', Palatino, Georgia, serif;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    border-radius: 30px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+  .btn-gold {
+    background: rgba(201,168,76,0.12);
+    border: 1px solid var(--gold-dim);
+    color: var(--gold);
+  }
+  .btn-gold:hover {
+    background: rgba(201,168,76,0.22);
+    border-color: var(--gold);
+    box-shadow: 0 0 24px rgba(201,168,76,0.2);
+  }
+
+  /* ── SECTION BG VARIATION ── */
+  #fool { background: radial-gradient(ellipse at 50% 0%, rgba(42,74,122,0.08) 0%, transparent 60%); }
+  #magician { background: radial-gradient(ellipse at 50% 0%, rgba(107,91,149,0.08) 0%, transparent 60%); }
+
+  /* ── ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── STICKY CARD LABEL ── */
+  .sticky-label {
+    position: sticky;
+    top: 16px;
+    z-index: 10;
+    text-align: center;
+    pointer-events: none;
+    margin-bottom: -48px;
+  }
+  .sticky-badge {
+    display: inline-block;
+    background: rgba(8,8,18,0.85);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-family: 'Cinzel', 'Palatino Linotype', Palatino, Georgia, serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    backdrop-filter: blur(10px);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 480px) {
+    .keyword-grid { grid-template-columns: 1fr; }
+    body { font-size: 16px; }
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+    z-index: 100;
+    transition: width 0.1s;
+    box-shadow: 0 0 8px var(--gold);
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<!-- STARFIELD -->
+<div id="stars"></div>
+
+<!-- ═══════════════════════════════════════════════════════ COVER -->
+<section id="cover" class="page">
+  <div class="cover-symbol">☽ ✦ ☾</div>
+  <h1 class="cover-title">The Major Arcana</h1>
+  <p class="cover-sub">A Deep Study</p>
+  <div class="cover-rule"></div>
+  <p class="cover-intro">
+    This is not a guide to fortune telling.<br>
+    It is a map of the human soul — drawn by the ancients,<br>
+    encoded in symbol, waiting to be read<br>
+    by anyone willing to look beyond the surface of things.
+  </p>
+  <p class="cover-tagline">One card · One night · One layer deeper</p>
+  <nav class="nav-pills">
+    <a href="#fool" class="nav-pill">0 · The Fool</a>
+    <a href="#magician" class="nav-pill">I · The Magician</a>
+    <a href="#highpriestess" class="nav-pill">II · The High Priestess</a>
+  </nav>
+  <div class="scroll-hint">
+    <span>Begin</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════ THE FOOL -->
+<section id="fool" class="card-section page">
+
+  <div class="sticky-label">
+    <span class="sticky-badge">Card 0 · The Fool</span>
+  </div>
+
+  <!-- FOOL SVG CARD -->
+  <div class="tarot-card-wrap reveal">
+    <svg viewBox="0 0 260 380" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="skyGrad" cx="50%" cy="40%" r="60%">
+          <stop offset="0%" stop-color="#1a3a6b"/>
+          <stop offset="50%" stop-color="#2a4a8b"/>
+          <stop offset="100%" stop-color="#0a1a40"/>
+        </radialGradient>
+        <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fff5cc"/>
+          <stop offset="60%" stop-color="#f5c040"/>
+          <stop offset="100%" stop-color="#e8a030" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="cardGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#1a1a35"/>
+          <stop offset="100%" stop-color="#0d0d20"/>
+        </radialGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="softglow">
+          <feGaussianBlur stdDeviation="6" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- Card body -->
+      <rect width="260" height="380" rx="14" fill="url(#cardGlow)"/>
+      <rect x="3" y="3" width="254" height="374" rx="12" fill="none" stroke="#c9a84c" stroke-width="1.5"/>
+      <rect x="7" y="7" width="246" height="366" rx="10" fill="none" stroke="#f5e4a0" stroke-width="0.4"/>
+
+      <!-- Sky -->
+      <rect x="9" y="9" width="242" height="260" rx="8" fill="url(#skyGrad)"/>
+
+      <!-- Stars in sky -->
+      <circle cx="30" cy="25" r="1.2" fill="#fff" opacity="0.7"/>
+      <circle cx="55" cy="40" r="0.8" fill="#fff" opacity="0.5"/>
+      <circle cx="80" cy="20" r="1.5" fill="#fff" opacity="0.6"/>
+      <circle cx="160" cy="30" r="1" fill="#fff" opacity="0.8"/>
+      <circle cx="200" cy="18" r="1.3" fill="#fff" opacity="0.5"/>
+      <circle cx="230" cy="35" r="0.9" fill="#fff" opacity="0.7"/>
+
+      <!-- Sun -->
+      <circle cx="210" cy="55" r="28" fill="url(#sunGlow)" opacity="0.6"/>
+      <circle cx="210" cy="55" r="18" fill="#f5c040"/>
+      <circle cx="210" cy="55" r="13" fill="#fff5cc"/>
+      <!-- Sun rays -->
+      <g stroke="#f5c040" stroke-width="1.5" opacity="0.8">
+        <line x1="210" y1="30" x2="210" y2="22"/>
+        <line x1="210" y1="80" x2="210" y2="88"/>
+        <line x1="185" y1="55" x2="177" y2="55"/>
+        <line x1="235" y1="55" x2="243" y2="55"/>
+        <line x1="192" y1="37" x2="186" y2="31"/>
+        <line x1="228" y1="37" x2="234" y2="31"/>
+        <line x1="192" y1="73" x2="186" y2="79"/>
+        <line x1="228" y1="73" x2="234" y2="79"/>
+      </g>
+
+      <!-- Mountains/landscape -->
+      <polygon points="9,200 70,140 120,180 160,120 200,160 251,110 251,200" fill="#0d2a0d" opacity="0.8"/>
+      <polygon points="9,200 70,150 100,165 9,200" fill="#1a3a1a"/>
+
+      <!-- Cliff -->
+      <polygon points="9,200 9,260 130,260 130,210 100,215 70,200" fill="#3a2818"/>
+      <rect x="9" y="200" width="242" height="70" fill="#1a3a1a" opacity="0.6"/>
+
+      <!-- Ground -->
+      <rect x="9" y="250" width="242" height="19" rx="0" fill="#2d1a0d"/>
+
+      <!-- FOOL FIGURE - standing near cliff edge -->
+      <!-- Legs -->
+      <line x1="118" y1="230" x2="112" y2="250" stroke="#8b3a2a" stroke-width="5" stroke-linecap="round"/>
+      <line x1="122" y1="230" x2="128" y2="248" stroke="#8b3a2a" stroke-width="5" stroke-linecap="round"/>
+      <!-- Shoes -->
+      <ellipse cx="111" cy="251" rx="5" ry="3" fill="#2a1a0a"/>
+      <ellipse cx="129" cy="249" rx="5" ry="3" fill="#2a1a0a"/>
+
+      <!-- Tunic/body -->
+      <path d="M106,200 Q108,198 120,198 Q132,198 134,200 L136,228 Q120,234 104,228 Z" fill="#e74c3c"/>
+      <!-- Tunic pattern -->
+      <circle cx="116" cy="210" r="2" fill="#c9a84c" opacity="0.6"/>
+      <circle cx="124" cy="216" r="2" fill="#c9a84c" opacity="0.6"/>
+      <circle cx="116" cy="222" r="2" fill="#c9a84c" opacity="0.6"/>
+
+      <!-- Cape/cloak -->
+      <path d="M104,200 Q98,205 95,225 Q100,230 110,228" fill="#9b59b6" opacity="0.7"/>
+      <path d="M136,200 Q142,205 145,225 Q140,230 130,228" fill="#9b59b6" opacity="0.7"/>
+
+      <!-- Arm UP with wand -->
+      <line x1="133" y1="215" x2="152" y2="190" stroke="#d4a574" stroke-width="4" stroke-linecap="round"/>
+      <!-- Wand -->
+      <line x1="152" y1="190" x2="165" y2="170" stroke="#8b6914" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="165" cy="168" r="4" fill="#e74c3c" filter="url(#glow)"/>
+      <!-- Bindle bag -->
+      <circle cx="168" cy="166" r="7" fill="#8b6914"/>
+      <circle cx="168" cy="166" r="5" fill="#a07820"/>
+
+      <!-- Arm DOWN left with white rose -->
+      <line x1="107" y1="212" x2="92" y2="225" stroke="#d4a574" stroke-width="4" stroke-linecap="round"/>
+      <!-- White rose -->
+      <circle cx="89" cy="227" r="5" fill="#f0f0f0"/>
+      <circle cx="89" cy="227" r="3" fill="#ffb6c1"/>
+      <line x1="89" y1="232" x2="89" y2="240" stroke="#4a7a50" stroke-width="1.5"/>
+
+      <!-- Torso/neck -->
+      <rect x="113" y="193" width="14" height="8" rx="4" fill="#d4a574"/>
+
+      <!-- Head -->
+      <circle cx="120" cy="187" r="12" fill="#d4a574"/>
+
+      <!-- Face features -->
+      <circle cx="116" cy="185" r="1.5" fill="#2a1a0a"/>
+      <circle cx="124" cy="185" r="1.5" fill="#2a1a0a"/>
+      <path d="M116,190 Q120,193 124,190" stroke="#2a1a0a" stroke-width="1" fill="none"/>
+
+      <!-- Fool's hat with bells -->
+      <path d="M108,183 Q120,175 132,183" fill="#9b59b6"/>
+      <path d="M108,183 Q104,168 112,160 Q116,175 120,175" fill="#c0392b"/>
+      <path d="M132,183 Q136,168 128,160 Q124,175 120,175" fill="#e74c3c"/>
+      <!-- Bell 1 -->
+      <circle cx="112" cy="160" r="4" fill="#c9a84c" filter="url(#glow)"/>
+      <rect x="111" y="162" width="2" height="4" fill="#8b6914"/>
+      <!-- Bell 2 -->
+      <circle cx="128" cy="160" r="4" fill="#c9a84c" filter="url(#glow)"/>
+      <rect x="127" y="162" width="2" height="4" fill="#8b6914"/>
+
+      <!-- Little dog -->
+      <ellipse cx="96" cy="247" rx="9" ry="6" fill="#c4a882"/>
+      <circle cx="103" cy="243" rx="6" ry="5.5" fill="#c4a882"/>
+      <ellipse cx="106" cy="240" rx="3.5" ry="3" fill="#b89060"/>
+      <!-- Dog tail -->
+      <path d="M87,245 Q80,238 84,233" stroke="#c4a882" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- Dog eye -->
+      <circle cx="107" cy="239" r="1.2" fill="#2a1a0a"/>
+
+      <!-- LEMNISCATE (infinity) above head -->
+      <path d="M108,158 Q112,150 120,155 Q128,160 132,152 Q136,144 128,148 Q120,152 112,148 Q104,144 108,152 Q112,160 120,155" 
+            stroke="#c9a84c" stroke-width="1.8" fill="none" filter="url(#glow)" opacity="0.9"/>
+
+      <!-- Cliff edge detail -->
+      <line x1="130" y1="210" x2="251" y2="210" stroke="transparent"/>
+
+      <!-- Title area -->
+      <rect x="9" y="269" width="242" height="100" rx="0" fill="#0a0a1a"/>
+      <line x1="9" y1="270" x2="251" y2="270" stroke="#c9a84c" stroke-width="0.8"/>
+
+      <!-- Card name -->
+      <text x="130" y="296" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="16" fill="#c9a84c" letter-spacing="2">THE FOOL</text>
+      
+      <!-- Divider dots -->
+      <text x="130" y="315" text-anchor="middle" font-family="serif" font-size="11" fill="#8a7035">· · · · · · · · · · ·</text>
+
+      <!-- Keywords -->
+      <text x="130" y="334" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="9" fill="#6b5b95" letter-spacing="1.5">POTENTIAL · BEGINNINGS · TRUST</text>
+
+      <!-- Card number -->
+      <text x="130" y="358" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="22" fill="#c9a84c" opacity="0.7">0</text>
+
+      <!-- Corner ornaments -->
+      <text x="16" y="26" font-family="serif" font-size="12" fill="#8a7035">✦</text>
+      <text x="238" y="26" font-family="serif" font-size="12" fill="#8a7035" text-anchor="middle">✦</text>
+      <text x="16" y="372" font-family="serif" font-size="12" fill="#8a7035">✦</text>
+      <text x="238" y="372" font-family="serif" font-size="12" fill="#8a7035" text-anchor="middle">✦</text>
+    </svg>
+  </div>
+
+  <!-- FOOL CONTENT -->
+  <div class="content">
+    <div class="reveal">
+      <p class="card-eyebrow">Major Arcana · Card Zero</p>
+      <h2 class="card-title">The Fool</h2>
+      <p class="card-tagline">"The soul before the journey begins"</p>
+    </div>
+
+    <div class="rule reveal"></div>
+
+    <div class="keyword-grid reveal">
+      <div class="keyword-item">
+        <div class="keyword-label">Element</div>
+        <div class="keyword-value">Air · Spirit · Breath</div>
+      </div>
+      <div class="keyword-item">
+        <div class="keyword-label">Hebrew Letter</div>
+        <div class="keyword-value">Aleph · Silent · First</div>
+      </div>
+      <div class="keyword-item">
+        <div class="keyword-label">Kabbalah Path</div>
+        <div class="keyword-value">Kether to Chokmah</div>
+      </div>
+      <div class="keyword-item">
+        <div class="keyword-label">Numerology</div>
+        <div class="keyword-value">Zero · Everything unformed</div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">Numerology: Zero</div>
+      <p>Zero is not nothing. It is everything before form. In mathematics, zero was one of the most radical ideas in human history — many ancient cultures resisted it because it was philosophically threatening. What does nothing actually mean? The Fool carries that same energy. It is pre-creation. The void before the big bang. Pure potential that has not yet collapsed into anything specific.</p>
+      <p>In quantum physics there is something called the zero-point field — the baseline energy that exists even in a perfect vacuum. The universe is never truly empty. Neither is The Fool.</p>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"The Fool is not the beginning of the story. The Fool is what exists before stories are possible."</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Hermetic Connection</div>
+      <p>Tarot is deeply rooted in Hermetic philosophy, which traces back to Hermes Trismegistus — a figure the ancient Egyptians identified with Thoth, their god of wisdom, writing, and magic. The core Hermetic principle is <em>As above, so below</em> — the idea that the macrocosm and the microcosm mirror each other perfectly.</p>
+      <p>The Fool embodies this completely. He stands at the point where the infinite is about to express itself through the finite. He is the divine becoming human. The soul choosing to enter incarnation — not because it has to, but because it wants to experience what it means to exist in form.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Kabbalistic Layer</div>
+      <p>On the Kabbalistic Tree of Life, The Fool is assigned to the path connecting Kether — pure divine consciousness, the source of all — to Chokmah, wisdom, the first movement. It is literally the path of the first breath. The moment the divine exhaled and creation began.</p>
+      <p>The Hebrew letter assigned to The Fool is Aleph — the first letter of the alphabet, and uniquely, it is silent. You cannot hear Aleph. You can only feel it. The Fool is what exists before language, before definition, before the story starts. He is the breath taken before the first word is spoken.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Cliff — Where You Actually Look</div>
+      <p>Most people read the cliff as risk. But look more carefully. The Fool is not looking at the cliff. He is looking <em>up</em>. His gaze is on the sky, on the infinite. The cliff only exists as a threat if you are looking down.</p>
+      <p>This is one of the most profound teachings in the entire deck. Fear of the leap is entirely a function of where you direct your attention. The Fool has simply chosen to look at the horizon rather than the drop. That is not naivety. That is a discipline most people never master in a lifetime.</p>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"He is not unaware of the cliff. He has simply decided it is less interesting than the sky."</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The White Rose</div>
+      <p>In Hermetic and Rosicrucian symbolism, the white rose represents purity of desire — wanting something for its intrinsic rightness, not for ego, status, or fear. It is also a symbol of the soul itself in its uncorrupted state. The Fool holds it loosely, almost casually. He is not gripping it. Another teaching: hold what matters to you without clutching it.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Dog — Companion or Critic?</div>
+      <p>In Egyptian mythology, Anubis the jackal-headed god was guardian of the threshold between worlds. The dog at The Fool's heels may be less about doubt and more about the spirit guide accompanying him through transition. Thresholds have always had guardians in ancient traditions. You do not cross between worlds alone.</p>
+      <p>In the shadow reading, the dog represents the ego's voice. The inner critic. The part that says this is mad, stop, look down, be careful. The Fool does not fight it. He does not silence it. He just keeps walking.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Bindle — Travelling Light</div>
+      <p>The small bag he carries over his shoulder contains the four suits of the tarot — wand, cup, sword, pentacle — representing fire, water, air and earth. Everything needed for the journey is already present, but packed away, not yet deployed. The Fool has everything required. He just does not know it yet.</p>
+      <p>This is deeply significant. The Fool is not unprepared. He is simply not yet consciously aware of his own resources. The journey ahead — the rest of the Major Arcana — is the process of unpacking that bag, one card at a time.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Lemniscate — Infinite Source</div>
+      <p>The infinity symbol above his head — barely visible, floating — tells you something crucial about the nature of his journey. He is not working from a limited personal supply. The source behind him is infinite. The sun blazes at full power. Divine consciousness backs this leap completely.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Fool's Journey</div>
+      <p>The 22 cards of the Major Arcana tell a single continuous story. The Fool is the protagonist. Every card he encounters — The Magician, The High Priestess, The Empress, The Emperor, and on through to The World — is a teacher, an initiation, an energy he must integrate before moving forward.</p>
+      <p>But then The World leads back to The Fool. The cycle begins again at a higher octave. This is the spiral nature of consciousness. You do not arrive and stop. You return to zero, but you are not the same zero you were before. You carry the integration of everything you have lived.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Deepest Layer</div>
+      <p>In the deepest reading, The Fool is not a character in the story. The Fool <em>is you</em>. The soul choosing to incarnate into physical reality — stepping off the edge of the infinite into the finite, into time and space and a body — trusting completely that the journey will be worth it.</p>
+      <p>Every lifetime is a new Fool's Journey. Every major chapter of a life is a new Fool's Journey. Every genuine leap of faith is The Fool stepping off that cliff again. The card keeps finding you because you are at one of those moments.</p>
+    </div>
+
+    <div class="rule reveal"></div>
+
+    <div class="table-wrap reveal">
+      <table>
+        <thead>
+          <tr>
+            <th>Upright</th>
+            <th>Reversed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>New beginnings, fresh start</td><td>Recklessness, poor judgment</td></tr>
+          <tr><td>Spontaneity and courage</td><td>Naivety, being taken advantage of</td></tr>
+          <tr><td>Trust in the journey</td><td>Fear of change, paralysis</td></tr>
+          <tr><td>Freedom from past patterns</td><td>Chaos, instability</td></tr>
+          <tr><td>Pure potential, open heart</td><td>Holding back what wants to be born</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rule short reveal"></div>
+
+    <div class="closing-quote reveal">
+      <p>The sun is behind you.<br>The tools are in your bag.<br>The dog will keep barking.<br><em>Step anyway.</em></p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="#cover" class="btn btn-gold">↑ Back to Start</a>
+      <a href="#magician" class="btn btn-gold">The Magician →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════ THE MAGICIAN -->
+<section id="magician" class="card-section page">
+
+  <div class="sticky-label">
+    <span class="sticky-badge">Card I · The Magician</span>
+  </div>
+
+  <!-- MAGICIAN SVG CARD -->
+  <div class="tarot-card-wrap reveal">
+    <svg viewBox="0 0 260 380" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="magBg" cx="50%" cy="50%" r="60%">
+          <stop offset="0%" stop-color="#1a0e2e"/>
+          <stop offset="100%" stop-color="#080812"/>
+        </radialGradient>
+        <radialGradient id="magGlow" cx="50%" cy="30%" r="50%">
+          <stop offset="0%" stop-color="#9b59b6" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <filter id="magicglow">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- Card body -->
+      <rect width="260" height="380" rx="14" fill="url(#magBg)"/>
+      <rect x="3" y="3" width="254" height="374" rx="12" fill="none" stroke="#c9a84c" stroke-width="1.5"/>
+      <rect x="7" y="7" width="246" height="366" rx="10" fill="none" stroke="#f5e4a0" stroke-width="0.4"/>
+
+      <!-- Purple atmosphere -->
+      <ellipse cx="130" cy="120" rx="100" ry="80" fill="url(#magGlow)"/>
+
+      <!-- Stars -->
+      <circle cx="25" cy="20" r="1" fill="#c9a84c" opacity="0.8"/>
+      <circle cx="235" cy="25" r="1.2" fill="#c9a84c" opacity="0.7"/>
+      <circle cx="45" cy="40" r="0.8" fill="#fff" opacity="0.5"/>
+      <circle cx="215" cy="45" r="0.8" fill="#fff" opacity="0.5"/>
+      <circle cx="30" cy="60" r="1" fill="#c9a84c" opacity="0.6"/>
+      <circle cx="230" cy="55" r="0.9" fill="#c9a84c" opacity="0.6"/>
+
+      <!-- Rose garden at bottom of scene -->
+      <rect x="9" y="230" width="242" height="30" fill="#0d1f0d"/>
+      <!-- Red roses -->
+      <circle cx="25" cy="248" r="6" fill="#c0392b"/>
+      <circle cx="25" cy="248" r="4" fill="#e74c3c"/>
+      <line x1="25" y1="254" x2="25" y2="260" stroke="#2d5a27" stroke-width="1.5"/>
+      <circle cx="45" cy="244" r="6" fill="#c0392b"/>
+      <circle cx="45" cy="244" r="4" fill="#e74c3c"/>
+      <line x1="45" y1="250" x2="45" y2="260" stroke="#2d5a27" stroke-width="1.5"/>
+      <!-- White lilies -->
+      <circle cx="215" cy="248" r="6" fill="#e8e8e0"/>
+      <circle cx="215" cy="248" r="4" fill="#f5f5f0"/>
+      <line x1="215" y1="254" x2="215" y2="260" stroke="#2d5a27" stroke-width="1.5"/>
+      <circle cx="235" cy="244" r="6" fill="#e8e8e0"/>
+      <circle cx="235" cy="244" r="4" fill="#f5f5f0"/>
+      <line x1="235" y1="250" x2="235" y2="260" stroke="#2d5a27" stroke-width="1.5"/>
+
+      <!-- Table -->
+      <rect x="40" y="215" width="180" height="16" rx="4" fill="#5d3a1a"/>
+      <line x1="40" y1="215" x2="220" y2="215" stroke="#8b6914" stroke-width="1"/>
+      <line x1="40" y1="231" x2="220" y2="231" stroke="#8b6914" stroke-width="1"/>
+      <!-- Table legs -->
+      <rect x="50" y="231" width="6" height="15" fill="#3d2010"/>
+      <rect x="204" y="231" width="6" height="15" fill="#3d2010"/>
+
+      <!-- FOUR TOOLS ON TABLE -->
+      <!-- Wand (fire) -->
+      <rect x="58" y="198" width="4" height="18" rx="2" fill="#8b6914"/>
+      <circle cx="60" cy="196" r="5" fill="#e74c3c" filter="url(#magicglow)"/>
+      <!-- Sparkles around wand tip -->
+      <line x1="60" y1="188" x2="60" y2="185" stroke="#f5c040" stroke-width="1"/>
+      <line x1="54" y1="191" x2="51" y2="189" stroke="#f5c040" stroke-width="1"/>
+      <line x1="66" y1="191" x2="69" y2="189" stroke="#f5c040" stroke-width="1"/>
+
+      <!-- Cup (water) -->
+      <path d="M98,198 L108,198 L105,212 L101,212 Z" fill="#2980b9"/>
+      <rect x="98" y="212" width="10" height="2" rx="1" fill="#2471a3"/>
+      <ellipse cx="103" cy="199" rx="5" ry="2" fill="#5dade2" opacity="0.6"/>
+
+      <!-- Sword (air) -->
+      <rect x="148" y="190" width="3" height="22" rx="1" fill="#bdc3c7"/>
+      <rect x="143" y="207" width="13" height="3" rx="1" fill="#8b6914"/>
+      <polygon points="149.5,188 151,190 148,190" fill="#ecf0f1"/>
+
+      <!-- Pentacle (earth) -->
+      <circle cx="195" cy="205" r="9" fill="#8b6914"/>
+      <circle cx="195" cy="205" r="7" fill="#c9a84c"/>
+      <circle cx="195" cy="205" r="5" fill="#0d0d20"/>
+      <!-- Star of david / pentacle lines -->
+      <polygon points="195,199 197,204 202,204 198,207 199,212 195,209 191,212 192,207 188,204 193,204" 
+               fill="none" stroke="#c9a84c" stroke-width="0.8"/>
+
+      <!-- MAGICIAN FIGURE -->
+      <!-- Outer robe -->
+      <path d="M100,175 Q80,185 75,215 L90,215 Q95,195 110,188" fill="#c0392b" opacity="0.8"/>
+      <path d="M160,175 Q180,185 185,215 L170,215 Q165,195 150,188" fill="#c0392b" opacity="0.8"/>
+
+      <!-- White robe body -->
+      <path d="M108,175 Q100,180 98,215 L162,215 Q160,180 152,175 Z" fill="#f0f0e8"/>
+      <!-- Robe decoration -->
+      <line x1="130" y1="182" x2="130" y2="213" stroke="#c9a84c" stroke-width="0.5" opacity="0.5"/>
+
+      <!-- Ouroboros belt -->
+      <circle cx="130" cy="198" r="11" fill="none" stroke="#27ae60" stroke-width="2.5"/>
+      <!-- Snake head -->
+      <circle cx="138" cy="191" r="3.5" fill="#27ae60"/>
+      <circle cx="140" cy="189" r="1" fill="#0a1a0a"/>
+
+      <!-- Torso -->
+      <rect x="114" y="163" width="32" height="14" rx="6" fill="#d4a574"/>
+
+      <!-- ARM UP - right - holding wand -->
+      <line x1="144" y1="170" x2="165" y2="145" stroke="#d4a574" stroke-width="6" stroke-linecap="round"/>
+      <!-- Extended wand going up -->
+      <line x1="165" y1="145" x2="178" y2="120" stroke="#8b6914" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- Wand tip glow -->
+      <circle cx="178" cy="118" r="6" fill="#f5c040" filter="url(#magicglow)" opacity="0.9"/>
+      <circle cx="178" cy="118" r="3" fill="#fff5cc"/>
+      <!-- Magic sparkles -->
+      <circle cx="170" cy="108" r="1.5" fill="#c9a84c" opacity="0.8"/>
+      <circle cx="185" cy="112" r="1.5" fill="#c9a84c" opacity="0.7"/>
+      <circle cx="178" cy="105" r="1" fill="#fff" opacity="0.9"/>
+      <circle cx="162" cy="115" r="1.2" fill="#c9a84c" opacity="0.6"/>
+
+      <!-- ARM DOWN - left - pointing to earth -->
+      <line x1="116" y1="170" x2="95" y2="195" stroke="#d4a574" stroke-width="6" stroke-linecap="round"/>
+      <!-- Index finger pointing down -->
+      <circle cx="93" cy="197" r="3" fill="#d4a574"/>
+
+      <!-- Head -->
+      <circle cx="130" cy="150" r="16" fill="#d4a574"/>
+
+      <!-- Hair -->
+      <path d="M114,148 Q115,136 130,133 Q145,136 146,148" fill="#1a0e05"/>
+
+      <!-- Face features -->
+      <circle cx="125" cy="148" r="2" fill="#2a1a0a"/>
+      <circle cx="135" cy="148" r="2" fill="#2a1a0a"/>
+      <path d="M125,154 Q130,158 135,154" stroke="#2a1a0a" stroke-width="1.2" fill="none"/>
+
+      <!-- Headband/crown -->
+      <rect x="114" y="140" width="32" height="4" rx="2" fill="#c9a84c"/>
+      <circle cx="130" cy="139" r="3" fill="#e74c3c"/>
+      <circle cx="120" cy="141" r="2" fill="#c9a84c"/>
+      <circle cx="140" cy="141" r="2" fill="#c9a84c"/>
+
+      <!-- LEMNISCATE above head - clear infinity symbol -->
+      <path d="M114,128 Q116,120 122,122 Q128,124 130,128 Q132,132 138,134 Q144,136 146,128 Q148,120 142,118 Q136,116 130,120 Q124,124 118,118 Q112,112 114,128" 
+            stroke="#c9a84c" stroke-width="2" fill="none" filter="url(#magicglow)"/>
+
+      <!-- Title area -->
+      <rect x="9" y="262" width="242" height="107" rx="0" fill="#080810"/>
+      <line x1="9" y1="262" x2="251" y2="262" stroke="#c9a84c" stroke-width="0.8"/>
+
+      <text x="130" y="290" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="13" fill="#c9a84c" letter-spacing="2">THE MAGICIAN</text>
+      <text x="130" y="308" text-anchor="middle" font-family="serif" font-size="10" fill="#8a7035">· · · · · · · · · · ·</text>
+      <text x="130" y="325" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="8.5" fill="#6b5b95" letter-spacing="1.2">WILL · POWER · CREATION</text>
+
+      <!-- As above so below symbols -->
+      <text x="90" y="348" text-anchor="middle" font-family="serif" font-size="14" fill="#8a7035">△</text>
+      <text x="130" y="348" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="20" fill="#c9a84c" opacity="0.7">I</text>
+      <text x="170" y="348" text-anchor="middle" font-family="serif" font-size="14" fill="#8a7035">▽</text>
+
+      <!-- Corner ornaments -->
+      <text x="16" y="26" font-family="serif" font-size="12" fill="#8a7035">✦</text>
+      <text x="238" y="26" font-family="serif" font-size="12" fill="#8a7035" text-anchor="middle">✦</text>
+      <text x="16" y="372" font-family="serif" font-size="12" fill="#8a7035">✦</text>
+      <text x="238" y="372" font-family="serif" font-size="12" fill="#8a7035" text-anchor="middle">✦</text>
+    </svg>
+  </div>
+
+  <!-- MAGICIAN CONTENT -->
+  <div class="content">
+    <div class="reveal">
+      <p class="card-eyebrow">Major Arcana · Card One</p>
+      <h2 class="card-title">The Magician</h2>
+      <p class="card-tagline">"Potential focused into will"</p>
+    </div>
+
+    <div class="rule reveal"></div>
+
+    <div class="keyword-grid reveal">
+      <div class="keyword-item">
+        <div class="keyword-label">Element</div>
+        <div class="keyword-value">Mercury · Air · Mind</div>
+      </div>
+      <div class="keyword-item">
+        <div class="keyword-label">Hebrew Letter</div>
+        <div class="keyword-value">Beth · House · Container</div>
+      </div>
+      <div class="keyword-item">
+        <div class="keyword-label">Kabbalah Path</div>
+        <div class="keyword-value">Kether to Binah</div>
+      </div>
+      <div class="keyword-item">
+        <div class="keyword-label">Numerology</div>
+        <div class="keyword-value">One · First act · Will</div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Core — Potential Activated</div>
+      <p>If The Fool is pure potential, The Magician is the moment that potential <em>focuses</em>. He is will. Conscious intention directed with precision. He is the first act of creation — the decision to make something happen. He is the universe's answer to The Fool's question: I have everything in my bag, but what do I actually do with it?</p>
+      <p>The Magician's answer is simple and complete: you direct it. Consciously. Deliberately. With full presence and absolute clarity of purpose.</p>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"The Magician does not create energy from nothing. He learns to get out of the way so infinite energy can move through him."</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">As Above, So Below — The Pose</div>
+      <p>One hand raised to the sky. One hand pointing to the earth. This is the Hermetic axiom made flesh — <em>as above, so below</em>. The Magician is the conduit. He does not generate the energy himself — he channels it. Divine energy flows through him, down into material reality, and he shapes it with his will.</p>
+      <p>This is the most precise description of what a true magician is in the esoteric tradition — not someone who performs tricks, but someone who has learned to consciously channel universal energy into specific outcomes. A living bridge between worlds.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Four Tools — The Unpacked Bindle</div>
+      <p>The wand, cup, sword and pentacle laid out on his table are the exact same tools that were packed away in The Fool's bindle. But now they are unpacked, laid out, understood, and ready to use. The Magician has taken full inventory of what he carries.</p>
+    </div>
+
+    <div class="table-wrap reveal">
+      <table>
+        <thead>
+          <tr>
+            <th>Tool</th>
+            <th>Element</th>
+            <th>Domain</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Wand</td><td>Fire</td><td>Passion, will, creative drive</td></tr>
+          <tr><td>Cup</td><td>Water</td><td>Emotion, intuition, the subconscious</td></tr>
+          <tr><td>Sword</td><td>Air</td><td>Intellect, clarity, the power of thought</td></tr>
+          <tr><td>Pentacle</td><td>Earth</td><td>The physical, material manifestation</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="reveal">
+      <p>The Magician has mastery over all four. He can work in any domain. He does not say I am good at the thinking side but not the emotional side. He has done enough inner work to access all four elements consciously. That is what makes him formidable.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Lemniscate — Infinite Source</div>
+      <p>The infinity symbol floating above his head is not decoration. It is telling you the source of his power is infinite. He is not working from a limited personal reservoir that will eventually run dry — he is tapped into something that does not run out. The universe itself is his energy source.</p>
+      <p>But he is not passive about it. The infinity symbol does not appear above someone sitting still waiting for things to happen. It appears above someone who has done the inner work to become a clear enough channel that infinite energy can actually move through them without distortion.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Ouroboros Belt</div>
+      <p>The serpent eating its own tail — the ouroboros — is one of the oldest symbols in human history. Found in ancient Egypt, in alchemical texts, in Norse mythology. It represents eternal cyclical renewal. The end feeds the beginning. Every completion is simultaneously a new starting point.</p>
+      <p>Worn as a belt, it sits at his centre of gravity, his core. His power does not move in straight lines. It moves in cycles. He understands that mastery is not a destination you arrive at — it is a continuous returning and deepening. Every cycle brings more understanding than the last.</p>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"The Fool leaps because he trusts. The Magician acts because he knows. Both are necessary. Neither is superior."</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Roses and Lilies</div>
+      <p>White lilies surround the Magician representing purity of thought. Red roses represent desire and passionate will. Together they say the same thing as The Fool's white rose but now fully expressed: thought and desire in balance. Head and heart aligned. When these two are pointing in the same direction, creation becomes almost effortless.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Kabbalistic Layer</div>
+      <p>On the Tree of Life, The Magician sits on the path connecting Kether — pure divine source — to Binah, understanding, the great mother, the first form. If The Fool was the breath, The Magician is the first word. The moment formless energy takes on intention and begins to have a direction.</p>
+      <p>His Hebrew letter is Beth, meaning house. He is the house through which divine energy enters the world. He creates the container. Before creation can happen, there must be a vessel. The Magician becomes that vessel through the discipline of his practice and the clarity of his intention.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Shadow Side</div>
+      <p>Every Major Arcana card has a shadow — the energy misused or distorted. The Magician's shadow is manipulation. All that power, all those tools, all that skill — directed by ego rather than genuine will. The con artist. The charlatan. Someone who uses their gifts to deceive, to control, to extract rather than to create.</p>
+      <p>This is precisely why the tradition always emphasised that real mastery requires purity of intention — which loops directly back to The Fool's white rose. The Magician is most powerful when working in alignment with something genuinely true, not just something clever.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Fool Meets The Magician</div>
+      <p>The Fool steps off the cliff and the very first thing he encounters is The Magician. Think about what that means. The universe's first response to a genuine leap of faith is to show you your own power.</p>
+      <p>Not to catch you. Not to give you a map. Not to make it easy. But to hold up a mirror and say: look what you are actually capable of. Look what you have been carrying this whole time. Now stop waiting for permission and use it.</p>
+    </div>
+
+    <div class="rule reveal"></div>
+
+    <div class="table-wrap reveal">
+      <table>
+        <thead>
+          <tr>
+            <th>Upright</th>
+            <th>Reversed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>All tools available, act now</td><td>Manipulation, hidden agenda</td></tr>
+          <tr><td>Focused will, clear intention</td><td>Untapped potential sitting idle</td></tr>
+          <tr><td>Resourcefulness, mastery</td><td>Poor planning, wasted talent</td></tr>
+          <tr><td>The timing is right</td><td>Trickery, misleading others</td></tr>
+          <tr><td>Skill channelled with purpose</td><td>Skills used against yourself</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rule short reveal"></div>
+
+    <div class="closing-quote reveal">
+      <p>The tools are on the table.<br>The source is infinite.<br>The timing is now.<br><em>What are you waiting for?</em></p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="#fool" class="btn btn-gold">← The Fool</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+    </div>
+
+    <div style="height: 60px;"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ THE HIGH PRIESTESS -->
+<section id="highpriestess" class="card-section page" style="background: radial-gradient(ellipse at 50% 0%, rgba(107,60,149,0.10) 0%, transparent 60%);">
+
+  <div class="sticky-label">
+    <span class="sticky-badge">Card II · The High Priestess</span>
+  </div>
+
+  <!-- HIGH PRIESTESS SVG CARD -->
+  <div class="tarot-card-wrap reveal">
+    <svg viewBox="0 0 260 380" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="hpBg" cx="50%" cy="40%" r="70%">
+          <stop offset="0%" stop-color="#12082a"/>
+          <stop offset="100%" stop-color="#060610"/>
+        </radialGradient>
+        <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#e8e0f8"/>
+          <stop offset="60%" stop-color="#c0b0e0"/>
+          <stop offset="100%" stop-color="#8070b0" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="veilGrad" cx="50%" cy="0%" r="100%">
+          <stop offset="0%" stop-color="#1a0a3a"/>
+          <stop offset="100%" stop-color="#0a0518"/>
+        </radialGradient>
+        <filter id="moonfilter">
+          <feGaussianBlur stdDeviation="5" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="softshine">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- Card body -->
+      <rect width="260" height="380" rx="14" fill="url(#hpBg)"/>
+      <rect x="3" y="3" width="254" height="374" rx="12" fill="none" stroke="#c9a84c" stroke-width="1.5"/>
+      <rect x="7" y="7" width="246" height="366" rx="10" fill="none" stroke="#f5e4a0" stroke-width="0.4"/>
+
+      <!-- Deep space background -->
+      <rect x="9" y="9" width="242" height="252" rx="6" fill="url(#hpBg)"/>
+
+      <!-- Stars — more silvery for the Priestess -->
+      <circle cx="25" cy="18" r="1.2" fill="#d0c8f0" opacity="0.8"/>
+      <circle cx="50" cy="30" r="0.8" fill="#fff" opacity="0.5"/>
+      <circle cx="90" cy="15" r="1.5" fill="#d0c8f0" opacity="0.6"/>
+      <circle cx="140" cy="22" r="0.9" fill="#fff" opacity="0.7"/>
+      <circle cx="185" cy="18" r="1.2" fill="#d0c8f0" opacity="0.8"/>
+      <circle cx="220" cy="28" r="0.8" fill="#fff" opacity="0.5"/>
+      <circle cx="35" cy="55" r="1" fill="#d0c8f0" opacity="0.6"/>
+      <circle cx="210" cy="50" r="1" fill="#d0c8f0" opacity="0.6"/>
+      <circle cx="70" cy="40" r="0.7" fill="#fff" opacity="0.4"/>
+      <circle cx="175" cy="38" r="0.7" fill="#fff" opacity="0.4"/>
+
+      <!-- Full Moon behind her -->
+      <circle cx="130" cy="70" r="45" fill="url(#moonGlow)" opacity="0.5"/>
+      <circle cx="130" cy="70" r="32" fill="#e8e0f8" opacity="0.15" filter="url(#moonfilter)"/>
+      <circle cx="130" cy="70" r="22" fill="#f0ecff" opacity="0.12"/>
+
+      <!-- VEIL of pomegranates behind the pillars -->
+      <rect x="50" y="30" width="160" height="235" fill="url(#veilGrad)" opacity="0.9"/>
+      <!-- Pomegranate pattern on veil -->
+      <g opacity="0.35" fill="#7a3050">
+        <circle cx="80" cy="60" r="7"/><circle cx="100" cy="45" r="5"/>
+        <circle cx="130" cy="55" r="8"/><circle cx="160" cy="48" r="6"/>
+        <circle cx="180" cy="62" r="7"/><circle cx="70" cy="90" r="6"/>
+        <circle cx="95" cy="80" r="7"/><circle cx="120" cy="88" r="5"/>
+        <circle cx="148" cy="82" r="7"/><circle cx="175" cy="78" r="6"/>
+        <circle cx="82" cy="115" r="5"/><circle cx="108" cy="110" r="7"/>
+        <circle cx="135" cy="118" r="6"/><circle cx="162" cy="108" r="7"/>
+        <circle cx="185" cy="120" r="5"/><circle cx="72" cy="145" r="6"/>
+        <circle cx="100" cy="138" r="5"/><circle cx="128" cy="148" r="7"/>
+        <circle cx="155" cy="140" r="6"/><circle cx="180" cy="150" r="5"/>
+      </g>
+      <!-- Pomegranate cross-stitch lines on veil -->
+      <g stroke="#5a2040" stroke-width="0.5" opacity="0.25">
+        <line x1="50" y1="70" x2="210" y2="70"/>
+        <line x1="50" y1="100" x2="210" y2="100"/>
+        <line x1="50" y1="130" x2="210" y2="130"/>
+        <line x1="50" y1="160" x2="210" y2="160"/>
+        <line x1="50" y1="190" x2="210" y2="190"/>
+        <line x1="50" y1="220" x2="210" y2="220"/>
+      </g>
+
+      <!-- BLACK PILLAR (left - Boaz) -->
+      <rect x="22" y="28" width="36" height="230" rx="4" fill="#0a0a1a"/>
+      <rect x="22" y="28" width="36" height="230" rx="4" fill="none" stroke="#2a2a4a" stroke-width="1"/>
+      <!-- Pillar capital -->
+      <rect x="18" y="24" width="44" height="10" rx="2" fill="#1a1a2e"/>
+      <rect x="18" y="254" width="44" height="10" rx="2" fill="#1a1a2e"/>
+      <!-- Pillar B inscription -->
+      <text x="40" y="150" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="14" fill="#3a3a6a" font-weight="bold">B</text>
+
+      <!-- WHITE PILLAR (right - Jachin) -->
+      <rect x="202" y="28" width="36" height="230" rx="4" fill="#e8e0f0"/>
+      <rect x="202" y="28" width="36" height="230" rx="4" fill="none" stroke="#c8c0e0" stroke-width="1"/>
+      <!-- Pillar capital -->
+      <rect x="198" y="24" width="44" height="10" rx="2" fill="#d8d0e8"/>
+      <rect x="198" y="254" width="44" height="10" rx="2" fill="#d8d0e8"/>
+      <!-- Pillar J inscription -->
+      <text x="220" y="150" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="14" fill="#9890b0" font-weight="bold">J</text>
+
+      <!-- THE HIGH PRIESTESS FIGURE -->
+      <!-- Throne/seat base -->
+      <rect x="85" y="225" width="90" height="35" rx="4" fill="#2a1a3a"/>
+      <rect x="80" y="220" width="100" height="10" rx="2" fill="#3a2a4a"/>
+
+      <!-- Blue robes - flowing wide -->
+      <path d="M88,170 Q70,185 60,260 L200,260 Q190,185 172,170 Z" fill="#1a3a6a"/>
+      <!-- Robe highlights -->
+      <path d="M105,175 Q95,195 90,250" stroke="#2a5a9a" stroke-width="1.5" fill="none" opacity="0.6"/>
+      <path d="M155,175 Q165,195 170,250" stroke="#2a5a9a" stroke-width="1.5" fill="none" opacity="0.6"/>
+      <!-- White inner robe -->
+      <path d="M108,172 Q104,190 100,260 L160,260 Q156,190 152,172 Z" fill="#e8e8f8"/>
+      <!-- Cross on chest -->
+      <rect x="127" y="185" width="6" height="18" rx="1" fill="#c9a84c"/>
+      <rect x="122" y="190" width="16" height="5" rx="1" fill="#c9a84c"/>
+
+      <!-- THE SCROLL on her lap -->
+      <rect x="95" y="215" width="70" height="14" rx="4" fill="#f5e8d0"/>
+      <rect x="95" y="215" width="70" height="14" rx="4" fill="none" stroke="#c9a84c" stroke-width="0.8"/>
+      <!-- Scroll text -->
+      <text x="130" y="225" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="7" fill="#8a6030" letter-spacing="2">T O R A H</text>
+      <!-- Scroll partially hidden under robe -->
+      <rect x="95" y="222" width="30" height="8" rx="2" fill="#1a3a6a" opacity="0.7"/>
+
+      <!-- Body/torso -->
+      <rect x="108" y="162" width="44" height="14" rx="6" fill="#d4c8e8"/>
+
+      <!-- HEAD -->
+      <circle cx="130" cy="148" r="17" fill="#d4c8e8"/>
+
+      <!-- Face - serene, eyes slightly downcast -->
+      <ellipse cx="124" cy="146" rx="2.5" ry="1.5" fill="#2a1a3a"/>
+      <ellipse cx="136" cy="146" rx="2.5" ry="1.5" fill="#2a1a3a"/>
+      <!-- Long lashes suggestion -->
+      <line x1="122" y1="147" x2="121" y2="149" stroke="#2a1a3a" stroke-width="0.8"/>
+      <line x1="136" y1="147" x2="137" y2="149" stroke="#2a1a3a" stroke-width="0.8"/>
+      <!-- Serene mouth - barely a hint of expression -->
+      <path d="M126,153 Q130,155 134,153" stroke="#9a7890" stroke-width="0.8" fill="none"/>
+
+      <!-- TRIPLE MOON CROWN -->
+      <!-- Full moon centre -->
+      <circle cx="130" cy="130" r="11" fill="#e8e0f8" filter="url(#softshine)"/>
+      <circle cx="130" cy="130" r="9" fill="#f0ecff"/>
+      <circle cx="130" cy="130" r="6" fill="#e0d8f8"/>
+      <!-- Waxing crescent left -->
+      <path d="M106,128 Q110,120 114,128 Q110,136 106,128" fill="#d0c8e8"/>
+      <!-- Waning crescent right -->
+      <path d="M154,128 Q150,120 146,128 Q150,136 154,128" fill="#d0c8e8"/>
+      <!-- Crown band -->
+      <rect x="112" y="135" width="36" height="4" rx="2" fill="#c9a84c" opacity="0.7"/>
+
+      <!-- Hair flowing out from crown -->
+      <path d="M113,148 Q108,158 110,175" stroke="#b8a8d0" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M147,148 Q152,158 150,175" stroke="#b8a8d0" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+      <!-- CRESCENT MOON at her feet -->
+      <path d="M100,258 Q130,250 160,258 Q148,270 130,268 Q112,270 100,258" fill="#d0c8e8" opacity="0.7"/>
+      <!-- Water below (subconscious) -->
+      <rect x="9" y="257" width="242" height="10" rx="0" fill="#0a1a3a" opacity="0.8"/>
+      <path d="M9,260 Q40,255 70,260 Q100,265 130,260 Q160,255 190,260 Q220,265 251,260" stroke="#2a4a8a" stroke-width="1.5" fill="none" opacity="0.6"/>
+
+      <!-- Title area -->
+      <rect x="9" y="263" width="242" height="106" fill="#06060f"/>
+      <line x1="9" y1="263" x2="251" y2="263" stroke="#c9a84c" stroke-width="0.8"/>
+
+      <text x="130" y="287" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="10.5" fill="#c9a84c" letter-spacing="1.5">THE HIGH PRIESTESS</text>
+      <text x="130" y="305" text-anchor="middle" font-family="serif" font-size="10" fill="#6b5b95">· · · · · · · · · · ·</text>
+      <text x="130" y="322" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="8" fill="#8070b0" letter-spacing="1.2">MYSTERY · STILLNESS · KNOWING</text>
+
+      <!-- Moon phases as number -->
+      <text x="95" y="348" text-anchor="middle" font-family="serif" font-size="13" fill="#8a7035">☽</text>
+      <text x="130" y="350" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="20" fill="#c9a84c" opacity="0.7">II</text>
+      <text x="165" y="348" text-anchor="middle" font-family="serif" font-size="13" fill="#8a7035">☾</text>
+
+      <!-- Corner ornaments -->
+      <text x="16" y="26" font-family="serif" font-size="12" fill="#8a7035">✦</text>
+      <text x="238" y="26" font-family="serif" font-size="12" fill="#8a7035" text-anchor="middle">✦</text>
+      <text x="16" y="372" font-family="serif" font-size="12" fill="#8a7035">✦</text>
+      <text x="238" y="372" font-family="serif" font-size="12" fill="#8a7035" text-anchor="middle">✦</text>
+    </svg>
+  </div>
+
+  <!-- HIGH PRIESTESS CONTENT -->
+  <div class="content">
+    <div class="reveal">
+      <p class="card-eyebrow">Major Arcana · Card Two</p>
+      <h2 class="card-title">The High Priestess</h2>
+      <p class="card-tagline">"What you know before you know it"</p>
+    </div>
+
+    <div class="rule reveal"></div>
+
+    <div class="keyword-grid reveal">
+      <div class="keyword-item">
+        <div class="keyword-label">Element</div>
+        <div class="keyword-value">Water · Moon · Silver</div>
+      </div>
+      <div class="keyword-item">
+        <div class="keyword-label">Hebrew Letter</div>
+        <div class="keyword-value">Gimel · Camel · Bridge</div>
+      </div>
+      <div class="keyword-item">
+        <div class="keyword-label">Kabbalah Path</div>
+        <div class="keyword-value">Kether to Tiphareth</div>
+      </div>
+      <div class="keyword-item">
+        <div class="keyword-label">Numerology</div>
+        <div class="keyword-value">Two · Duality · Depth</div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Core — The Intelligence Beneath</div>
+      <p>If The Fool is pure potential and The Magician is focused will, The High Priestess is the vast intelligence that underlies both. She is the subconscious mind. The space between thoughts. The part of you that already knows the answer long before your thinking mind formulates the question.</p>
+      <p>She is not passive — she is arguably the most powerful force in the entire deck. But her power moves in silence, in stillness, in the dark, in dreams. She is what the Magician draws from without ever fully understanding the source. She is the ocean to his waves.</p>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"She does not offer answers. She is the place you go when you are ready to stop pretending you don't already know."</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Two Pillars — Boaz and Jachin</div>
+      <p>She sits between a black pillar and a white pillar. These are Boaz and Jachin — the two pillars that stood at the entrance to Solomon's Temple in Jerusalem, one of the most sacred structures in the ancient world. In Freemasonry, Kabbalah, and Hermetic tradition they represent the fundamental duality at the heart of existence.</p>
+      <p>Black and white. Dark and light. Masculine and feminine. Conscious and unconscious. Active and receptive. Yes and no. The High Priestess does not choose between them. She sits exactly in the middle, perfectly balanced between opposing forces. That is her power. She does not collapse the tension — she holds it.</p>
+      <p>This is one of the most advanced spiritual teachings in the deck. Most of us spend our lives trying to resolve duality, pick a side, find the answer. The Priestess teaches that the ability to hold opposing truths simultaneously — without needing resolution — is the mark of genuine wisdom.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Veil of Pomegranates</div>
+      <p>Behind her hangs a rich tapestry covered in pomegranates. She sits in front of it, and crucially, she partially blocks the view. You can see the veil but not what lies beyond. You can sense the mystery but not access it directly.</p>
+      <p>The pomegranate is one of the oldest symbols of the feminine mysteries, the underworld, and sacred knowledge. In Greek mythology, Persephone ate pomegranate seeds in the underworld and was forever bound to it — she became the bridge between the living world and the realm beneath. The veil is not a barrier. It is an invitation. It says: there is more here than you can currently perceive. Come deeper.</p>
+      <p>What lies behind the veil is the subconscious itself — the vast inner ocean that cannot be accessed through logic or will. It can only be accessed through surrender, through stillness, through the receptive feminine intelligence the Priestess embodies.</p>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"The veil is not locked. It parts for the one who has learned to be still enough to hear what was always being said."</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Scroll — Tora / Torah</div>
+      <p>In her lap she holds a scroll partially hidden beneath her robes. It is often inscribed with TORA — rearranged as TARO, and again as ROTA, the wheel. This is not coincidence. It is the same knowledge cycling through different forms. The Torah as sacred law. Tarot as sacred symbol. The Wheel as sacred pattern. All the same thing, approached from different angles.</p>
+      <p>Crucially, she does not display the scroll openly. Part of it is always concealed. She is telling you that some knowledge cannot be read — it must be experienced. Not everything worth knowing can be put into words. The deepest wisdom lives in the part of the scroll that remains hidden under the robe.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Triple Moon Crown</div>
+      <p>She wears the crown of Isis — a full moon flanked by a waxing and waning crescent. This is the triple goddess: maiden, mother, crone. Or in another reading: the conscious mind, the subconscious, and the superconscious. Past, present, and future held simultaneously.</p>
+      <p>The moon does not generate its own light. It reflects the light of the sun. The High Priestess reflects divine light back into the world in a form that can be received in darkness — softly, indirectly, in a way that does not blind. She is how the infinite becomes accessible to the finite without overwhelming it.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Crescent Moon at Her Feet</div>
+      <p>At the base of the card, a crescent moon rests at her feet and beneath it — water. She stands above the subconscious ocean, not submerged in it. She has descended into those depths and returned. She knows the underwater world intimately, but she is not drowned by it. She walks on the shore between the deep water and the solid ground.</p>
+      <p>This is the crucial distinction between the High Priestess and the untrained psychic or the person overwhelmed by their own emotions. The Priestess has gone into the depths consciously and returned with knowledge. She has navigated the subconscious rather than being swept away by it.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Kabbalistic Layer</div>
+      <p>On the Tree of Life, the High Priestess occupies the path connecting Kether — pure divine source — directly to Tiphareth, the heart centre, the sun, the higher self. This is the most direct vertical path on the entire tree. She is the direct conduit between the source of all consciousness and the awakened human heart.</p>
+      <p>Her Hebrew letter is Gimel, meaning camel. The camel carries its sustenance within itself across the desert — it does not need external water sources because it carries the water inside. The Priestess is the bridge across the inner desert. She carries within herself everything needed to cross the void between the human and the divine.</p>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"She is not waiting to speak. She is waiting for you to become quiet enough to hear."</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The High Priestess and The Magician</div>
+      <p>These two cards are the great polarity of the Major Arcana. The Magician is active, directed, outward, solar, masculine in expression. The High Priestess is receptive, deep, inward, lunar, feminine in expression. Neither is superior. Neither is complete without the other.</p>
+      <p>The Magician knows how to act. The High Priestess knows what is true before action becomes relevant. Every great act of will — every Magician moment — needs to be informed by Priestess wisdom. Otherwise you are directing power without knowing why, which is the definition of the Magician's shadow: manipulation.</p>
+      <p>Together they are the two hemispheres of the brain made conscious. Will and intuition. Logic and mystery. Doing and being.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Egyptian Connection — Isis</div>
+      <p>The High Priestess is directly associated with Isis, the great mother goddess of ancient Egypt, one of the most powerful and enduring figures in all of human spirituality. Isis was the goddess of magic, healing, motherhood, and the afterlife. She reassembled Osiris after he was scattered into fourteen pieces — the great act of integration and resurrection.</p>
+      <p>Her symbol was the throne. She wore it as a crown. She was the power behind the pharaoh — the deeper intelligence that made governance possible. She was worshipped for over three thousand years across Egypt and eventually across the entire Roman world. Her mystery schools at Philae were among the last pagan temples to operate before being closed in the sixth century AD.</p>
+      <p>When you draw the High Priestess, you are drawing Isis. You are being asked to connect with that lineage of deep feminine wisdom — not as a gender statement, but as an invitation to access the part of consciousness that operates beneath language, beneath logic, beneath the surface of things.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Deepest Layer — Learning to Be Still</div>
+      <p>The single most important thing the High Priestess teaches is this: not everything requires a response. Not every question needs an immediate answer. Not every situation calls for action. Sometimes the most powerful thing you can do is sit exactly where you are, between the two pillars, and wait for what you already know to rise to the surface.</p>
+      <p>We live in a world that values the Magician. That celebrates action, decisiveness, output, results. The High Priestess is the correction to that imbalance. She says: before you act, know. And knowing does not come from thinking harder — it comes from going deeper. From getting quiet. From trusting the intelligence that lives below the noise.</p>
+      <p>She appears in readings when the answer is already within you and the noise is preventing you from hearing it. She is not withholding anything. She is simply waiting for the conditions under which what is real can be perceived.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Shadow Side</div>
+      <p>The High Priestess reversed or in her shadow speaks of secrets kept too long. Intuition ignored. Inner knowing suppressed in favour of what is practical, logical, or socially acceptable. It can also point to someone retreating so deeply inward that they become disconnected from life — using mystery and depth as a way to avoid engagement rather than to deepen it.</p>
+      <p>The shadow Priestess knows things but will not share them, hides behind her veil rather than illuminating what she finds there, or becomes so identified with her inner world that the outer world loses all meaning.</p>
+    </div>
+
+    <div class="rule reveal"></div>
+
+    <div class="table-wrap reveal">
+      <table>
+        <thead>
+          <tr><th>Upright</th><th>Reversed</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Trust your intuition now</td><td>Secrets, hidden agendas</td></tr>
+          <tr><td>Something is not yet revealed</td><td>Ignoring inner knowing</td></tr>
+          <tr><td>Go deeper before acting</td><td>Withdrawing from life</td></tr>
+          <tr><td>Sacred feminine wisdom</td><td>Disconnection from intuition</td></tr>
+          <tr><td>The answer is already within you</td><td>Shallow thinking, missing what matters</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rule short reveal"></div>
+
+    <div class="closing-quote reveal">
+      <p>She does not speak.<br>She does not need to.<br>Everything you need to know<br><em>is already in the silence.</em></p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="#magician" class="btn btn-gold">← The Magician</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+    </div>
+
+    <div style="height: 60px;"></div>
+  </div>
+</section>
+
+
+<script>
+  // ── STARFIELD ──
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2 + 0.5;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      --d:${2 + Math.random()*4}s;
+      --delay:-${Math.random()*5}s;
+      --base-op:${0.1 + Math.random()*0.5};
+    `;
+    starsEl.appendChild(s);
+  }
+
+  // ── SCROLL PROGRESS ──
+  const progress = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.body.scrollHeight - window.innerHeight;
+    progress.style.width = (scrolled / total * 100) + '%';
+  }, { passive: true });
+
+  // ── REVEAL ON SCROLL ──
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 40);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
