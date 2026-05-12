@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>The Kybalion — A Modern Study</title>
+<style>
+  :root {
+    --night: #080812;
+    --deep: #0d0d1f;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --gold-pale: #f5e4a0;
+    --gold-dim: #8a7035;
+    --ivory: #f0ead8;
+    --soft: #d8d0e8;
+    --purple: #6b5b95;
+    --purple-light: #9b8bc5;
+    --purple-dim: #3d3558;
+    --rose: #b06070;
+    --teal: #2a7a7a;
+    --amber: #c87020;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--night);
+    color: var(--ivory);
+    font-family: Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.85;
+    overflow-x: hidden;
+  }
+
+  /* STARFIELD */
+  #stars { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+  .star {
+    position: absolute; background: white; border-radius: 50%;
+    animation: twinkle var(--d,3s) ease-in-out infinite var(--delay,0s);
+    opacity: var(--op,0.3);
+  }
+  @keyframes twinkle {
+    0%,100%{opacity:var(--op,0.3);} 50%{opacity:0.05;}
+  }
+
+  .progress-bar {
+    position: fixed; top:0; left:0; height:2px;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+    z-index:100; transition: width 0.1s;
+    box-shadow: 0 0 8px var(--gold);
+  }
+
+  /* LAYOUT */
+  .page { position: relative; z-index:1; }
+
+  /* COVER */
+  #cover {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 60px 24px;
+    background: radial-gradient(ellipse at 50% 30%, rgba(107,91,149,0.08) 0%, transparent 70%);
+  }
+
+  .cover-eye {
+    width: 80px; height: 80px;
+    margin: 0 auto 32px;
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+
+  .cover-title {
+    font-family: Palatino, Georgia, serif;
+    font-size: clamp(32px, 8vw, 58px);
+    color: var(--gold);
+    line-height: 1.15;
+    margin-bottom: 10px;
+    text-shadow: 0 0 60px rgba(201,168,76,0.25);
+    letter-spacing: 0.04em;
+    font-style: italic;
+  }
+  .cover-sub {
+    font-size: clamp(12px, 3vw, 16px);
+    color: var(--gold-pale);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    opacity: 0.75;
+  }
+  .cover-rule {
+    width: 200px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 36px;
+  }
+  .cover-intro {
+    max-width: 500px;
+    font-size: 17px; font-style: italic;
+    color: var(--soft); line-height: 1.9;
+    margin-bottom: 16px;
+  }
+  .cover-origin {
+    font-size: 13px; color: var(--gold-dim);
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 50px;
+  }
+  .nav-pills { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom: 20px; }
+  .nav-pill {
+    background: rgba(201,168,76,0.07);
+    border: 1px solid rgba(201,168,76,0.2);
+    color: var(--gold-pale);
+    font-size: 12px; letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 9px 18px; border-radius: 30px;
+    cursor: pointer; text-decoration: none;
+    transition: all 0.3s;
+  }
+  .nav-pill:hover {
+    background: rgba(201,168,76,0.16);
+    border-color: var(--gold); color: var(--gold);
+  }
+
+  .scroll-hint {
+    position: absolute; bottom: 28px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: var(--gold-dim); font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    animation: fade-bob 2s ease-in-out infinite;
+  }
+  .scroll-arrow { width:1px; height:36px; background: linear-gradient(to bottom, var(--gold-dim), transparent); }
+  @keyframes fade-bob {
+    0%,100%{opacity:0.4; transform:translateX(-50%) translateY(0);}
+    50%{opacity:0.9; transform:translateX(-50%) translateY(5px);}
+  }
+
+  /* HISTORY SECTION */
+  .section {
+    min-height: 100vh; padding: 80px 24px;
+    display: flex; flex-direction: column; align-items: center;
+    position: relative;
+  }
+  .section::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
+
+  .section-label {
+    position: sticky; top: 16px; z-index:10;
+    text-align: center; pointer-events: none; margin-bottom: -40px;
+  }
+  .section-badge {
+    display: inline-block;
+    background: rgba(8,8,18,0.88);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 20px; padding: 6px 18px;
+    font-size: 11px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold-dim);
+    backdrop-filter: blur(10px);
+  }
+
+  .content { max-width: 620px; width: 100%; }
+
+  .chapter-number {
+    font-size: 11px; letter-spacing: 0.4em;
+    text-transform: uppercase; color: var(--purple-light);
+    margin-bottom: 10px; text-align: center;
+  }
+  .chapter-title {
+    font-size: clamp(26px, 7vw, 44px);
+    color: var(--gold);
+    text-align: center; margin-bottom: 8px;
+    font-style: italic;
+    text-shadow: 0 0 40px rgba(201,168,76,0.15);
+  }
+  .chapter-tagline {
+    font-style: italic; font-size: 16px;
+    color: var(--gold-pale); text-align: center;
+    margin-bottom: 44px; opacity: 0.85;
+  }
+
+  .rule {
+    width: 100%; max-width: 560px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    margin: 28px auto;
+  }
+  .rule.short {
+    max-width: 180px;
+    background: linear-gradient(90deg, transparent, var(--purple), transparent);
+  }
+
+  .section-title {
+    font-size: 13px; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--gold-light);
+    margin: 36px 0 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title::before { content:'✦'; color:var(--gold-dim); font-size:9px; }
+
+  p { color: var(--soft); margin-bottom: 16px; font-size: 17px; }
+
+  .ancient-text {
+    background: rgba(201,168,76,0.04);
+    border-left: 2px solid var(--gold-dim);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px; margin: 28px 0;
+  }
+  .ancient-text .label {
+    font-size: 10px; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--gold-dim);
+    margin-bottom: 10px;
+  }
+  .ancient-text p {
+    font-style: italic; font-size: 17px;
+    color: var(--gold-pale); margin: 0; line-height: 1.75;
+  }
+
+  .modern-text {
+    background: rgba(107,91,149,0.06);
+    border-left: 2px solid var(--purple);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px; margin: 16px 0 28px;
+  }
+  .modern-text .label {
+    font-size: 10px; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--purple-light);
+    margin-bottom: 10px;
+  }
+  .modern-text p { color: var(--soft); margin: 0; font-size: 17px; line-height: 1.75; }
+
+  .pull-quote {
+    text-align: center; padding: 32px 0; margin: 16px 0;
+  }
+  .pull-quote p {
+    font-style: italic; font-size: 19px;
+    color: var(--gold-pale); max-width: 460px;
+    margin: 0 auto; line-height: 1.75;
+  }
+
+  /* PRINCIPLE CARDS */
+  .principle-card {
+    background: rgba(201,168,76,0.04);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 12px; padding: 28px 24px;
+    margin: 20px 0; position: relative;
+    overflow: hidden;
+  }
+  .principle-card::before {
+    content: attr(data-number);
+    position: absolute; top: -10px; right: 20px;
+    font-size: 80px; color: rgba(201,168,76,0.04);
+    font-style: italic; line-height: 1;
+    pointer-events: none;
+  }
+  .principle-number {
+    font-size: 10px; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--gold-dim);
+    margin-bottom: 6px;
+  }
+  .principle-name {
+    font-size: 22px; color: var(--gold);
+    margin-bottom: 4px; font-style: italic;
+  }
+  .principle-latin {
+    font-size: 12px; color: var(--purple-light);
+    letter-spacing: 0.15em; margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+  .principle-ancient {
+    font-style: italic; color: var(--gold-pale);
+    font-size: 16px; margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+  .principle-modern { color: var(--soft); font-size: 16px; line-height: 1.75; }
+
+  .keyword-grid {
+    display: grid; grid-template-columns: repeat(2,1fr);
+    gap: 10px; margin: 20px 0;
+  }
+  .keyword-item {
+    background: rgba(201,168,76,0.04);
+    border: 1px solid rgba(201,168,76,0.12);
+    border-radius: 8px; padding: 12px 14px;
+  }
+  .keyword-label {
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 3px;
+  }
+  .keyword-value { font-size: 14px; color: var(--soft); line-height: 1.5; }
+
+  .closing-quote {
+    text-align: center; padding: 44px 0;
+  }
+  .closing-quote p {
+    font-style: italic; font-size: 19px;
+    color: var(--gold-pale); max-width: 440px;
+    margin: 0 auto; line-height: 1.8;
+  }
+
+  .section-nav {
+    display: flex; justify-content: center;
+    gap: 14px; margin-top: 56px; flex-wrap: wrap;
+  }
+  .btn {
+    font-size: 11px; letter-spacing: 0.2em;
+    text-transform: uppercase; padding: 11px 22px;
+    border-radius: 30px; cursor: pointer;
+    text-decoration: none; transition: all 0.3s;
+    display: inline-block;
+  }
+  .btn-gold {
+    background: rgba(201,168,76,0.1);
+    border: 1px solid var(--gold-dim); color: var(--gold);
+  }
+  .btn-gold:hover {
+    background: rgba(201,168,76,0.2);
+    border-color: var(--gold);
+    box-shadow: 0 0 20px rgba(201,168,76,0.15);
+  }
+
+  /* REVEAL */
+  .reveal { opacity:0; transform:translateY(28px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  @media (max-width:480px) {
+    .keyword-grid { grid-template-columns: 1fr; }
+    body { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+<div id="stars"></div>
+
+<!-- ═══ COVER ═══ -->
+<section id="cover" class="page">
+  <!-- Eye of Horus / All-seeing eye SVG -->
+  <svg class="cover-eye" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="eyeGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.3"/>
+        <stop offset="100%" stop-color="transparent"/>
+      </radialGradient>
+    </defs>
+    <circle cx="40" cy="40" r="38" fill="url(#eyeGlow)"/>
+    <path d="M8,40 Q40,12 72,40 Q40,68 8,40" fill="none" stroke="#c9a84c" stroke-width="1.5"/>
+    <circle cx="40" cy="40" r="12" fill="none" stroke="#c9a84c" stroke-width="1.5"/>
+    <circle cx="40" cy="40" r="6" fill="#c9a84c" opacity="0.8"/>
+    <circle cx="40" cy="40" r="3" fill="#f5e4a0"/>
+    <!-- Lashes top -->
+    <line x1="40" y1="18" x2="40" y2="12" stroke="#c9a84c" stroke-width="1"/>
+    <line x1="28" y1="22" x2="24" y2="17" stroke="#c9a84c" stroke-width="1"/>
+    <line x1="52" y1="22" x2="56" y2="17" stroke="#c9a84c" stroke-width="1"/>
+  </svg>
+
+  <h1 class="cover-title">The Kybalion</h1>
+  <p class="cover-sub">A Modern Study of Hermetic Principles</p>
+  <div class="cover-rule"></div>
+  <p class="cover-intro">
+    Seven principles. Thousands of years old.<br>
+    Written in the temples of ancient Egypt.<br>
+    Hidden in mystery schools for millennia.<br>
+    Still the most accurate map of reality ever drawn.
+  </p>
+  <p class="cover-origin">The Ancient Wisdom of Hermes Trismegistus · Brought Into the Modern Age</p>
+  <nav class="nav-pills">
+    <a href="#history" class="nav-pill">The History</a>
+    <a href="#mentalism" class="nav-pill">I · Mentalism</a>
+    <a href="#correspondence" class="nav-pill">II · Correspondence</a>
+    <a href="#vibration" class="nav-pill">III · Vibration</a>
+    <a href="#polarity" class="nav-pill">IV · Polarity</a>
+    <a href="#rhythm" class="nav-pill">V · Rhythm</a>
+    <a href="#causation" class="nav-pill">VI · Cause & Effect</a>
+    <a href="#gender" class="nav-pill">VII · Gender</a>
+  </nav>
+  <div class="scroll-hint">
+    <span>Begin</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+
+<!-- ═══ HISTORY ═══ -->
+<section id="history" class="section">
+  <div class="section-label"><span class="section-badge">The Origin</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">Before the Principles</p>
+      <h2 class="chapter-title">The History</h2>
+      <p class="chapter-tagline">"The lips of wisdom are closed, except to the ears of understanding"</p>
+    </div>
+
+    <div class="rule reveal"></div>
+
+    <div class="reveal">
+      <div class="section-title">Hermes Trismegistus — Thrice Greatest</div>
+      <p>Long before Greece, long before Rome, in the temples of ancient Egypt, there was a figure so revered that the Egyptians and Greeks both claimed him as their own. The Egyptians called him Thoth — the ibis-headed god of writing, wisdom, magic, and the weighing of souls. The Greeks called him Hermes — messenger of the gods, guide of souls, master of knowledge. When the two civilisations merged their traditions, they combined these figures into one: Hermes Trismegistus. Hermes the Thrice Greatest.</p>
+      <p>He was said to have written 42 sacred books containing the sum of all human knowledge — medicine, magic, astrology, alchemy, law, and most importantly, the nature of reality itself. These texts were kept in the great library and temples of Alexandria, studied only by initiated priests and philosophers. Most were lost when Alexandria burned. What survived became the foundation of Western esotericism for the next two thousand years.</p>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"What we know of Hermes Trismegistus suggests not one man but a tradition — a lineage of wisdom keepers stretching back to the very beginning of recorded human thought."</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Hermetic Texts</div>
+      <p>The surviving writings attributed to Hermes Trismegistus are known as the Corpus Hermeticum — a collection of Greek texts written between the 1st and 3rd centuries AD, though almost certainly encoding much older Egyptian wisdom. For centuries they were believed to be genuinely ancient, written before Moses, before Plato. Even after scholars dated them more recently, their influence did not diminish — because the wisdom they contain feels timeless regardless of when it was committed to paper.</p>
+      <p>The most famous passage in all of Hermetic literature comes from the Emerald Tablet — a short, dense, extraordinary text attributed directly to Hermes. It contains what may be the single most important sentence ever written about the nature of reality: <em>"As above, so below. As within, so without. As the universe, so the soul."</em></p>
+    </div>
+
+    <div class="ancient-text reveal">
+      <div class="label">The Emerald Tablet — Attributed to Hermes Trismegistus</div>
+      <p>"It is true, certain, and without falsehood, that whatever is below is like that which is above; and that which is above is like that which is below: to accomplish the one wonderful work. As all things are derived from the One, by the will and the word of the One who created it in his mind, so all things owe their existence to this unity by the way of adaptation."</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Mystery Schools</div>
+      <p>Hermetic wisdom was never meant to be widely distributed. It was taught in mystery schools — secret institutions that existed throughout the ancient world, from the temples of Isis at Philae to the Eleusinian Mysteries in Greece, from the Pythagorean brotherhoods to the later Rosicrucians and Freemasons. Entry required years of preparation. The deepest teachings were only shared verbally, never written down, to prevent misuse by those not ready to receive them.</p>
+      <p>The core belief was simple: reality operates according to precise principles. These principles can be understood. Once understood, they can be worked with consciously. The person who understands the laws of the universe can navigate existence with a quality of wisdom, intention, and grace that appears miraculous to those who do not.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Kybalion — 1908</div>
+      <p>In 1908, a small book was published in Chicago by "Three Initiates" — identities never revealed, though most scholars believe the primary author was William Walker Atkinson, one of the pioneers of the New Thought movement. The book was called The Kybalion: A Study of the Hermetic Philosophy of Ancient Egypt and Greece.</p>
+      <p>It claimed to present the core of the ancient Hermetic teachings in accessible modern form for the first time. Whether it is a faithful transmission of genuine ancient wisdom or a brilliant early 20th century synthesis, its contents have proven extraordinarily durable. The seven principles it describes map onto quantum physics, psychology, neuroscience, and lived human experience with a precision that continues to astonish people a century after publication.</p>
+      <p>You are about to read those seven principles. Ancient text alongside modern plain English. The oldest map of reality we have, made readable for now.</p>
+    </div>
+
+    <div class="rule reveal"></div>
+    <div class="closing-quote reveal">
+      <p>The ancient Egyptians did not worship their gods.<br>They studied them.<br><em>Each god was a principle of reality given a name and a face.</em></p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#mentalism" class="btn btn-gold">First Principle →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ PRINCIPLE I — MENTALISM ═══ -->
+<section id="mentalism" class="section" style="background:radial-gradient(ellipse at 50% 0%, rgba(107,91,149,0.07) 0%, transparent 60%)">
+  <div class="section-label"><span class="section-badge">Principle I · The All is Mind</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The First Hermetic Principle</p>
+      <h2 class="chapter-title">Mentalism</h2>
+      <p class="chapter-tagline">"The All is Mind. The Universe is Mental."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="principle-card reveal" data-number="I">
+      <div class="principle-number">Principle One</div>
+      <div class="principle-name">The Principle of Mentalism</div>
+      <div class="principle-latin">Mens · Mind · The All</div>
+      <div class="principle-ancient">"The All is Mind; the Universe is Mental."</div>
+      <div class="principle-modern">Everything that exists — every planet, every person, every thought, every experience — is a mental creation within the infinite mind of The All. Reality is not a collection of solid objects bumping into each other. Reality is consciousness experiencing itself through infinite forms.</div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">What This Actually Means</div>
+      <p>This is the most radical and the most important of the seven principles. It says that the fundamental substance of the universe is not matter — it is mind. Consciousness is not a byproduct of the physical brain. The physical brain is a byproduct of consciousness.</p>
+      <p>The Hermeticists called the ultimate reality "The All" — not God in the religious sense, but the infinite mind within which everything exists. Every star, every atom, every human experience is a thought within that infinite mind. We are not separate beings looking at the universe from the outside. We are expressions of the universe looking at itself from the inside.</p>
+    </div>
+
+    <div class="ancient-text reveal">
+      <div class="label">From The Kybalion — Original Text</div>
+      <p>"Under, and back of, the Universe of Time, Space and Change, is ever to be found The Substantial Reality — the Fundamental Truth. The All is SPIRIT. But what is Spirit? This question cannot be answered, for the reason that its definition is practically that of THE ALL, which cannot be explained or added to. Spirit is simply a name that men give to the highest conception of Infinite Living Mind — it means Living Mind, as distinguished from Matter, which is Dead Mind."</p>
+    </div>
+
+    <div class="modern-text reveal">
+      <div class="label">In Plain English</div>
+      <p>Everything is made of the same stuff — consciousness. Matter is just consciousness vibrating so slowly it appears solid. Your thoughts, your feelings, your body, the chair you're sitting on — all the same thing at different densities of vibration. This is not metaphor. Quantum physics has now demonstrated that at the subatomic level, matter behaves like information rather than solid substance. The Hermeticists were describing this three thousand years ago.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">Why This Changes Everything</div>
+      <p>If the universe is fundamentally mental — if reality is consciousness expressing itself — then your mind is not separate from reality. It is participating in the creation of reality, all the time, whether you are conscious of it or not. Your habitual thoughts, your dominant beliefs, your emotional states are not just internal experiences. They are signals being broadcast into a universe that is, at its core, made of the same stuff as those signals.</p>
+      <p>This is the foundation of every tradition of conscious creation, manifestation, and prayer that has ever existed. Not wishful thinking — precise mechanics. The universe responds to mind because the universe IS mind. Like responds to like. The All contains all. Your mind is a localised expression of The All. When you align your mind with what you want to experience, you are not begging an external god for a favour. You are instructing the universe from within, using the same medium the universe is made of.</p>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"To change your outer world, you must first change your inner world. This is not poetry. It is physics."</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Modern Parallel</div>
+      <p>In 1944, physicist Max Planck — the father of quantum theory — said: "As a man who has devoted his whole life to the most clear-headed science, to the study of matter, I can tell you as a result of my research about atoms this much: There is no matter as such. All matter originates and exists only by virtue of a force which brings the particle of an atom to vibration and holds this most minute solar system of the atom together. We must assume behind this force the existence of a conscious and intelligent mind. This mind is the matrix of all matter."</p>
+      <p>The father of modern physics, arriving at the exact same conclusion as the priests of ancient Egypt. The All is Mind. The Universe is Mental.</p>
+    </div>
+
+    <div class="rule reveal"></div>
+    <div class="closing-quote reveal">
+      <p>You are not a mind inside a body inside a universe.<br>You are the universe<br><em>temporarily experiencing itself as you.</em></p>
+    </div>
+    <div class="section-nav reveal">
+      <a href="#history" class="btn btn-gold">← History</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#correspondence" class="btn btn-gold">II · Correspondence →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ PRINCIPLE II — CORRESPONDENCE ═══ -->
+<section id="correspondence" class="section" style="background:radial-gradient(ellipse at 50% 0%, rgba(42,122,122,0.07) 0%, transparent 60%)">
+  <div class="section-label"><span class="section-badge">Principle II · As Above So Below</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Second Hermetic Principle</p>
+      <h2 class="chapter-title">Correspondence</h2>
+      <p class="chapter-tagline">"As above, so below. As below, so above."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="principle-card reveal" data-number="II">
+      <div class="principle-number">Principle Two</div>
+      <div class="principle-name">The Principle of Correspondence</div>
+      <div class="principle-latin">Analogia · Pattern · Mirror</div>
+      <div class="principle-ancient">"As above, so below; as below, so above. As within, so without; as without, so within."</div>
+      <div class="principle-modern">The patterns that govern the largest scales of reality are the same patterns that govern the smallest. The universe is self-similar at every level. What you find in the stars, you find in the atom. What you find in nature, you find in the human body. What you find in your inner world, you find reflected in your outer world.</div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Pattern That Repeats</div>
+      <p>Look at a photograph of a neuron — the branching, tree-like structure of a brain cell. Now look at a photograph of the cosmic web — the vast network of galaxy filaments that forms the large-scale structure of the universe. They are indistinguishable. The same pattern, at scales separated by a factor of a billion billion. This is not coincidence. This is Correspondence.</p>
+      <p>The solar system — a central body with smaller bodies orbiting it — mirrors the atom precisely: a nucleus with electrons in orbit. A hurricane seen from space mirrors the spiral of a nautilus shell mirrors the spiral of a galaxy. The branching of a river delta mirrors the branching of a tree mirrors the branching of a lung mirrors the branching of lightning. One pattern. Infinite scales. As above, so below.</p>
+    </div>
+
+    <div class="ancient-text reveal">
+      <div class="label">From The Kybalion</div>
+      <p>"This Principle embodies the truth that there is always a Correspondence between the laws and phenomena of the various planes of Being and Life. The old Hermetic axiom ran in these words: 'As above, so below; as below, so above.' And the grasping of this Principle gives one the means of solving many a dark paradox and hidden secret of Nature."</p>
+    </div>
+
+    <div class="modern-text reveal">
+      <div class="label">In Plain English</div>
+      <p>Reality is fractal. The same laws operate at every level — cosmic, human, atomic. This means you can understand the large by studying the small, and understand the small by studying the large. It also means your inner world and your outer world are mirrors of each other. The patterns playing out in your relationships, your finances, your health — they correspond precisely to the patterns operating in your inner life. Change the inner pattern and the outer pattern must follow. It cannot do otherwise. This is law.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Inner and Outer Mirror</div>
+      <p>This is the principle that underlies all genuine self-work. Not because thinking positively magically fixes external problems, but because your external reality is a correspondence of your internal state. If you consistently experience certain patterns in your life — in relationships, in work, in how people treat you — those patterns are showing you something about your inner world. They are not happening to you. They are reflecting you.</p>
+      <p>This is not about blame. It is about power. If your outer world corresponds to your inner world, then changing your inner world changes your outer world. Not sometimes. Consistently. Because the correspondence is a law, not a suggestion.</p>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"The universe is not random. It is a mirror. Everything you see outside of you is showing you something about what is happening inside of you."</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Three Planes</div>
+      <p>The Hermeticists described three great planes of existence: the Physical, the Mental, and the Spiritual. Correspondence operates between all three. What is true at the spiritual level is reflected at the mental level, which is then reflected at the physical level. This is why changing your beliefs (mental plane) changes your physical experience (physical plane) — because the physical is always, without exception, the correspondence of the mental.</p>
+      <p>It also explains why surface-level changes rarely last. If you change your physical circumstances without changing the mental pattern that created them, the old pattern will re-establish itself. The correspondence is always operating. Working with it consciously rather than unconsciously is one of the greatest powers available to a human being.</p>
+    </div>
+
+    <div class="rule reveal"></div>
+    <div class="closing-quote reveal">
+      <p>Your life is not happening to you.<br>It is a correspondence of you.<br><em>Read it like a letter from your own soul.</em></p>
+    </div>
+    <div class="section-nav reveal">
+      <a href="#mentalism" class="btn btn-gold">← Mentalism</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#vibration" class="btn btn-gold">III · Vibration →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ PRINCIPLE III — VIBRATION ═══ -->
+<section id="vibration" class="section" style="background:radial-gradient(ellipse at 50% 0%, rgba(200,112,32,0.06) 0%, transparent 60%)">
+  <div class="section-label"><span class="section-badge">Principle III · Everything Moves</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Third Hermetic Principle</p>
+      <h2 class="chapter-title">Vibration</h2>
+      <p class="chapter-tagline">"Nothing rests. Everything moves. Everything vibrates."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="principle-card reveal" data-number="III">
+      <div class="principle-number">Principle Three</div>
+      <div class="principle-name">The Principle of Vibration</div>
+      <div class="principle-latin">Vibratio · Frequency · Motion</div>
+      <div class="principle-ancient">"Nothing rests; everything moves; everything vibrates."</div>
+      <div class="principle-modern">Every particle in the universe — from the densest matter to the purest thought — is in constant vibration. The difference between a rock, a sound wave, a colour, an emotion, and a spiritual experience is not the substance but the rate of vibration. Everything is the same energy, moving at different speeds.</div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">From Stone to Spirit</div>
+      <p>Matter vibrates slowly. So slowly that it appears to our senses as solid and still. But zoom into any piece of matter at the quantum level and you find it is almost entirely empty space — with particles vibrating so rapidly they create the illusion of solidity through their motion. Sound vibrates faster than matter. Light vibrates faster than sound. Thought vibrates faster than light. And beyond thought — the pure spiritual states, pure consciousness — vibrate at frequencies so high they transcend measurement entirely.</p>
+      <p>This is a continuum. Not separate categories. Everything exists on a single spectrum of vibration from the densest physical matter at the bottom to pure spirit at the top. And every point on that spectrum is accessible to a human being, because a human being exists on every level of it simultaneously.</p>
+    </div>
+
+    <div class="ancient-text reveal">
+      <div class="label">From The Kybalion</div>
+      <p>"The differences between different manifestations of Matter, Energy, Mind, and even Spirit, result largely from varying rates of Vibration. From THE ALL, which is Pure Spirit, down to the grossest form of Matter, all is in vibration — the higher the vibration, the higher the position in the scale."</p>
+    </div>
+
+    <div class="modern-text reveal">
+      <div class="label">In Plain English</div>
+      <p>When people talk about "raising your vibration" they are not speaking metaphorically. They are describing a precise shift in the rate at which your consciousness oscillates — which changes what you can perceive, what you attract, and what becomes possible. Fear, anger, and despair are genuinely low-frequency states. Love, gratitude, and awe are genuinely high-frequency states. This is measurable. The HeartMath Institute has spent decades documenting the electromagnetic field generated by human emotions — love produces coherent, high-frequency waves. Fear produces chaotic, low-frequency ones.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">You Are a Transmitter and Receiver</div>
+      <p>Because everything vibrates, and because like frequencies resonate with like frequencies, you are constantly broadcasting your dominant vibrational state into the field of reality — and receiving back experiences that match it. This is not mysticism. This is resonance. A tuning fork struck at 440Hz will cause another 440Hz tuning fork across the room to vibrate in sympathy. The principle is identical.</p>
+      <p>Your emotional state, your dominant thoughts, the quality of your attention — these are not private internal experiences. They are broadcasts. They ripple outward into the mental fabric of the universe — which, per the Principle of Mentalism, is what everything is made of — and return to you in corresponding forms. People, circumstances, opportunities, obstacles — all resonating at the frequency you are predominantly broadcasting.</p>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"To change what comes to you, change what you emit. You cannot receive at a frequency you are not transmitting."</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Hermetic Practice</div>
+      <p>The Hermeticists developed precise practices for consciously shifting vibrational states — meditation, breathwork, chanting, sacred music, ritual, contemplation of beauty. Not because these things are inherently magical, but because they are technologies for shifting the rate of mental and emotional vibration. When your vibration shifts, your reality shifts. The correspondence is automatic and immediate.</p>
+      <p>The modern equivalents are everywhere — the neuroscience of meditation, breathwork protocols, the psychology of gratitude practices, the physics of sound healing. All describing the same thing through different vocabularies. Everything vibrates. You can learn to tune yourself deliberately. That is the work.</p>
+    </div>
+
+    <div class="rule reveal"></div>
+    <div class="closing-quote reveal">
+      <p>You are not stuck.<br>You are vibrating at a frequency<br>that is creating the experience of being stuck.<br><em>Change the frequency. Change the experience.</em></p>
+    </div>
+    <div class="section-nav reveal">
+      <a href="#correspondence" class="btn btn-gold">← Correspondence</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#polarity" class="btn btn-gold">IV · Polarity →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ PRINCIPLE IV — POLARITY ═══ -->
+<section id="polarity" class="section" style="background:radial-gradient(ellipse at 50% 0%, rgba(176,96,112,0.07) 0%, transparent 60%)">
+  <div class="section-label"><span class="section-badge">Principle IV · Everything Has Its Pair</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Fourth Hermetic Principle</p>
+      <h2 class="chapter-title">Polarity</h2>
+      <p class="chapter-tagline">"Everything is dual. Opposites are identical in nature, different in degree."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="principle-card reveal" data-number="IV">
+      <div class="principle-number">Principle Four</div>
+      <div class="principle-name">The Principle of Polarity</div>
+      <div class="principle-latin">Polaritas · Duality · Spectrum</div>
+      <div class="principle-ancient">"Everything is Dual; everything has poles; everything has its pair of opposites; like and unlike are the same; opposites are identical in nature, but different in degree."</div>
+      <div class="principle-modern">What appear to be opposites are actually the two ends of a single spectrum. Hot and cold are not opposites — they are the same thing (temperature) at different degrees. Love and hate, courage and fear, light and dark — same spectrum, different positions. This means you can move along any spectrum consciously, rather than being fixed at one end.</div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">Opposites Are Not Real</div>
+      <p>Hot and cold are not two different things. They are two ends of the temperature spectrum. Where does hot end and cold begin? There is no line. It is a continuum. The same is true of every apparent pair of opposites in human experience.</p>
+      <p>Love and hate — the same emotion at different points on the spectrum of feeling toward someone or something. The opposite of love is not hate. The opposite of love is indifference — the absence of the spectrum entirely. You can only hate what you have loved. Fear and courage — the same energy at different points on the spectrum of response to challenge. You cannot have courage without fear present. Courage is fear that has been transmuted along the spectrum.</p>
+    </div>
+
+    <div class="ancient-text reveal">
+      <div class="label">From The Kybalion</div>
+      <p>"Everything is Dual; everything has poles; everything has its pair of opposites; like and unlike are the same; opposites are identical in nature, but different in degree; extremes meet; all truths are but half-truths; all paradoxes may be reconciled."</p>
+    </div>
+
+    <div class="modern-text reveal">
+      <div class="label">In Plain English</div>
+      <p>You are never truly stuck at one end of any spectrum. You are at a position on a continuum — and you can move. The Hermeticists called conscious movement along these spectrums "mental transmutation" — the art of deliberately shifting your position on the polarity scale. Fear into courage. Doubt into faith. Anger into passion. Not suppressing one end, but moving consciously toward the other. This is real alchemy. Not turning lead into gold — turning low states into high ones using the same energy.</p>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"Your darkest experiences contain within them the same energy as your highest. The difference is only where you are standing on the spectrum."</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The High Priestess Revisited</div>
+      <p>This is why the High Priestess sits between the black pillar and the white pillar without choosing between them. She has understood the Principle of Polarity. She knows that black and white are not opposites — they are the same spectrum of light at its extremes. The wisdom is not in choosing one over the other. The wisdom is in understanding the full spectrum and knowing consciously where to position yourself within it at any given moment.</p>
+    </div>
+
+    <div class="rule reveal"></div>
+    <div class="closing-quote reveal">
+      <p>Your fear and your courage<br>are made of the same substance.<br><em>You have never lacked courage. You have been standing at the wrong end of it.</em></p>
+    </div>
+    <div class="section-nav reveal">
+      <a href="#vibration" class="btn btn-gold">← Vibration</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#rhythm" class="btn btn-gold">V · Rhythm →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ PRINCIPLE V — RHYTHM ═══ -->
+<section id="rhythm" class="section" style="background:radial-gradient(ellipse at 50% 0%, rgba(42,74,122,0.07) 0%, transparent 60%)">
+  <div class="section-label"><span class="section-badge">Principle V · The Pendulum Swings</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Fifth Hermetic Principle</p>
+      <h2 class="chapter-title">Rhythm</h2>
+      <p class="chapter-tagline">"Everything flows, out and in. The pendulum swing manifests in everything."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="principle-card reveal" data-number="V">
+      <div class="principle-number">Principle Five</div>
+      <div class="principle-name">The Principle of Rhythm</div>
+      <div class="principle-latin">Rhythmus · Flow · Cycle</div>
+      <div class="principle-ancient">"Everything flows, out and in; everything has its tides; all things rise and fall; the pendulum-swing manifests in everything; the measure of the swing to the right is the measure of the swing to the left."</div>
+      <div class="principle-modern">Everything in existence moves in cycles. High follows low. Expansion follows contraction. Every pendulum that swings one way will swing back the other. The seasons, the tides, the breath, the heartbeat, the economy, human emotions, civilisations — all operating on this same principle. The wisdom is learning to work with the rhythm rather than against it.</div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Tides of Existence</div>
+      <p>Nothing stays at its peak. Nothing stays at its lowest point. This is not a cruel feature of reality — it is a protective one. The pendulum that swings into darkness will, by the same law that pulled it there, swing back into light. The depth of the swing in one direction is the measure of the swing back in the other. Your lowest points contain within them the energy of equally high peaks.</p>
+      <p>This is why the Hermeticists were unafraid of difficult periods. They knew the law. A difficult period is a pendulum that has swung deep — which means its return swing will be equally powerful. The only way to prevent the return swing is to resist it, which only extends the difficult period. The wisdom is to stop fighting the swing and trust the law.</p>
+    </div>
+
+    <div class="ancient-text reveal">
+      <div class="label">From The Kybalion</div>
+      <p>"The Hermetists have grasped this Principle, finding its universal application, and have also discovered certain means to overcome its effects in themselves by the use of the appropriate formulas and methods. They apply the Mental Law of Neutralisation. They cannot annul the Principle, or cause it to cease operation, but they have learned how to escape its effects upon themselves to a certain degree."</p>
+    </div>
+
+    <div class="modern-text reveal">
+      <div class="label">In Plain English</div>
+      <p>You cannot stop the pendulum. But you can learn to rise above it. The Hermeticists described a practice of "mental polarisation" — consciously raising your mental position to a higher level so that the swings of the pendulum affect you less. Not suppressing the experience, but observing it from a higher vantage point. The person who has mastered this does not ride the emotional pendulum of life's ups and downs as dramatically as those who haven't. They still feel — but they hold a deeper stability beneath the feeling. The sailor who knows the tides is not ruled by them.</p>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"When you are in the dark, you are not being punished. You are being prepared. The pendulum has swung this far for a reason."</p>
+    </div>
+
+    <div class="rule reveal"></div>
+    <div class="closing-quote reveal">
+      <p>The winter does not fight the spring.<br>It simply completes its cycle<br><em>and steps aside.</em></p>
+    </div>
+    <div class="section-nav reveal">
+      <a href="#polarity" class="btn btn-gold">← Polarity</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#causation" class="btn btn-gold">VI · Cause & Effect →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ PRINCIPLE VI — CAUSE AND EFFECT ═══ -->
+<section id="causation" class="section" style="background:radial-gradient(ellipse at 50% 0%, rgba(74,122,80,0.07) 0%, transparent 60%)">
+  <div class="section-label"><span class="section-badge">Principle VI · Nothing Is Chance</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Sixth Hermetic Principle</p>
+      <h2 class="chapter-title">Cause & Effect</h2>
+      <p class="chapter-tagline">"Every cause has its effect. Every effect has its cause. Chance is a name for law not recognised."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="principle-card reveal" data-number="VI">
+      <div class="principle-number">Principle Six</div>
+      <div class="principle-name">The Principle of Cause and Effect</div>
+      <div class="principle-latin">Causa · Effectus · Law</div>
+      <div class="principle-ancient">"Every Cause has its Effect; every Effect has its Cause; everything happens according to Law; Chance is but a name for Law not recognised; there are many planes of causation, but nothing escapes the Law."</div>
+      <div class="principle-modern">Nothing happens by accident. Every effect has a cause. Every cause produces an effect. What we call chance or luck is simply causation operating at a level we cannot yet see. The person who understands this stops being a passive effect of circumstances and becomes an active cause in their own life.</div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">There Is No Luck</div>
+      <p>Luck is cause and effect operating faster than you can track. When something appears to happen randomly or by chance, it is because the chain of causation involved is too long, too complex, or too subtle for ordinary perception to follow. But the chain is always there. The Hermeticists were unequivocal about this: nothing escapes the law. Every single thing that happens in your life is an effect that has a cause. Every single thing you do or think or feel is a cause that will produce effects.</p>
+      <p>This is either terrifying or liberating depending on where you are standing. If you have been treating your life as something that happens to you, discovering that you have been an active cause of it all along is uncomfortable. But it is also the most empowering thing you will ever understand. Because if you caused it, you can cause something different.</p>
+    </div>
+
+    <div class="ancient-text reveal">
+      <div class="label">From The Kybalion</div>
+      <p>"The majority of people are more or less slaves of heredity, environment, etc., and manifest very little Individuality or Will. They are moved by their environment, suggestions of others, and other outside causes, becoming as pawns on the Chessboard of Life. The Masters, rising to a higher plane, dominate moods, characters, qualities, and powers, as well as the environment surrounding them, and become Movers instead of pawns."</p>
+    </div>
+
+    <div class="modern-text reveal">
+      <div class="label">In Plain English</div>
+      <p>Most people live as effects — responding to whatever happens around them, moved by circumstance, other people's opinions, habit, fear. The Hermetic path is the path of becoming a cause — someone who acts from intention rather than reaction, who shapes circumstances rather than being shaped by them. This does not mean controlling everything. It means being conscious of what you are putting into the causal chain — your thoughts, your words, your actions, your emotional states — and doing so deliberately rather than unconsciously.</p>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"The signs and synchronicities you are starting to notice are not coincidences. They are effects. Find the cause and you find the message."</p>
+    </div>
+
+    <div class="rule reveal"></div>
+    <div class="closing-quote reveal">
+      <p>You have never been a passenger.<br>You have always been driving.<br><em>Now you are learning to look at the road.</em></p>
+    </div>
+    <div class="section-nav reveal">
+      <a href="#rhythm" class="btn btn-gold">← Rhythm</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#gender" class="btn btn-gold">VII · Gender →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ PRINCIPLE VII — GENDER ═══ -->
+<section id="gender" class="section" style="background:radial-gradient(ellipse at 50% 0%, rgba(107,91,149,0.09) 0%, transparent 60%)">
+  <div class="section-label"><span class="section-badge">Principle VII · The Creative Duality</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Seventh Hermetic Principle</p>
+      <h2 class="chapter-title">Gender</h2>
+      <p class="chapter-tagline">"Gender is in everything. Everything has its masculine and feminine principles."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="principle-card reveal" data-number="VII">
+      <div class="principle-number">Principle Seven</div>
+      <div class="principle-name">The Principle of Gender</div>
+      <div class="principle-latin">Genus · Creation · Union</div>
+      <div class="principle-ancient">"Gender is in everything; everything has its Masculine and Feminine Principles; Gender manifests on all planes."</div>
+      <div class="principle-modern">Everything in existence has both a generative, projecting quality (masculine) and a receptive, nurturing quality (feminine). This is not about biological sex — it is about the two fundamental creative forces that operate at every level of reality, from subatomic particles to human consciousness to cosmic creation. Creation requires both. Nothing is created by one alone.</div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Two Creative Forces</div>
+      <p>The masculine principle is the active, projecting, initiating force. It sends. It directs. It penetrates. The feminine principle is the receptive, gestating, nurturing force. It receives. It holds. It brings forth. In the physical world: the seed and the soil. In electricity: positive and negative charge. In quantum mechanics: the wave function (feminine — infinite possibility) and the act of measurement (masculine — collapsing possibility into specific reality).</p>
+      <p>In the human mind: conscious intention is masculine. The subconscious — which receives those intentions and grows them into reality — is feminine. This is why the Magician (masculine — active will) and the High Priestess (feminine — deep receptive intelligence) are cards 1 and 2. They are the two fundamental creative principles of consciousness. Neither creates alone.</p>
+    </div>
+
+    <div class="ancient-text reveal">
+      <div class="label">From The Kybalion</div>
+      <p>"No creation, physical, mental or spiritual, is possible without this Principle. An understanding of its laws will throw light on many a subject that has perplexed the minds of men. The Principle of Gender works ever in the direction of generation, regeneration, and creation. Everything, and every person, contains the two Elements or Principles, or this great Principle, within it, him or her."</p>
+    </div>
+
+    <div class="modern-text reveal">
+      <div class="label">In Plain English</div>
+      <p>Your ability to create — anything, in any area of your life — depends on your ability to use both principles consciously. The masculine: clear intention, decisive action, directed will. The feminine: deep listening, patient trust, allowing what has been seeded to grow without forcing it. Most people are imbalanced in one direction. Those who are too masculine burn out, force things, and create from ego. Those who are too feminine wait forever and never act. The most powerful creators in history — in art, in business, in spiritual life — have been those who could hold both principles consciously and deploy each at the right moment.</p>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"Plant the seed with intention. Water it with attention. Then trust the intelligence of what you have planted to know how to grow."</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Completion of the Seven</div>
+      <p>With the Principle of Gender, the seven principles complete themselves into a unified system. Mentalism tells you what reality is made of. Correspondence tells you how it is structured. Vibration tells you how it moves. Polarity tells you that every state has its pair. Rhythm tells you that everything cycles. Cause and Effect tells you that nothing is random. And Gender tells you how creation itself works.</p>
+      <p>Together they describe a universe that is conscious, patterned, vibrational, dualistic, cyclical, causal, and creative. A universe that is not indifferent to you but is, in every sense, made of the same stuff as you. A universe with which you can work, deliberately and intelligently, once you understand its laws.</p>
+      <p>This is what Hermes Trismegistus taught in the temples of ancient Egypt. This is what the mystery schools preserved through millennia. This is what three anonymous initiates published in a small book in Chicago in 1908. And this is what you are now beginning to live.</p>
+    </div>
+
+    <div class="rule reveal"></div>
+    <div class="closing-quote reveal">
+      <p>Seven principles.<br>One reality.<br>Infinite applications.<br><em>You are only just beginning.</em></p>
+    </div>
+    <div class="section-nav reveal">
+      <a href="#causation" class="btn btn-gold">← Cause & Effect</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+    </div>
+    <div style="height:60px"></div>
+  </div>
+</section>
+
+
+<script>
+  // STARFIELD
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 130; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2 + 0.4;
+    s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:-${Math.random()*5}s;--op:${0.1+Math.random()*0.5};`;
+    starsEl.appendChild(s);
+  }
+
+  // PROGRESS
+  const progress = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+    progress.style.width = pct + '%';
+  }, {passive:true});
+
+  // REVEAL
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 50);
+        observer.unobserve(e.target);
+      }
+    });
+  }, {threshold: 0.08, rootMargin: '0px 0px -30px 0px'});
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

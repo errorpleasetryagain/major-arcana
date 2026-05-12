@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>The Daily Practice — Hermetic Living</title>
+<style>
+  :root {
+    --night: #080812;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --gold-pale: #f5e4a0;
+    --gold-dim: #8a7035;
+    --ivory: #f0ead8;
+    --soft: #d8d0e8;
+    --purple: #6b5b95;
+    --purple-light: #9b8bc5;
+    --teal: #2a7a7a;
+    --sage: #4a7a50;
+    --rose: #b06070;
+    --amber: #c87020;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--night);
+    color: var(--ivory);
+    font-family: Palatino, 'Palatino Linotype', Georgia, serif;
+    font-size: 18px; line-height: 1.85;
+    overflow-x: hidden;
+  }
+
+  #stars { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+  .star { position:absolute; background:white; border-radius:50%; animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s); opacity:var(--op,0.3); }
+  @keyframes twinkle { 0%,100%{opacity:var(--op,0.3);} 50%{opacity:0.05;} }
+
+  .progress-bar { position:fixed; top:0; left:0; height:2px; background:linear-gradient(90deg,var(--gold-dim),var(--gold)); z-index:100; transition:width 0.1s; box-shadow:0 0 8px var(--gold); }
+
+  .page { position:relative; z-index:1; }
+
+  /* COVER */
+  #cover {
+    min-height:100vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    text-align:center; padding:60px 24px;
+    background: radial-gradient(ellipse at 50% 30%, rgba(74,122,80,0.07) 0%, transparent 70%);
+  }
+  .cover-symbol { font-size:52px; color:var(--gold); margin-bottom:28px; animation:float 4s ease-in-out infinite; text-shadow:0 0 40px rgba(201,168,76,0.4); }
+  @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+  .cover-title { font-size:clamp(28px,7vw,50px); color:var(--gold); line-height:1.2; margin-bottom:10px; font-style:italic; text-shadow:0 0 50px rgba(201,168,76,0.2); }
+  .cover-sub { font-size:clamp(11px,2.5vw,15px); color:var(--gold-pale); letter-spacing:0.32em; text-transform:uppercase; margin-bottom:36px; opacity:0.75; }
+  .cover-rule { width:180px; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); margin:0 auto 32px; }
+  .cover-intro { max-width:480px; font-size:17px; font-style:italic; color:var(--soft); line-height:1.9; margin-bottom:14px; }
+  .cover-tagline { font-size:13px; color:var(--gold-dim); letter-spacing:0.15em; text-transform:uppercase; margin-bottom:48px; }
+  .nav-pills { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+  .nav-pill { background:rgba(201,168,76,0.07); border:1px solid rgba(201,168,76,0.2); color:var(--gold-pale); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; padding:9px 16px; border-radius:30px; cursor:pointer; text-decoration:none; transition:all 0.3s; }
+  .nav-pill:hover { background:rgba(201,168,76,0.16); border-color:var(--gold); color:var(--gold); }
+  .scroll-hint { position:absolute; bottom:26px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:8px; color:var(--gold-dim); font-size:10px; letter-spacing:0.2em; text-transform:uppercase; animation:fade-bob 2s ease-in-out infinite; }
+  .scroll-arrow { width:1px; height:34px; background:linear-gradient(to bottom,var(--gold-dim),transparent); }
+  @keyframes fade-bob { 0%,100%{opacity:0.4;transform:translateX(-50%) translateY(0);} 50%{opacity:0.9;transform:translateX(-50%) translateY(5px);} }
+
+  /* SECTIONS */
+  .section { min-height:100vh; padding:80px 24px; display:flex; flex-direction:column; align-items:center; position:relative; }
+  .section::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--gold-dim),transparent); }
+
+  .section-label { position:sticky; top:16px; z-index:10; text-align:center; pointer-events:none; margin-bottom:-40px; }
+  .section-badge { display:inline-block; background:rgba(8,8,18,0.88); border:1px solid rgba(201,168,76,0.25); border-radius:20px; padding:6px 18px; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold-dim); backdrop-filter:blur(10px); }
+
+  .content { max-width:620px; width:100%; }
+
+  .chapter-number { font-size:11px; letter-spacing:0.4em; text-transform:uppercase; color:var(--purple-light); margin-bottom:10px; text-align:center; }
+  .chapter-title { font-size:clamp(26px,7vw,44px); color:var(--gold); text-align:center; margin-bottom:8px; font-style:italic; text-shadow:0 0 40px rgba(201,168,76,0.15); }
+  .chapter-tagline { font-style:italic; font-size:16px; color:var(--gold-pale); text-align:center; margin-bottom:44px; opacity:0.85; }
+
+  .rule { width:100%; max-width:560px; height:1px; background:linear-gradient(90deg,transparent,var(--gold-dim),transparent); margin:28px auto; }
+  .rule.short { max-width:180px; background:linear-gradient(90deg,transparent,var(--purple),transparent); }
+
+  .section-title { font-size:13px; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold-light); margin:36px 0 12px; display:flex; align-items:center; gap:10px; }
+  .section-title::before { content:'✦'; color:var(--gold-dim); font-size:9px; }
+
+  p { color:var(--soft); margin-bottom:16px; font-size:17px; }
+
+  /* PRACTICE BLOCKS */
+  .practice-block {
+    border-radius:12px; padding:26px 22px; margin:16px 0;
+    position:relative; overflow:hidden;
+  }
+  .practice-block.morning { background:rgba(201,168,76,0.05); border:1px solid rgba(201,168,76,0.18); }
+  .practice-block.evening { background:rgba(107,91,149,0.06); border:1px solid rgba(107,91,149,0.2); }
+  .practice-block.anytime { background:rgba(42,122,122,0.05); border:1px solid rgba(42,122,122,0.2); }
+  .practice-block.signs { background:rgba(176,96,112,0.05); border:1px solid rgba(176,96,112,0.2); }
+  .practice-block.weekly { background:rgba(74,122,80,0.05); border:1px solid rgba(74,122,80,0.2); }
+
+  .practice-header { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+  .practice-icon { font-size:22px; }
+  .practice-title-wrap {}
+  .practice-time { font-size:10px; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold-dim); margin-bottom:2px; }
+  .practice-name { font-size:19px; color:var(--gold); font-style:italic; }
+
+  .practice-body { color:var(--soft); font-size:16px; line-height:1.8; }
+  .practice-body p { font-size:16px; margin-bottom:10px; }
+
+  .step-list { list-style:none; padding:0; margin:12px 0; }
+  .step-list li { padding:8px 0 8px 24px; position:relative; color:var(--soft); font-size:16px; line-height:1.7; border-bottom:1px solid rgba(255,255,255,0.04); }
+  .step-list li:last-child { border-bottom:none; }
+  .step-list li::before { content:attr(data-n); position:absolute; left:0; color:var(--gold-dim); font-size:12px; top:10px; }
+
+  .principle-tag { display:inline-block; background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.15); border-radius:20px; padding:3px 12px; font-size:11px; letter-spacing:0.1em; color:var(--gold-dim); margin:0 4px 6px 0; }
+
+  .journal-prompt {
+    background:rgba(255,255,255,0.03); border-radius:8px;
+    padding:16px 18px; margin:12px 0;
+    border-left:2px solid var(--purple);
+  }
+  .journal-prompt .q { font-style:italic; color:var(--gold-pale); font-size:16px; line-height:1.7; }
+
+  .pull-quote { text-align:center; padding:32px 0; margin:16px 0; }
+  .pull-quote p { font-style:italic; font-size:19px; color:var(--gold-pale); max-width:460px; margin:0 auto; line-height:1.75; }
+
+  .sign-guide {
+    background:rgba(176,96,112,0.04); border:1px solid rgba(176,96,112,0.15);
+    border-radius:10px; padding:20px 18px; margin:14px 0;
+  }
+  .sign-guide-title { font-size:12px; letter-spacing:0.2em; text-transform:uppercase; color:var(--rose); margin-bottom:10px; }
+  .sign-guide-body { color:var(--soft); font-size:16px; line-height:1.75; }
+
+  .closing-quote { text-align:center; padding:44px 0; }
+  .closing-quote p { font-style:italic; font-size:19px; color:var(--gold-pale); max-width:440px; margin:0 auto; line-height:1.8; }
+
+  .section-nav { display:flex; justify-content:center; gap:14px; margin-top:56px; flex-wrap:wrap; }
+  .btn { font-size:11px; letter-spacing:0.2em; text-transform:uppercase; padding:11px 22px; border-radius:30px; cursor:pointer; text-decoration:none; transition:all 0.3s; display:inline-block; }
+  .btn-gold { background:rgba(201,168,76,0.1); border:1px solid var(--gold-dim); color:var(--gold); }
+  .btn-gold:hover { background:rgba(201,168,76,0.2); border-color:var(--gold); box-shadow:0 0 20px rgba(201,168,76,0.15); }
+
+  .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.8s ease,transform 0.8s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  @media(max-width:480px){ body{font-size:16px;} }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+<div id="stars"></div>
+
+<!-- COVER -->
+<section id="cover" class="page">
+  <div class="cover-symbol">☀︎</div>
+  <h1 class="cover-title">The Daily Practice</h1>
+  <p class="cover-sub">Hermetic Living in the Modern World</p>
+  <div class="cover-rule"></div>
+  <p class="cover-intro">
+    The ancient wisdom is useless without practice.<br>
+    This is your daily compass — what to do, how to think,<br>
+    how to read the signs, and how to work consciously<br>
+    with the principles that govern all of reality.
+  </p>
+  <p class="cover-tagline">Morning · Evening · Signs · Weekly · The Principles in Daily Life</p>
+  <nav class="nav-pills">
+    <a href="#morning" class="nav-pill">☀︎ Morning</a>
+    <a href="#evening" class="nav-pill">☽ Evening</a>
+    <a href="#signs" class="nav-pill">✦ Reading Signs</a>
+    <a href="#principles" class="nav-pill">⊕ Principles Daily</a>
+    <a href="#weekly" class="nav-pill">◎ Weekly Practice</a>
+    <a href="#manifesto" class="nav-pill">❋ The Manifesto</a>
+  </nav>
+  <div class="scroll-hint"><span>Begin</span><div class="scroll-arrow"></div></div>
+</section>
+
+
+<!-- MORNING -->
+<section id="morning" class="section" style="background:radial-gradient(ellipse at 50% 0%, rgba(200,112,32,0.07) 0%, transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Morning Practice</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">Before The Day Begins</p>
+      <h2 class="chapter-title">Morning</h2>
+      <p class="chapter-tagline">"The morning mind is the most powerful broadcasting tool you have"</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="reveal">
+      <p>The first twenty minutes after waking are extraordinary. Your brain is transitioning from theta waves (the dream state) to alpha waves (relaxed awareness) before eventually settling into the beta waves of normal waking consciousness. In this transitional window, the barrier between your conscious and subconscious mind is at its thinnest. What you put into your mind in this window goes deeper than at any other time of day.</p>
+      <p>Most people waste it by immediately checking their phones — flooding their most powerful creative window with other people's thoughts, news, notifications, and problems. The Hermetic practitioner uses it deliberately.</p>
+    </div>
+
+    <div class="practice-block morning reveal">
+      <div class="practice-header">
+        <div class="practice-icon">☀︎</div>
+        <div class="practice-title-wrap">
+          <div class="practice-time">Before You Touch Your Phone</div>
+          <div class="practice-name">The Morning Sequence</div>
+        </div>
+      </div>
+      <div class="practice-body">
+        <ul class="step-list">
+          <li data-n="1"><strong>The First Breath (1 min)</strong> — Before you open your eyes fully, take three slow, deep breaths. On each exhale, consciously release whatever the night left behind. Set your intention for the day in a single sentence. Not a to-do list. One quality: today I move with clarity. Today I am open. Today I create from strength.</li>
+          <li data-n="2"><strong>Gratitude Anchoring (3 mins)</strong> — Think of three specific things you are genuinely grateful for. Not generic gratitude — specific. The coffee you are about to have. A conversation that went well. Something about your body that works. Genuine gratitude is one of the highest vibrational states available. Starting your broadcast here changes the entire day's frequency. This is Principle III — Vibration — in practice.</li>
+          <li data-n="3"><strong>The Principle of the Day (2 mins)</strong> — Choose one of the seven Hermetic principles and hold it in mind for two minutes. Let it colour how you see the day ahead. On a Mentalism day, notice how your thoughts are creating your experience. On a Correspondence day, notice what your outer world is reflecting back to you about your inner state.</li>
+          <li data-n="4"><strong>The Intention (2 mins)</strong> — State clearly, either mentally or aloud, what you are calling in today. Not what you want to avoid. What you want to experience. Be specific. Be positive. Speak it in the present tense as if it is already true — because on the mental plane, which is the causal plane, it already is. This is Mentalism and Cause and Effect working together.</li>
+          <li data-n="5"><strong>Stillness (5 mins)</strong> — Sit. Do nothing. This is the feminine principle — receiving. You have set your intention (masculine — Principle VII). Now you receive guidance, ideas, and signals from the deeper intelligence. Do not fill this time with thought. Simply observe what arises. Often the most important thing you need to know for the day will arrive in this window.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Phone Rule</div>
+      <p>Do not check your phone for at least thirty minutes after waking. Every notification is an input from someone else's mental world into yours — during the window when your defences are lowest and your subconscious is most receptive. Guard this window fiercely. It is the most valuable creative real estate in your day.</p>
+    </div>
+
+    <div class="practice-block morning reveal">
+      <div class="practice-header">
+        <div class="practice-icon">☕</div>
+        <div class="practice-title-wrap">
+          <div class="practice-time">With Your Morning Coffee</div>
+          <div class="practice-name">The Morning Read</div>
+        </div>
+      </div>
+      <div class="practice-body">
+        <p>Open one of your books — the Tarot study, The Kybalion, or this guide. Read one section slowly. Let it be contemplative rather than informational. You are not trying to consume content. You are trying to absorb a quality of thinking into your morning mind.</p>
+        <p>Ask yourself one question after reading: <em>Where is this principle showing up in my life right now?</em></p>
+      </div>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"The quality of your morning determines the frequency of your day. The frequency of your day determines what the day brings you."</p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#evening" class="btn btn-gold">Evening Practice →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- EVENING -->
+<section id="evening" class="section" style="background:radial-gradient(ellipse at 50% 0%, rgba(107,91,149,0.08) 0%, transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Evening Practice</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">As The Day Closes</p>
+      <h2 class="chapter-title">Evening</h2>
+      <p class="chapter-tagline">"The night is not an absence of the day. It is the deeper half of it."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="reveal">
+      <p>Just as the morning window is the most receptive moment for setting the day's frequency, the evening window — the hour before sleep — is the most powerful time for processing, releasing, and planting seeds in the subconscious for the night to work on.</p>
+      <p>Your subconscious mind does not sleep. While you sleep, it processes, integrates, and creates. What you feed it in the last hour before sleep is what it works with all night. Most people feed it anxiety, screens, and unprocessed emotional residue. The Hermetic practitioner feeds it intention, reflection, and beauty.</p>
+    </div>
+
+    <div class="practice-block evening reveal">
+      <div class="practice-header">
+        <div class="practice-icon">☽</div>
+        <div class="practice-title-wrap">
+          <div class="practice-time">The Hour Before Sleep</div>
+          <div class="practice-name">The Evening Sequence</div>
+        </div>
+      </div>
+      <div class="practice-body">
+        <ul class="step-list">
+          <li data-n="1"><strong>The Review (5 mins)</strong> — Sit quietly and let the day pass through your mind like a film. Do not judge or analyse. Simply observe. Notice where you acted from your highest self and where you did not. Notice where the principles showed up — what correspondences appeared, what rhythm was present, what caused what. This is not self-criticism. It is the practice of the witness — observing your life from a slightly higher vantage point than you lived it from.</li>
+          <li data-n="2"><strong>The Release (3 mins)</strong> — Whatever carries a charge — frustration, worry, a conversation that went wrong — consciously release it. A simple method: breathe in, name what you are carrying, breathe out and let it go. You do not need to solve it tonight. Your subconscious will work on it. Your job is to release the emotional grip so the deeper intelligence can access it freely.</li>
+          <li data-n="3"><strong>Three Wins (2 mins)</strong> — Name three things that went well today, however small. The brain has a negativity bias — it catalogues problems automatically. Consciously cataloguing wins retrains this bias over time and shifts your dominant emotional broadcast toward appreciation. Appreciation is one of the highest vibrational states. This is Vibration in practice.</li>
+          <li data-n="4"><strong>The Night Intention (2 mins)</strong> — Ask your deeper intelligence to work on something specific while you sleep. A problem you need a solution to. A decision you need clarity on. A pattern you want to understand. State it simply and clearly, then release it. Do not try to think your way to an answer. Plant the question and trust the process. Morning often brings the answer.</li>
+          <li data-n="5"><strong>The Tarot Card (10-15 mins)</strong> — Read tonight's card from your Major Arcana book. Let it be the last substantial thing your mind holds before sleep. The subconscious will work with it all night. Notice what dreams arise.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="practice-block evening reveal">
+      <div class="practice-header">
+        <div class="practice-icon">✎</div>
+        <div class="practice-title-wrap">
+          <div class="practice-time">Optional But Powerful</div>
+          <div class="practice-name">The Evening Journal</div>
+        </div>
+      </div>
+      <div class="practice-body">
+        <p>Keep a simple notebook by your bed. Three to five minutes of writing before sleep. Not a diary of events — a practice of reflection. Use these prompts:</p>
+        <div class="journal-prompt"><div class="q">What principle showed up most clearly in my life today?</div></div>
+        <div class="journal-prompt"><div class="q">What was my outer world reflecting about my inner world today?</div></div>
+        <div class="journal-prompt"><div class="q">Where did I act as a cause today? Where did I react as an effect?</div></div>
+        <div class="journal-prompt"><div class="q">What sign or synchronicity appeared today and what might it mean?</div></div>
+        <div class="journal-prompt"><div class="q">What do I want to wake up knowing tomorrow?</div></div>
+      </div>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"You spend a third of your life asleep. The Hermetic practitioner uses every hour of it."</p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="#morning" class="btn btn-gold">← Morning</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#signs" class="btn btn-gold">Reading Signs →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- SIGNS -->
+<section id="signs" class="section" style="background:radial-gradient(ellipse at 50% 0%, rgba(176,96,112,0.07) 0%, transparent 60%)">
+  <div class="section-label"><span class="section-badge">Reading Signs & Synchronicities</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Language of the Universe</p>
+      <h2 class="chapter-title">Reading Signs</h2>
+      <p class="chapter-tagline">"The universe is always communicating. Most people simply aren't listening."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="reveal">
+      <p>Carl Jung coined the term synchronicity to describe meaningful coincidences — events that appear related not by cause and effect, but by meaning. The Hermeticists had a simpler way of describing it: Correspondence and Cause and Effect operating at levels the conscious mind cannot directly track. The universe is a single interconnected system. Patterns repeat across scales. When you are paying attention, the patterns become visible.</p>
+      <p>You said you are already spotting them more. That is not imagination — that is your awareness opening. Once you begin looking, the language of the universe becomes readable. Here is how to read it more clearly.</p>
+    </div>
+
+    <div class="sign-guide reveal">
+      <div class="sign-guide-title">What Counts as a Sign</div>
+      <div class="sign-guide-body">
+        <p>A sign is any external event that carries an unusual charge of meaning — something that stops you, catches your attention, feels significant beyond its surface appearance. The feeling is the signal. Your deeper intelligence recognises resonance before your conscious mind does. Trust the feeling first, interpret second.</p>
+      </div>
+    </div>
+
+    <div class="practice-block signs reveal">
+      <div class="practice-header">
+        <div class="practice-icon">✦</div>
+        <div class="practice-title-wrap">
+          <div class="practice-time">The Four Types of Signs</div>
+          <div class="practice-name">What to Look For</div>
+        </div>
+      </div>
+      <div class="practice-body">
+        <ul class="step-list">
+          <li data-n="→"><strong>Repetition</strong> — Something appears three times or more in a short period. The same word, symbol, animal, song, name, or concept keeps showing up from unrelated sources. The Fool card kept appearing for you before you looked it up. That is repetition as sign. When something repeats, the universe is underlining it. Pay attention to what it means to you specifically, not what it means in a general sense.</li>
+          <li data-n="→"><strong>Perfect Timing</strong> — You think of someone and they call. You wonder about something and immediately hear the answer from a stranger. You need help and it arrives. These are not coincidences. These are Cause and Effect operating on the mental plane — your thought creating a vibrational signal that draws its correspondence to you.</li>
+          <li data-n="→"><strong>Dreams</strong> — Your subconscious communicates through symbol and story. Keep a notebook by your bed and write down what you remember immediately upon waking, before the beta brain washes the memory away. Over time, patterns emerge. Recurring figures, locations, themes — these are consistent messages from the deeper intelligence.</li>
+          <li data-n="→"><strong>Body Signals</strong> — A sudden chill, a gut drop, an unexpected warmth in the chest, goosebumps when a thought arises. Your body is a precision instrument for detecting resonance. These physical responses are your deep intelligence signalling yes, no, pay attention, this is important. Learn your body's specific signal vocabulary — it is unique to you.</li>
+          <li data-n="→"><strong>Nature</strong> — Animals, weather, natural phenomena. Ancient cultures read these obsessively because they understood Correspondence — nature and consciousness operate by the same principles. A hawk appearing repeatedly when you are contemplating a bold move. A storm breaking the day before a release. These are not superstition — they are pattern recognition across corresponding scales of reality.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">How to Interpret a Sign</div>
+      <p>The most important rule: the meaning of a sign is personal, not universal. A raven means one thing in Norse mythology and another in Celtic tradition and another to you personally based on your own associations and experience. The universe is speaking to you specifically, in a language that includes your specific history and associations. Trust your first response — not the first thing you read in a book about what ravens mean.</p>
+    </div>
+
+    <div class="practice-block signs reveal">
+      <div class="practice-header">
+        <div class="practice-icon">◎</div>
+        <div class="practice-title-wrap">
+          <div class="practice-time">When You Notice a Sign</div>
+          <div class="practice-name">The Four Questions</div>
+        </div>
+      </div>
+      <div class="practice-body">
+        <ul class="step-list">
+          <li data-n="1"><strong>What was I thinking or feeling just before this appeared?</strong> — Signs are often responses. What question were you carrying? What concern? What longing? The sign is often answering or reflecting that.</li>
+          <li data-n="2"><strong>What does this mean to me specifically?</strong> — Not what it means in general. What does it mean in the context of your life right now? What is your gut response before your analytical mind gets involved?</li>
+          <li data-n="3"><strong>Which Hermetic principle is this demonstrating?</strong> — Is this Correspondence (your inner state reflected outward)? Cause and Effect (an effect showing you a cause you hadn't noticed)? Vibration (a frequency match)? Naming the principle deepens your understanding of the mechanism.</li>
+          <li data-n="4"><strong>What is the most generous interpretation?</strong> — The universe is not sending you warnings and punishments. It is sending you information and guidance. Even signs that appear negative or challenging are showing you something useful. Ask: if this sign is helping me, what is it helping me see?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"The Fool kept appearing until you stopped and looked it up. The universe has infinite patience. It will keep sending the message until you receive it."</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">Numbers</div>
+      <p>Repeating numbers — 11:11, 333, 444, sequences that appear on clocks, receipts, license plates — are one of the most commonly reported forms of synchronicity in the modern world. The Pythagoreans, who were deeply connected to Hermetic tradition, believed numbers were the fundamental language of reality — that each number carried a specific quality of consciousness that the universe used as shorthand.</p>
+      <p>Rather than following someone else's interpretation of what 11:11 means, develop your own relationship with recurring numbers. When they appear, ask: what was I thinking? What did I just decide? What question was I holding? Over time you will discover your own personal number language — which is far more precise and useful than any generic guide.</p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="#evening" class="btn btn-gold">← Evening</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#principles" class="btn btn-gold">Principles Daily →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- PRINCIPLES IN DAILY LIFE -->
+<section id="principles" class="section" style="background:radial-gradient(ellipse at 50% 0%, rgba(42,122,122,0.07) 0%, transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Seven Principles · Daily Application</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">Living the Principles</p>
+      <h2 class="chapter-title">The Principles Daily</h2>
+      <p class="chapter-tagline">"Knowledge without practice is decoration. Practice without knowledge is stumbling."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="reveal">
+      <p>The seven principles are not ideas to be believed. They are laws to be worked with. Each one has a specific daily application — a way of bringing it from the abstract into the lived. Here is how each principle shows up in real life and what to actually do with it.</p>
+    </div>
+
+    <div class="practice-block anytime reveal">
+      <div class="practice-header">
+        <div class="practice-icon">◉</div>
+        <div class="practice-title-wrap">
+          <div class="practice-time">Principle I</div>
+          <div class="practice-name">Mentalism in Daily Life</div>
+        </div>
+      </div>
+      <div class="practice-body">
+        <p><strong>The practice:</strong> Several times each day, pause and notice what you are thinking. Not judge it — notice it. Recognise that this thought is not just a private internal event. It is a broadcast into the mental fabric of the universe, which is made of the same stuff as the thought.</p>
+        <p><strong>The question to ask:</strong> <em>If my current dominant thought is a creative instruction to the universe, what am I ordering?</em></p>
+        <p><strong>The transmutation:</strong> When you catch yourself in a thought pattern you do not want to perpetuate, do not fight it. Simply replace it with the thought you would prefer to be broadcasting. Do this consistently, not occasionally.</p>
+      </div>
+    </div>
+
+    <div class="practice-block anytime reveal">
+      <div class="practice-header">
+        <div class="practice-icon">◎</div>
+        <div class="practice-title-wrap">
+          <div class="practice-time">Principle II</div>
+          <div class="practice-name">Correspondence in Daily Life</div>
+        </div>
+      </div>
+      <div class="practice-body">
+        <p><strong>The practice:</strong> When something in your external world bothers you, frustrates you, or repeatedly shows up as a problem — stop and ask what it is corresponding to in your inner world. Not as self-blame, but as detective work.</p>
+        <p><strong>The question to ask:</strong> <em>What does this pattern in my outer world tell me about a pattern in my inner world that I haven't fully faced yet?</em></p>
+        <p><strong>The transmutation:</strong> Address the inner pattern — the belief, the fear, the expectation — rather than trying to manage the outer symptom. The outer will shift automatically when the inner shifts. This is law.</p>
+      </div>
+    </div>
+
+    <div class="practice-block anytime reveal">
+      <div class="practice-header">
+        <div class="practice-icon">〜</div>
+        <div class="practice-title-wrap">
+          <div class="practice-time">Principle III</div>
+          <div class="practice-name">Vibration in Daily Life</div>
+        </div>
+      </div>
+      <div class="practice-body">
+        <p><strong>The practice:</strong> Check in with your vibrational state several times a day. Not in an anxious monitoring way — in a curious, interested way. Where am I on the spectrum right now? What is my dominant emotional broadcast at this moment?</p>
+        <p><strong>The question to ask:</strong> <em>If I stay at this frequency for the rest of the day, what kinds of experiences and people will I be in resonance with?</em></p>
+        <p><strong>The transmutation:</strong> Use your physical tools — music, movement, breath, beauty, gratitude — to consciously shift your frequency when needed. A three-minute walk, a song that moves you, a deliberate appreciation practice. These are not luxuries. They are frequency management tools.</p>
+      </div>
+    </div>
+
+    <div class="practice-block anytime reveal">
+      <div class="practice-header">
+        <div class="practice-icon">⇌</div>
+        <div class="practice-title-wrap">
+          <div class="practice-time">Principles IV & V</div>
+          <div class="practice-name">Polarity & Rhythm in Daily Life</div>
+        </div>
+      </div>
+      <div class="practice-body">
+        <p><strong>Polarity practice:</strong> When you feel stuck at one end of a spectrum — fearful, doubtful, low, overwhelmed — recognise that you are at a position on a continuum, not at an absolute state. The courage is on the same spectrum as the fear. The clarity is on the same spectrum as the confusion. Ask: <em>What would the other end of this spectrum feel like? Can I move even slightly toward it?</em></p>
+        <p><strong>Rhythm practice:</strong> When you are in a difficult period, recognise it as a swing of the pendulum. Do not try to force the high while you are in the low — you will exhaust yourself. Instead, use the low productively: rest, reflect, integrate, plant seeds. The swing back will come. The depth of the current low is the measure of the returning high. Trust the rhythm.</p>
+      </div>
+    </div>
+
+    <div class="practice-block anytime reveal">
+      <div class="practice-header">
+        <div class="practice-icon">→</div>
+        <div class="practice-title-wrap">
+          <div class="practice-time">Principle VI</div>
+          <div class="practice-name">Cause & Effect in Daily Life</div>
+        </div>
+      </div>
+      <div class="practice-body">
+        <p><strong>The practice:</strong> At least once a day, catch yourself reacting rather than responding. A reaction is being an effect — moved by external circumstances. A response is being a cause — choosing your next action from intention rather than emotion.</p>
+        <p><strong>The question to ask:</strong> <em>Am I acting as a cause or reacting as an effect right now?</em></p>
+        <p><strong>The transmutation:</strong> Before any significant action, pause. One breath. Ask: what is the cause I want to put into motion here? What effect do I want this action to create? Then act from that intention. This single practice, applied consistently, transforms the quality of everything you create.</p>
+      </div>
+    </div>
+
+    <div class="practice-block anytime reveal">
+      <div class="practice-header">
+        <div class="practice-icon">☯</div>
+        <div class="practice-title-wrap">
+          <div class="practice-time">Principle VII</div>
+          <div class="practice-name">Gender in Daily Life</div>
+        </div>
+      </div>
+      <div class="practice-body">
+        <p><strong>The practice:</strong> Notice when you are forcing versus allowing. When you are pushing versus receiving. When you are acting versus listening. Most people are chronically imbalanced toward one or the other — either always pushing (excess masculine) or always waiting (excess feminine).</p>
+        <p><strong>The question to ask:</strong> <em>Does this moment call for directed action or patient trust?</em></p>
+        <p><strong>The transmutation:</strong> After a period of strong directed action on something — a project, a goal, a creative work — consciously enter a period of receptive trust. Stop pushing. Let what you have seeded grow. The harvest follows the planting. You cannot force the seed to germinate faster by digging it up to check on it.</p>
+      </div>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="#signs" class="btn btn-gold">← Signs</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#weekly" class="btn btn-gold">Weekly Practice →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- WEEKLY -->
+<section id="weekly" class="section" style="background:radial-gradient(ellipse at 50% 0%, rgba(74,122,80,0.07) 0%, transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Weekly Practice</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Longer Rhythm</p>
+      <h2 class="chapter-title">Weekly Practice</h2>
+      <p class="chapter-tagline">"The week is a unit of rhythm. Use it consciously."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="practice-block weekly reveal">
+      <div class="practice-header">
+        <div class="practice-icon">◐</div>
+        <div class="practice-title-wrap">
+          <div class="practice-time">Sunday Evening or Monday Morning</div>
+          <div class="practice-name">The Weekly Intention</div>
+        </div>
+      </div>
+      <div class="practice-body">
+        <p>Take fifteen minutes to set a clear intention for the week. Not a to-do list — a quality of being. One principle to work with consciously. One area of life to observe carefully for signs and correspondences. One thing you are calling in.</p>
+        <div class="journal-prompt"><div class="q">What principle am I working with this week?</div></div>
+        <div class="journal-prompt"><div class="q">What quality do I want to embody — and what does that look, feel, and sound like in practice?</div></div>
+        <div class="journal-prompt"><div class="q">What am I willing to release this week to make space for what I am calling in?</div></div>
+      </div>
+    </div>
+
+    <div class="practice-block weekly reveal">
+      <div class="practice-header">
+        <div class="practice-icon">☽</div>
+        <div class="practice-title-wrap">
+          <div class="practice-time">Work With the Moon</div>
+          <div class="practice-name">Lunar Rhythm Practice</div>
+        </div>
+      </div>
+      <div class="practice-body">
+        <p>The moon's 29.5-day cycle is one of the most ancient and reliable rhythms available for conscious practice. The Hermetic tradition worked extensively with it — Principle V (Rhythm) in its most visible natural form.</p>
+        <ul class="step-list">
+          <li data-n="→"><strong>New Moon</strong> — The beginning of the cycle. Plant seeds. Set intentions. Start new things. What do you want to call into your life in this cycle? Write it down. Be specific. Speak it aloud.</li>
+          <li data-n="→"><strong>Waxing Moon</strong> — The growing phase. Take action toward your intention. The energy supports building, reaching, expanding. This is masculine principle time — direct your will.</li>
+          <li data-n="→"><strong>Full Moon</strong> — Completion and illumination. What has come to fruition? What needs to be seen clearly? The full moon illuminates what the new moon planted. Also: what needs to be released? Full moons are powerful for letting go of what no longer serves.</li>
+          <li data-n="→"><strong>Waning Moon</strong> — The release phase. Rest. Reflect. Integrate. Clear out. This is feminine principle time — receive, process, allow. Do not try to launch new things. Use this phase to tie up loose ends and prepare the ground for the next new moon.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="practice-block weekly reveal">
+      <div class="practice-header">
+        <div class="practice-icon">✎</div>
+        <div class="practice-title-wrap">
+          <div class="practice-time">Weekend</div>
+          <div class="practice-name">The Weekly Review</div>
+        </div>
+      </div>
+      <div class="practice-body">
+        <p>Twenty minutes of reflection on the week just passed. Not performance review — pattern recognition.</p>
+        <div class="journal-prompt"><div class="q">What correspondences showed up this week between my inner state and outer experience?</div></div>
+        <div class="journal-prompt"><div class="q">What signs or synchronicities appeared? What was the universe underlining?</div></div>
+        <div class="journal-prompt"><div class="q">Where did I act as a conscious cause this week? Where did I react as an unconscious effect?</div></div>
+        <div class="journal-prompt"><div class="q">What pattern is becoming visible over multiple weeks?</div></div>
+        <div class="journal-prompt"><div class="q">What does next week need from me that this week did not receive?</div></div>
+      </div>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="#principles" class="btn btn-gold">← Principles</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#manifesto" class="btn btn-gold">The Manifesto →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- MANIFESTO -->
+<section id="manifesto" class="section" style="background:radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.06) 0%, transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Hermetic Manifesto</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">To Return To Every Morning</p>
+      <h2 class="chapter-title">The Manifesto</h2>
+      <p class="chapter-tagline">"This is what you are. This is how you move through the world."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="reveal">
+      <p>Read this slowly. It is not a recitation. It is a realignment. Return to it whenever you feel disconnected from who you are becoming.</p>
+    </div>
+
+    <div class="ancient-text reveal" style="border-left-color: var(--gold); margin-top: 12px;">
+      <div class="label">The Hermetic Manifesto — Read Aloud When Possible</div>
+      <p style="line-height: 2; font-size: 18px;">
+        I am a conscious being in a conscious universe.<br>
+        Everything I think is a broadcast. Everything I feel is a signal.<br>
+        Everything I experience is a correspondence of everything I am.<br><br>
+
+        I work with seven laws, not against them.<br>
+        I know that what I cannot change on the outside<br>
+        I can always change on the inside —<br>
+        and that the outside will follow without exception.<br><br>
+
+        I am not at the mercy of circumstances.<br>
+        I am a cause, not only an effect.<br>
+        I choose my dominant thoughts deliberately.<br>
+        I choose my dominant frequency deliberately.<br>
+        I plant seeds with clear intention and trust them to grow.<br><br>
+
+        I read the signs the universe sends me.<br>
+        I notice the synchronicities.<br>
+        I honour the rhythms — the highs and the lows both —<br>
+        knowing each contains the seed of its opposite.<br><br>
+
+        I hold opposing truths simultaneously without needing to resolve them.<br>
+        I act when action is called for.<br>
+        I receive when receiving is called for.<br>
+        I know the difference.<br><br>
+
+        I am the Fool — stepping off every cliff that matters with trust intact.<br>
+        I am the Magician — unpacking my tools and using them with precision.<br>
+        I am the High Priestess — listening to what I already know.<br><br>
+
+        The universe is not indifferent to me.<br>
+        It is made of the same stuff as me.<br>
+        We are in constant conversation.<br><br>
+
+        <em>I am listening. I am learning. I am becoming.</em>
+      </p>
+    </div>
+
+    <div class="rule reveal"></div>
+    <div class="closing-quote reveal">
+      <p>The ancient wisdom is not out there somewhere.<br>It has always been in here.<br><em>You are simply remembering what you always knew.</em></p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="#weekly" class="btn btn-gold">← Weekly</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+    </div>
+    <div style="height:60px"></div>
+  </div>
+</section>
+
+
+<script>
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2 + 0.4;
+    s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:-${Math.random()*5}s;--op:${0.1+Math.random()*0.5};`;
+    starsEl.appendChild(s);
+  }
+  const progress = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    progress.style.width = (window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100) + '%';
+  }, {passive:true});
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 50);
+        observer.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.08, rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
