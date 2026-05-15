@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>The Chakra System — Ancient Wisdom, Modern Body</title>
+<style>
+  :root {
+    --night:#060810;--gold:#c9a84c;--gold-pale:#f5e4a0;--gold-dim:#8a7035;
+    --ivory:#f0ead8;--soft:#d8d0e8;--purple:#6b5b95;--purple-light:#9b8bc5;
+    --c1:#e74c3c;--c2:#e67e22;--c3:#f1c40f;--c4:#27ae60;
+    --c5:#2980b9;--c6:#6b5b95;--c7:#9b59b6;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+  body{background:var(--night);color:var(--ivory);font-family:Palatino,'Palatino Linotype',Georgia,serif;font-size:18px;line-height:1.85;overflow-x:hidden;}
+  #stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+  .star{position:absolute;background:white;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s);opacity:var(--op,0.3);}
+  @keyframes twinkle{0%,100%{opacity:var(--op,0.3);}50%{opacity:0.04;}}
+  .progress-bar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,#e74c3c,#f1c40f,#27ae60,#2980b9,#9b59b6);z-index:100;transition:width 0.1s;}
+  .page{position:relative;z-index:1;}
+  #cover{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px;background:radial-gradient(ellipse at 50% 30%,rgba(155,89,182,0.08) 0%,transparent 70%);}
+  .cover-symbol{font-size:48px;margin-bottom:28px;animation:float 4s ease-in-out infinite;}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+  .cover-title{font-size:clamp(28px,7vw,50px);color:var(--gold);line-height:1.2;margin-bottom:10px;font-style:italic;}
+  .cover-sub{font-size:clamp(11px,2.5vw,14px);color:var(--gold-pale);letter-spacing:0.32em;text-transform:uppercase;margin-bottom:36px;opacity:0.75;}
+  .cover-rule{width:180px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 32px;}
+  .cover-intro{max-width:480px;font-size:17px;font-style:italic;color:var(--soft);line-height:1.9;margin-bottom:14px;}
+  .cover-origin{font-size:12px;color:var(--gold-dim);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:48px;}
+  .nav-pills{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+  .nav-pill{background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);color:var(--gold-pale);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:9px 16px;border-radius:30px;cursor:pointer;text-decoration:none;transition:all 0.3s;}
+  .nav-pill:hover{background:rgba(201,168,76,0.16);border-color:var(--gold);color:var(--gold);}
+  .scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--gold-dim);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;animation:fade-bob 2s ease-in-out infinite;}
+  .scroll-arrow{width:1px;height:34px;background:linear-gradient(to bottom,var(--gold-dim),transparent);}
+  @keyframes fade-bob{0%,100%{opacity:0.4;transform:translateX(-50%) translateY(0);}50%{opacity:0.9;transform:translateX(-50%) translateY(5px);}}
+  .section{min-height:100vh;padding:80px 24px;display:flex;flex-direction:column;align-items:center;position:relative;}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);}
+  .section-label{position:sticky;top:16px;z-index:10;text-align:center;pointer-events:none;margin-bottom:-40px;}
+  .section-badge{display:inline-block;background:rgba(6,8,16,0.9);border:1px solid rgba(201,168,76,0.25);border-radius:20px;padding:6px 18px;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);backdrop-filter:blur(10px);}
+  .content{max-width:620px;width:100%;}
+  .chapter-number{font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:var(--purple-light);margin-bottom:10px;text-align:center;}
+  .chapter-title{font-size:clamp(26px,7vw,44px);color:var(--gold);text-align:center;margin-bottom:8px;font-style:italic;}
+  .chapter-tagline{font-style:italic;font-size:16px;color:var(--gold-pale);text-align:center;margin-bottom:44px;opacity:0.85;}
+  .rule{width:100%;max-width:560px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);margin:28px auto;}
+  .rule.short{max-width:180px;background:linear-gradient(90deg,transparent,var(--purple),transparent);}
+  .section-title{font-size:13px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin:36px 0 12px;display:flex;align-items:center;gap:10px;}
+  .section-title::before{content:'✦';color:var(--gold-dim);font-size:9px;}
+  p{color:var(--soft);margin-bottom:16px;font-size:17px;}
+
+  /* CHAKRA CARDS */
+  .chakra-card{border-radius:14px;padding:26px 22px;margin:20px 0;position:relative;overflow:hidden;}
+  .chakra-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--chakra-color);}
+  .chakra-header{display:flex;align-items:center;gap:16px;margin-bottom:16px;}
+  .chakra-orb{width:44px;height:44px;border-radius:50%;background:var(--chakra-color);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;box-shadow:0 0 16px var(--chakra-color);}
+  .chakra-info{}
+  .chakra-number{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:2px;}
+  .chakra-name{font-size:20px;color:var(--gold);font-style:italic;}
+  .chakra-sanskrit{font-size:12px;color:var(--purple-light);letter-spacing:0.1em;}
+  .chakra-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0;}
+  .chakra-item{background:rgba(255,255,255,0.03);border-radius:6px;padding:10px 12px;}
+  .chakra-item-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:3px;}
+  .chakra-item-value{font-size:14px;color:var(--soft);line-height:1.5;}
+  .chakra-body{color:var(--soft);font-size:16px;line-height:1.8;margin-top:12px;}
+
+  .pull-quote{text-align:center;padding:32px 0;}
+  .pull-quote p{font-style:italic;font-size:19px;color:var(--gold-pale);max-width:460px;margin:0 auto;line-height:1.75;}
+  .closing-quote{text-align:center;padding:44px 0;}
+  .closing-quote p{font-style:italic;font-size:19px;color:var(--gold-pale);max-width:440px;margin:0 auto;line-height:1.8;}
+  .section-nav{display:flex;justify-content:center;gap:14px;margin-top:56px;flex-wrap:wrap;}
+  .btn{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:11px 22px;border-radius:30px;cursor:pointer;text-decoration:none;transition:all 0.3s;display:inline-block;}
+  .btn-gold{background:rgba(201,168,76,0.1);border:1px solid var(--gold-dim);color:var(--gold);}
+  .btn-gold:hover{background:rgba(201,168,76,0.2);border-color:var(--gold);}
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.8s ease,transform 0.8s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  @media(max-width:480px){.chakra-grid{grid-template-columns:1fr;}body{font-size:16px;}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress"></div>
+<div id="stars"></div>
+
+<section id="cover" class="page">
+  <div class="cover-symbol">⊛</div>
+  <h1 class="cover-title">The Chakra System</h1>
+  <p class="cover-sub">Ancient Wisdom · Modern Body · Hermetic Correspondence</p>
+  <div class="cover-rule"></div>
+  <p class="cover-intro">Seven energy centres. Seven principles. Seven levels of consciousness. The map of the human being that ancient India and ancient Egypt both drew — independently, with extraordinary precision.</p>
+  <p class="cover-origin">Vedic Tradition · Hermetic Philosophy · Modern Neuroscience · The Endocrine System</p>
+  <nav class="nav-pills">
+    <a href="#overview" class="nav-pill">Overview</a>
+    <a href="#chakras" class="nav-pill">The Seven</a>
+    <a href="#hermetic" class="nav-pill">Hermetic Map</a>
+    <a href="#practice" class="nav-pill">Practice</a>
+  </nav>
+  <div class="scroll-hint"><span>Begin</span><div class="scroll-arrow"></div></div>
+</section>
+
+<section id="overview" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(155,89,182,0.07) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">What The Chakras Are</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Foundation</p>
+      <h2 class="chapter-title">Overview</h2>
+      <p class="chapter-tagline">"The body is not a vehicle for consciousness. The body is consciousness in its densest form."</p>
+    </div>
+    <div class="rule reveal"></div>
+    <div class="reveal">
+      <div class="section-title">What They Are</div>
+      <p>Chakra means wheel or disc in Sanskrit — a spinning vortex of energy within the human subtle body. The system describes seven primary energy centres arranged along the spine from the base to the crown of the head, each governing a specific domain of physical, emotional, mental, and spiritual experience. The system originates in ancient Vedic and Tantric texts of India, dating back at least four thousand years. But extraordinarily similar systems appear in ancient Egyptian, Kabbalistic, Hermetic, and Sufi traditions — suggesting not cultural borrowing but independent discovery of the same actual architecture of human consciousness.</p>
+      <p>In modern terms, the seven chakras correspond precisely to the seven major nerve plexuses of the autonomic nervous system, the seven major endocrine glands, and seven distinct regions of the brain associated with different types of awareness and behaviour. The ancient map and the modern map describe the same territory in different languages.</p>
+    </div>
+    <div class="reveal">
+      <div class="section-title">The Hermetic Parallel</div>
+      <p>Seven chakras. Seven Hermetic principles. Seven planets of the ancient world. Seven notes in the musical scale. Seven colours of the spectrum. Seven days of the week. The number seven appears at the intersection of the cosmic and the human across virtually every tradition in history. This is Correspondence operating at the structural level — the same pattern recurring at every scale of reality because it is describing something fundamental about the architecture of consciousness itself.</p>
+    </div>
+    <div class="pull-quote reveal">
+      <p>"The body knows things the mind has forgotten. The chakra system is the instruction manual for listening to what the body knows."</p>
+    </div>
+    <div class="section-nav reveal">
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#chakras" class="btn btn-gold">The Seven →</a>
+    </div>
+  </div>
+</section>
+
+<section id="chakras" class="section">
+  <div class="section-label"><span class="section-badge">The Seven Chakras</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">Root to Crown</p>
+      <h2 class="chapter-title">The Seven</h2>
+      <p class="chapter-tagline">"Each chakra is a complete world. Each one must be healthy for the whole system to flow."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <!-- ROOT -->
+    <div class="chakra-card reveal" style="--chakra-color:#e74c3c;background:rgba(231,76,60,0.05);border:1px solid rgba(231,76,60,0.2);">
+      <div class="chakra-header">
+        <div class="chakra-orb" style="--chakra-color:#e74c3c;">🔴</div>
+        <div class="chakra-info">
+          <div class="chakra-number">First Chakra</div>
+          <div class="chakra-name">Muladhara — Root</div>
+          <div class="chakra-sanskrit">Base of Spine · Earth · Survival</div>
+        </div>
+      </div>
+      <div class="chakra-grid">
+        <div class="chakra-item"><div class="chakra-item-label">Location</div><div class="chakra-item-value">Base of spine, perineum</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Element</div><div class="chakra-item-value">Earth · Dense matter</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Endocrine</div><div class="chakra-item-value">Adrenal glands</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Hermetic</div><div class="chakra-item-value">Principle of Vibration at its densest</div></div>
+      </div>
+      <div class="chakra-body">The root chakra governs survival, safety, physical existence, and the fundamental sense of belonging to the earth. When balanced: groundedness, financial stability, physical vitality, trust in life's basic provision. When blocked: chronic fear, financial anxiety, disconnection from the body, the feeling that the world is fundamentally unsafe. The adrenal glands — which govern the fight-or-flight stress response — sit at this chakra's physical location. Most people in the modern world have a chronically overactivated root chakra from continuous low-level stress. Grounding practices, time in nature, physical exercise, and the Hermetic practice of trusting the rhythm all work directly on this centre.</div>
+    </div>
+
+    <!-- SACRAL -->
+    <div class="chakra-card reveal" style="--chakra-color:#e67e22;background:rgba(230,126,34,0.05);border:1px solid rgba(230,126,34,0.2);">
+      <div class="chakra-header">
+        <div class="chakra-orb" style="--chakra-color:#e67e22;">🟠</div>
+        <div class="chakra-info">
+          <div class="chakra-number">Second Chakra</div>
+          <div class="chakra-name">Svadhisthana — Sacral</div>
+          <div class="chakra-sanskrit">Below Navel · Water · Creation</div>
+        </div>
+      </div>
+      <div class="chakra-grid">
+        <div class="chakra-item"><div class="chakra-item-label">Location</div><div class="chakra-item-value">Below the navel</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Element</div><div class="chakra-item-value">Water · Flow · Feeling</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Endocrine</div><div class="chakra-item-value">Gonads, reproductive organs</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Hermetic</div><div class="chakra-item-value">Principle of Gender — creative force</div></div>
+      </div>
+      <div class="chakra-body">The sacral chakra governs creativity, sexuality, pleasure, emotion, and the flow of life force energy. It is the seat of the creative impulse in its most primal form — the urge to make things, to connect, to feel, to enjoy existence. When balanced: creative flow, healthy relationships, emotional intelligence, pleasure without guilt. When blocked: creative blocks, emotional numbness or overwhelm, unhealthy relationship to sexuality, inability to enjoy life. The Empress card in Tarot corresponds precisely to a healthy, open sacral chakra. The sacral and root together form the foundation of the Hermetic Principle of Gender in the body.</div>
+    </div>
+
+    <!-- SOLAR PLEXUS -->
+    <div class="chakra-card reveal" style="--chakra-color:#f1c40f;background:rgba(241,196,15,0.05);border:1px solid rgba(241,196,15,0.2);">
+      <div class="chakra-header">
+        <div class="chakra-orb" style="--chakra-color:#f1c40f;">🟡</div>
+        <div class="chakra-info">
+          <div class="chakra-number">Third Chakra</div>
+          <div class="chakra-name">Manipura — Solar Plexus</div>
+          <div class="chakra-sanskrit">Above Navel · Fire · Will</div>
+        </div>
+      </div>
+      <div class="chakra-grid">
+        <div class="chakra-item"><div class="chakra-item-label">Location</div><div class="chakra-item-value">Above the navel, stomach</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Element</div><div class="chakra-item-value">Fire · Transformation</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Endocrine</div><div class="chakra-item-value">Pancreas, adrenals</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Hermetic</div><div class="chakra-item-value">Cause and Effect — personal power</div></div>
+      </div>
+      <div class="chakra-body">The solar plexus is the seat of personal power, will, self-esteem, and identity. Manipura means city of jewels. It is the fire centre — the place where raw energy is transformed into directed action. The gut feeling, the gut instinct, the gut punch of anxiety — all of these are the solar plexus communicating. When balanced: strong self-worth, clear boundaries, decisive action, healthy ego. When blocked: people-pleasing, inability to say no, chronic self-doubt, or its opposite — bullying, need for control, ego inflation. The Magician card corresponds to a fully activated solar plexus working in harmony with the higher centres. This is the body's centre of the Hermetic principle of Cause and Effect — the place where you choose to be a cause rather than an effect.</div>
+    </div>
+
+    <!-- HEART -->
+    <div class="chakra-card reveal" style="--chakra-color:#27ae60;background:rgba(39,174,96,0.05);border:1px solid rgba(39,174,96,0.2);">
+      <div class="chakra-header">
+        <div class="chakra-orb" style="--chakra-color:#27ae60;">💚</div>
+        <div class="chakra-info">
+          <div class="chakra-number">Fourth Chakra</div>
+          <div class="chakra-name">Anahata — Heart</div>
+          <div class="chakra-sanskrit">Centre of Chest · Air · Love</div>
+        </div>
+      </div>
+      <div class="chakra-grid">
+        <div class="chakra-item"><div class="chakra-item-label">Location</div><div class="chakra-item-value">Centre of chest</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Element</div><div class="chakra-item-value">Air · Connection · Bridge</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Endocrine</div><div class="chakra-item-value">Thymus gland</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Hermetic</div><div class="chakra-item-value">Tiphareth on the Tree of Life</div></div>
+      </div>
+      <div class="chakra-body">The heart chakra is the bridge between the three lower chakras (earth, survival, personal power) and the three higher chakras (expression, perception, transcendence). It is the integrating centre — where the human and the divine meet. Anahata means unstruck — the sound that exists before anything is struck, the silence that underlies all sound. When balanced: unconditional love, compassion, genuine connection, the ability to give and receive freely. When blocked: grief, isolation, inability to trust, conditional love. The HeartMath Institute has demonstrated that the electromagnetic field generated by the heart is sixty times stronger than that of the brain — and that states of love and gratitude create coherent, high-frequency fields that literally affect the space around you. This is the Principle of Vibration at its most potent human expression.</div>
+    </div>
+
+    <!-- THROAT -->
+    <div class="chakra-card reveal" style="--chakra-color:#2980b9;background:rgba(41,128,185,0.05);border:1px solid rgba(41,128,185,0.2);">
+      <div class="chakra-header">
+        <div class="chakra-orb" style="--chakra-color:#2980b9;">🔵</div>
+        <div class="chakra-info">
+          <div class="chakra-number">Fifth Chakra</div>
+          <div class="chakra-name">Vishuddha — Throat</div>
+          <div class="chakra-sanskrit">Throat · Sound · Truth</div>
+        </div>
+      </div>
+      <div class="chakra-grid">
+        <div class="chakra-item"><div class="chakra-item-label">Location</div><div class="chakra-item-value">Throat, neck</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Element</div><div class="chakra-item-value">Sound · Expression · Space</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Endocrine</div><div class="chakra-item-value">Thyroid gland</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Hermetic</div><div class="chakra-item-value">The Word — vibration made audible</div></div>
+      </div>
+      <div class="chakra-body">The throat chakra governs expression, communication, authenticity, and the power of the spoken word. In Hermetic tradition, the Word — the Logos — is the creative principle through which the divine brings reality into being. In Genesis, God speaks and it is so. In the Emerald Tablet, all things are created by the will and word of the One. The throat is where inner reality becomes outer expression — where the private becomes public, where the invisible becomes audible. When balanced: clear honest expression, the ability to speak your truth, the power to name things accurately. When blocked: inability to speak up, chronic throat issues, swallowing feelings, or its opposite — compulsive talking to avoid real communication. Reading your sleep script aloud activates this chakra deliberately — using the power of sound to imprint the subconscious.</div>
+    </div>
+
+    <!-- THIRD EYE -->
+    <div class="chakra-card reveal" style="--chakra-color:#6b5b95;background:rgba(107,91,149,0.06);border:1px solid rgba(107,91,149,0.25);">
+      <div class="chakra-header">
+        <div class="chakra-orb" style="--chakra-color:#6b5b95;">🔮</div>
+        <div class="chakra-info">
+          <div class="chakra-number">Sixth Chakra</div>
+          <div class="chakra-name">Ajna — Third Eye</div>
+          <div class="chakra-sanskrit">Between the Brows · Light · Vision</div>
+        </div>
+      </div>
+      <div class="chakra-grid">
+        <div class="chakra-item"><div class="chakra-item-label">Location</div><div class="chakra-item-value">Between the eyebrows</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Element</div><div class="chakra-item-value">Light · Perception · Time</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Endocrine</div><div class="chakra-item-value">Pineal gland</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Hermetic</div><div class="chakra-item-value">The All-Seeing Eye — direct perception</div></div>
+      </div>
+      <div class="chakra-body">The third eye chakra governs intuition, perception, imagination, and the direct knowing that transcends ordinary sensory experience. Its physical correspondence is the pineal gland — a tiny pine-cone shaped gland in the centre of the brain that Descartes called the seat of the soul. The pineal produces melatonin (governing sleep and the biological clock) and DMT (the most potent psychedelic molecule produced by the human body, released in high concentrations during birth, death, and deep dreaming). It is the most light-sensitive organ in the body and is directly connected to the visual cortex. When balanced: strong intuition, clear inner vision, the ability to perceive patterns and meaning, active synchronicity awareness. When blocked: overthinking, inability to trust intuition, disconnection from inner guidance. The Eye of Horus — the symbol we studied in the Masonic images — is a precise anatomical diagram of the third eye and its surrounding brain structures.</div>
+    </div>
+
+    <!-- CROWN -->
+    <div class="chakra-card reveal" style="--chakra-color:#9b59b6;background:rgba(155,89,182,0.06);border:1px solid rgba(155,89,182,0.25);">
+      <div class="chakra-header">
+        <div class="chakra-orb" style="--chakra-color:#9b59b6;">👑</div>
+        <div class="chakra-info">
+          <div class="chakra-number">Seventh Chakra</div>
+          <div class="chakra-name">Sahasrara — Crown</div>
+          <div class="chakra-sanskrit">Top of Head · Consciousness · The All</div>
+        </div>
+      </div>
+      <div class="chakra-grid">
+        <div class="chakra-item"><div class="chakra-item-label">Location</div><div class="chakra-item-value">Top of the head</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Element</div><div class="chakra-item-value">Thought · Pure consciousness</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Endocrine</div><div class="chakra-item-value">Pituitary gland</div></div>
+        <div class="chakra-item"><div class="chakra-item-label">Hermetic</div><div class="chakra-item-value">Kether — The All — pure source</div></div>
+      </div>
+      <div class="chakra-body">The crown chakra is the point of connection between individual consciousness and universal consciousness — the Fool's bindle packed with all the tools, the place where the personal self touches The All. Sahasrara means thousand-petalled lotus — the flower of complete awakening blooming at the top of the head. When this centre is open, the distinction between self and universe softens. Not disappears — softens. The individual remains but knows itself as an expression of the whole rather than a fragment separate from it. This is the direct experiential realisation of the Principle of Mentalism. Not the idea that all is mind but the direct knowing of it in lived experience. The pituitary gland — the master gland of the endocrine system governing all other glands — sits at this chakra's physical location. The master gland of the body at the point of connection with the master intelligence of the universe.</div>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="#overview" class="btn btn-gold">← Overview</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#hermetic" class="btn btn-gold">Hermetic Map →</a>
+    </div>
+  </div>
+</section>
+
+<section id="hermetic" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.07) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Hermetic Map</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Correspondence</p>
+      <h2 class="chapter-title">Hermetic Map</h2>
+      <p class="chapter-tagline">"The chakras and the Hermetic principles are describing the same architecture from different directions"</p>
+    </div>
+    <div class="rule reveal"></div>
+    <div class="reveal">
+      <p>When you lay the seven Hermetic principles alongside the seven chakras, the correspondence is too precise to be coincidental. Both systems are mapping the same fundamental structure of consciousness — one from the perspective of universal law, the other from the perspective of the human body.</p>
+    </div>
+    <div class="reveal" style="background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:12px;padding:24px;margin:20px 0;">
+      <table style="width:100%;border-collapse:collapse;font-size:15px;">
+        <thead>
+          <tr>
+            <th style="padding:10px;text-align:left;color:var(--gold);border-bottom:1px solid rgba(201,168,76,0.2);font-size:11px;letter-spacing:0.15em;text-transform:uppercase;">Chakra</th>
+            <th style="padding:10px;text-align:left;color:var(--gold);border-bottom:1px solid rgba(201,168,76,0.2);font-size:11px;letter-spacing:0.15em;text-transform:uppercase;">Hermetic Principle</th>
+            <th style="padding:10px;text-align:left;color:var(--gold);border-bottom:1px solid rgba(201,168,76,0.2);font-size:11px;letter-spacing:0.15em;text-transform:uppercase;">Tarot</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:#e74c3c;">Root</td><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--soft);">Vibration — densest form</td><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--soft);">The Emperor</td></tr>
+          <tr><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:#e67e22;">Sacral</td><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--soft);">Gender — creative force</td><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--soft);">The Empress</td></tr>
+          <tr><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:#f1c40f;">Solar Plexus</td><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--soft);">Cause and Effect</td><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--soft);">The Magician</td></tr>
+          <tr><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:#27ae60;">Heart</td><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--soft);">Correspondence — the bridge</td><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--soft);">The Lovers</td></tr>
+          <tr><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:#2980b9;">Throat</td><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--soft);">Polarity — expression of truth</td><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--soft);">The Hierophant</td></tr>
+          <tr><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:#6b5b95;">Third Eye</td><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--soft);">Rhythm — perceiving the pattern</td><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--soft);">The High Priestess</td></tr>
+          <tr><td style="padding:10px;color:#9b59b6;">Crown</td><td style="padding:10px;color:var(--soft);">Mentalism — The All is Mind</td><td style="padding:10px;color:var(--soft);">The World</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pull-quote reveal">
+      <p>"You are not a person trying to become spiritual. You are a spiritual being, already fully equipped, learning to recognise what you already are."</p>
+    </div>
+    <div class="section-nav reveal">
+      <a href="#chakras" class="btn btn-gold">← The Seven</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#practice" class="btn btn-gold">Practice →</a>
+    </div>
+  </div>
+</section>
+
+<section id="practice" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(155,89,182,0.07) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">Daily Chakra Practice</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">Working With The System</p>
+      <h2 class="chapter-title">The Practice</h2>
+      <p class="chapter-tagline">"You do not need to balance all seven every day. You need to know which one is calling for attention."</p>
+    </div>
+    <div class="rule reveal"></div>
+    <div class="reveal">
+      <div class="section-title">The Daily Scan</div>
+      <p>Each morning as part of your practice, take two minutes to scan your body from base to crown. Move your attention slowly upward through each chakra location — base of spine, below navel, solar plexus, heart, throat, between the brows, top of the head. Notice where you feel open and flowing versus where you feel contracted, heavy, numb, or absent. This is not analysis — it is listening. The body will tell you what needs attention today.</p>
+    </div>
+    <div class="reveal">
+      <div class="section-title">The Body Question</div>
+      <p>When you notice a blockage or restriction in a chakra location, ask one question: <em>What is this centre trying to tell me?</em> The root speaking in anxiety — what threat does it perceive? The solar plexus contracted — whose boundaries are being crossed? The throat tight — what truth needs to be spoken? The body speaks in sensation. Sensation is information. Learn to translate it.</p>
+    </div>
+    <div class="reveal">
+      <div class="section-title">Simple Activations</div>
+      <p><strong>Root</strong> — Walk barefoot on earth or grass. Physical exercise. Eat whole, grounding foods. Breathe deeply into the base of the body.</p>
+      <p><strong>Sacral</strong> — Create something. Move freely. Allow pleasure without guilt. Dance, cook, make music, make anything.</p>
+      <p><strong>Solar Plexus</strong> — Take one decisive action you have been avoiding. Hold a boundary. Do something that requires courage. Breathe into the stomach area.</p>
+      <p><strong>Heart</strong> — Genuine gratitude practice. Acts of giving without expectation. Time with people you love. Breathe into the chest. Place a hand on your heart.</p>
+      <p><strong>Throat</strong> — Speak one truth you have been swallowing. Sing, even alone. Read aloud. Record your sleep script. Express something honestly.</p>
+      <p><strong>Third Eye</strong> — Sit in silence for ten minutes without agenda. Journal about a dream or synchronicity. Meditate with eyes closed and attention between the brows.</p>
+      <p><strong>Crown</strong> — Spend time in genuine awe — in nature, with music, in meditation. Read something that expands your sense of what is possible. Let go of the need to understand and simply be.</p>
+    </div>
+    <div class="rule reveal"></div>
+    <div class="closing-quote reveal">
+      <p>Seven centres. One body. One consciousness.<br>The map was always here.<br><em>You were the territory all along.</em></p>
+    </div>
+    <div class="section-nav reveal">
+      <a href="#hermetic" class="btn btn-gold">← Hermetic Map</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+    </div>
+    <div style="height:60px"></div>
+  </div>
+</section>
+
+<script>
+  const s=document.getElementById('stars');
+  for(let i=0;i<120;i++){const el=document.createElement('div');el.className='star';const sz=Math.random()*2+0.4;el.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:-${Math.random()*5}s;--op:${0.1+Math.random()*0.5};`;s.appendChild(el);}
+  const p=document.getElementById('progress');window.addEventListener('scroll',()=>{p.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';},{passive:true});
+  const obs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*50);obs.unobserve(e.target);}});},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

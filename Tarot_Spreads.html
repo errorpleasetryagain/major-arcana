@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Tarot Spreads — Daily Guidance Practice</title>
+<style>
+  :root{--night:#080812;--gold:#c9a84c;--gold-pale:#f5e4a0;--gold-dim:#8a7035;--ivory:#f0ead8;--soft:#d8d0e8;--purple:#6b5b95;--purple-light:#9b8bc5;}
+  *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+  body{background:var(--night);color:var(--ivory);font-family:Palatino,'Palatino Linotype',Georgia,serif;font-size:18px;line-height:1.85;overflow-x:hidden;}
+  #stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+  .star{position:absolute;background:white;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s);opacity:var(--op,0.3);}
+  @keyframes twinkle{0%,100%{opacity:var(--op,0.3);}50%{opacity:0.04;}}
+  .progress-bar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold-dim),var(--gold));z-index:100;transition:width 0.1s;box-shadow:0 0 8px var(--gold);}
+  .page{position:relative;z-index:1;}
+  #cover{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px;background:radial-gradient(ellipse at 50% 30%,rgba(201,168,76,0.07) 0%,transparent 70%);}
+  .cover-symbol{font-size:48px;color:var(--gold);margin-bottom:28px;animation:float 4s ease-in-out infinite;text-shadow:0 0 40px rgba(201,168,76,0.4);}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+  .cover-title{font-size:clamp(28px,7vw,50px);color:var(--gold);line-height:1.2;margin-bottom:10px;font-style:italic;}
+  .cover-sub{font-size:clamp(11px,2.5vw,14px);color:var(--gold-pale);letter-spacing:0.32em;text-transform:uppercase;margin-bottom:36px;opacity:0.75;}
+  .cover-rule{width:180px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 32px;}
+  .cover-intro{max-width:480px;font-size:17px;font-style:italic;color:var(--soft);line-height:1.9;margin-bottom:14px;}
+  .nav-pills{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+  .nav-pill{background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);color:var(--gold-pale);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:9px 16px;border-radius:30px;cursor:pointer;text-decoration:none;transition:all 0.3s;}
+  .nav-pill:hover{background:rgba(201,168,76,0.16);border-color:var(--gold);color:var(--gold);}
+  .scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--gold-dim);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;animation:fade-bob 2s ease-in-out infinite;}
+  .scroll-arrow{width:1px;height:34px;background:linear-gradient(to bottom,var(--gold-dim),transparent);}
+  @keyframes fade-bob{0%,100%{opacity:0.4;transform:translateX(-50%) translateY(0);}50%{opacity:0.9;transform:translateX(-50%) translateY(5px);}}
+  .section{min-height:100vh;padding:80px 24px;display:flex;flex-direction:column;align-items:center;position:relative;}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);}
+  .section-label{position:sticky;top:16px;z-index:10;text-align:center;pointer-events:none;margin-bottom:-40px;}
+  .section-badge{display:inline-block;background:rgba(8,8,18,0.9);border:1px solid rgba(201,168,76,0.25);border-radius:20px;padding:6px 18px;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);backdrop-filter:blur(10px);}
+  .content{max-width:620px;width:100%;}
+  .chapter-number{font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:var(--purple-light);margin-bottom:10px;text-align:center;}
+  .chapter-title{font-size:clamp(26px,7vw,44px);color:var(--gold);text-align:center;margin-bottom:8px;font-style:italic;}
+  .chapter-tagline{font-style:italic;font-size:16px;color:var(--gold-pale);text-align:center;margin-bottom:44px;opacity:0.85;}
+  .rule{width:100%;max-width:560px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);margin:28px auto;}
+  .rule.short{max-width:180px;background:linear-gradient(90deg,transparent,var(--purple),transparent);}
+  .section-title{font-size:13px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold-light,#e8c96a);margin:36px 0 12px;display:flex;align-items:center;gap:10px;}
+  .section-title::before{content:'✦';color:var(--gold-dim);font-size:9px;}
+  p{color:var(--soft);margin-bottom:16px;font-size:17px;}
+
+  .spread-block{background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.18);border-radius:14px;padding:28px 24px;margin:24px 0;}
+  .spread-title{font-size:20px;color:var(--gold);font-style:italic;margin-bottom:6px;}
+  .spread-use{font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:var(--purple-light);margin-bottom:16px;}
+  .spread-diagram{display:flex;justify-content:center;gap:12px;margin:20px 0;flex-wrap:wrap;}
+  .card-slot{width:54px;height:76px;border:1px solid rgba(201,168,76,0.3);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(201,168,76,0.05);position:relative;}
+  .card-slot.vertical{width:54px;height:76px;}
+  .card-slot.horizontal{width:76px;height:54px;}
+  .card-num{font-size:18px;color:var(--gold);font-style:italic;}
+  .card-label{font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-dim);text-align:center;margin-top:3px;}
+  .spread-positions{margin-top:16px;}
+  .position{padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+  .position:last-child{border-bottom:none;}
+  .position-num{display:inline-block;width:26px;height:26px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.25);border-radius:50%;text-align:center;line-height:26px;font-size:12px;color:var(--gold);margin-right:10px;font-style:italic;flex-shrink:0;}
+  .position-name{font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);display:inline;}
+  .position-desc{font-size:15px;color:var(--soft);margin-top:5px;padding-left:36px;line-height:1.65;}
+  .journal-prompt{background:rgba(255,255,255,0.03);border-radius:8px;padding:14px 16px;margin:10px 0;border-left:2px solid var(--purple);}
+  .journal-prompt .q{font-style:italic;color:var(--gold-pale);font-size:16px;line-height:1.7;}
+  .pull-quote{text-align:center;padding:32px 0;}
+  .pull-quote p{font-style:italic;font-size:19px;color:var(--gold-pale);max-width:460px;margin:0 auto;line-height:1.75;}
+  .closing-quote{text-align:center;padding:44px 0;}
+  .closing-quote p{font-style:italic;font-size:19px;color:var(--gold-pale);max-width:440px;margin:0 auto;line-height:1.8;}
+  .section-nav{display:flex;justify-content:center;gap:14px;margin-top:56px;flex-wrap:wrap;}
+  .btn{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:11px 22px;border-radius:30px;cursor:pointer;text-decoration:none;transition:all 0.3s;display:inline-block;}
+  .btn-gold{background:rgba(201,168,76,0.1);border:1px solid var(--gold-dim);color:var(--gold);}
+  .btn-gold:hover{background:rgba(201,168,76,0.2);border-color:var(--gold);}
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.8s ease,transform 0.8s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  @media(max-width:480px){body{font-size:16px;}.spread-diagram{gap:8px;}.card-slot{width:44px;height:62px;}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress"></div>
+<div id="stars"></div>
+
+<section id="cover" class="page">
+  <div class="cover-symbol">🃏</div>
+  <h1 class="cover-title">Tarot Spreads</h1>
+  <p class="cover-sub">Daily Guidance · Deep Questions · The Full Picture</p>
+  <div class="cover-rule"></div>
+  <p class="cover-intro">Reading one card a night is a powerful practice. These spreads let you ask specific questions of the cards — and receive precise, layered answers. From a single daily card to the full Celtic Cross.</p>
+  <nav class="nav-pills">
+    <a href="#howto" class="nav-pill">How to Read</a>
+    <a href="#daily" class="nav-pill">Daily Spreads</a>
+    <a href="#deeper" class="nav-pill">Deeper Spreads</a>
+    <a href="#celtic" class="nav-pill">Celtic Cross</a>
+    <a href="#questions" class="nav-pill">Questions</a>
+  </nav>
+  <div class="scroll-hint"><span>Begin</span><div class="scroll-arrow"></div></div>
+</section>
+
+<section id="howto" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.06) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">How to Read</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">Before You Begin</p>
+      <h2 class="chapter-title">How to Read</h2>
+      <p class="chapter-tagline">"The cards do not tell you what will happen. They show you what is present — and what is possible."</p>
+    </div>
+    <div class="rule reveal"></div>
+    <div class="reveal">
+      <div class="section-title">The Nature of Tarot Reading</div>
+      <p>Tarot is not fortune telling. It is a system of reflective mirrors — each card reflecting back an aspect of the situation, the energy present, the deeper pattern operating beneath the surface. The deck is a symbolic language encoding the full range of human experience across 78 cards. When you draw a card, you are not receiving a prediction. You are receiving a reflection — the universe showing you, through the symbolic language of the cards, what is actually present in your situation that your conscious mind may not be fully seeing.</p>
+      <p>The reader's job is not to translate the cards mechanically — "the Five of Swords means defeat" — but to enter into dialogue with the imagery, to notice what speaks, what resonates, what stirs something. The meaning that arises from genuine intuitive engagement with the card is always more accurate than the textbook definition.</p>
+    </div>
+    <div class="reveal">
+      <div class="section-title">Before Every Reading</div>
+      <p>Hold the deck in your hands for a moment. State your question or intention clearly — either aloud or mentally. Take three slow breaths. Shuffle until it feels complete, not to a predetermined number. Cut the deck once. The preparatory ritual is not superstition — it is the practice of shifting from beta (analytical) to alpha (receptive) brainwaves, which allows the intuitive faculty to operate more clearly. You are setting the frequency before the transmission.</p>
+    </div>
+    <div class="reveal">
+      <div class="section-title">Reversed Cards</div>
+      <p>Reversed (upside-down) cards can be read as the shadow or blocked expression of the card's energy, or as an inward-turned version of it — the energy present but operating internally rather than externally. When starting out, it is perfectly valid to read all cards upright and simply be aware of the full spectrum of each card's meaning including its shadow side. As your practice deepens, reversals add a useful layer of nuance.</p>
+    </div>
+    <div class="pull-quote reveal">
+      <p>"The cards meet you where you are. They have never given anyone a reading they were not ready to receive."</p>
+    </div>
+    <div class="section-nav reveal">
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#daily" class="btn btn-gold">Daily Spreads →</a>
+    </div>
+  </div>
+</section>
+
+<section id="daily" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(107,91,149,0.07) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">Daily Spreads</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">For Every Day</p>
+      <h2 class="chapter-title">Daily Spreads</h2>
+      <p class="chapter-tagline">"A daily card practice takes five minutes and changes everything about how you move through the day"</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <!-- ONE CARD -->
+    <div class="spread-block reveal">
+      <div class="spread-title">The Single Card — Daily Mirror</div>
+      <div class="spread-use">Use: Every morning · 2 minutes · The simplest and often the most powerful</div>
+      <div class="spread-diagram">
+        <div class="card-slot"><div class="card-num">1</div><div class="card-label">Today</div></div>
+      </div>
+      <div class="spread-positions">
+        <div class="position">
+          <span class="position-num">1</span><span class="position-name">The Day's Energy</span>
+          <div class="position-desc">Draw one card and sit with it for a full minute before reading anything. What is your immediate response? What does the image stir? What word or quality arises? This is your theme, your invitation, your mirror for the day. Carry it with you. Notice how it appears.</div>
+        </div>
+      </div>
+      <div class="journal-prompt" style="margin-top:14px;"><div class="q">Evening reflection: Where did today's card show up in your actual experience?</div></div>
+    </div>
+
+    <!-- THREE CARD -->
+    <div class="spread-block reveal">
+      <div class="spread-title">The Three Card — Past, Present, Future</div>
+      <div class="spread-use">Use: Morning guidance · 5 minutes · The most versatile spread in tarot</div>
+      <div class="spread-diagram">
+        <div class="card-slot"><div class="card-num">1</div><div class="card-label">Past</div></div>
+        <div class="card-slot"><div class="card-num">2</div><div class="card-label">Present</div></div>
+        <div class="card-slot"><div class="card-num">3</div><div class="card-label">Future</div></div>
+      </div>
+      <div class="spread-positions">
+        <div class="position"><span class="position-num">1</span><span class="position-name">What brought you here</span><div class="position-desc">The energy, pattern, or influence from the recent past that is most relevant to your current situation. What has led to this moment?</div></div>
+        <div class="position"><span class="position-num">2</span><span class="position-name">Where you are now</span><div class="position-desc">The current energy, the truth of your present situation. Often the most challenging card to receive honestly — because it shows what is actually present rather than what you wish were present.</div></div>
+        <div class="position"><span class="position-num">3</span><span class="position-name">Where this leads</span><div class="position-desc">Not a fixed prediction but the likely trajectory if the current energy continues. If you like what you see, continue. If you don't, the card is showing you where to focus your transmutation work.</div></div>
+      </div>
+    </div>
+
+    <!-- MIND BODY SPIRIT -->
+    <div class="spread-block reveal">
+      <div class="spread-title">Mind — Body — Spirit</div>
+      <div class="spread-use">Use: Weekly check-in · 10 minutes · Comprehensive daily state assessment</div>
+      <div class="spread-diagram">
+        <div class="card-slot"><div class="card-num">1</div><div class="card-label">Mind</div></div>
+        <div class="card-slot"><div class="card-num">2</div><div class="card-label">Body</div></div>
+        <div class="card-slot"><div class="card-num">3</div><div class="card-label">Spirit</div></div>
+      </div>
+      <div class="spread-positions">
+        <div class="position"><span class="position-num">1</span><span class="position-name">The Mental State</span><div class="position-desc">What is the quality of your thinking and mental energy right now? What pattern is dominant in your mind?</div></div>
+        <div class="position"><span class="position-num">2</span><span class="position-name">The Physical State</span><div class="position-desc">What does your body need? What physical energy is present? What is your body communicating?</div></div>
+        <div class="position"><span class="position-num">3</span><span class="position-name">The Spiritual State</span><div class="position-desc">Where are you on your soul's journey right now? What is the deeper dimension of your current experience?</div></div>
+      </div>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="#howto" class="btn btn-gold">← How to Read</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#deeper" class="btn btn-gold">Deeper Spreads →</a>
+    </div>
+  </div>
+</section>
+
+<section id="deeper" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(42,74,122,0.07) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">Deeper Spreads</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">For Bigger Questions</p>
+      <h2 class="chapter-title">Deeper Spreads</h2>
+      <p class="chapter-tagline">"When one card is not enough — when the question is real and the situation is complex"</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <!-- HERMETIC FIVE -->
+    <div class="spread-block reveal">
+      <div class="spread-title">The Hermetic Five — The Principles Spread</div>
+      <div class="spread-use">Use: Important decisions · Monthly review · When you need full clarity</div>
+      <div class="spread-diagram" style="flex-direction:column;align-items:center;gap:10px;">
+        <div class="card-slot"><div class="card-num">1</div><div class="card-label">Above</div></div>
+        <div style="display:flex;gap:12px;">
+          <div class="card-slot"><div class="card-num">2</div><div class="card-label">Past</div></div>
+          <div class="card-slot"><div class="card-num">3</div><div class="card-label">Centre</div></div>
+          <div class="card-slot"><div class="card-num">4</div><div class="card-label">Future</div></div>
+        </div>
+        <div class="card-slot"><div class="card-num">5</div><div class="card-label">Below</div></div>
+      </div>
+      <div class="spread-positions">
+        <div class="position"><span class="position-num">1</span><span class="position-name">Above — Spiritual Dimension</span><div class="position-desc">The higher perspective on this situation. What does the soul level see that the personality level cannot?</div></div>
+        <div class="position"><span class="position-num">2</span><span class="position-name">Past — What Brought You Here</span><div class="position-desc">The root cause or pattern from the past most relevant to this question.</div></div>
+        <div class="position"><span class="position-num">3</span><span class="position-name">Centre — The Truth Now</span><div class="position-desc">The core of the matter. What is actually happening beneath the surface?</div></div>
+        <div class="position"><span class="position-num">4</span><span class="position-name">Future — The Direction</span><div class="position-desc">The likely trajectory or the energy moving toward you.</div></div>
+        <div class="position"><span class="position-num">5</span><span class="position-name">Below — The Foundation</span><div class="position-desc">The subconscious influence. What is operating beneath your conscious awareness that is shaping this situation?</div></div>
+      </div>
+    </div>
+
+    <!-- NEW MOON SPREAD -->
+    <div class="spread-block reveal">
+      <div class="spread-title">The New Moon Spread</div>
+      <div class="spread-use">Use: Every new moon · Intention setting · Monthly guidance</div>
+      <div class="spread-diagram">
+        <div class="card-slot"><div class="card-num">1</div><div class="card-label">Release</div></div>
+        <div class="card-slot"><div class="card-num">2</div><div class="card-label">Seed</div></div>
+        <div class="card-slot"><div class="card-num">3</div><div class="card-label">Lesson</div></div>
+        <div class="card-slot"><div class="card-num">4</div><div class="card-label">Gift</div></div>
+      </div>
+      <div class="spread-positions">
+        <div class="position"><span class="position-num">1</span><span class="position-name">What to Release</span><div class="position-desc">What energy, pattern, or situation is ready to be released as this new cycle begins?</div></div>
+        <div class="position"><span class="position-num">2</span><span class="position-name">The Seed to Plant</span><div class="position-desc">What intention wants to be born this cycle? What is calling to be created?</div></div>
+        <div class="position"><span class="position-num">3</span><span class="position-name">The Lesson Available</span><div class="position-desc">What does this lunar cycle have to teach you?</div></div>
+        <div class="position"><span class="position-num">4</span><span class="position-name">The Gift Arriving</span><div class="position-desc">What unexpected gift or support is available to you in this cycle?</div></div>
+      </div>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="#daily" class="btn btn-gold">← Daily Spreads</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#celtic" class="btn btn-gold">Celtic Cross →</a>
+    </div>
+  </div>
+</section>
+
+<section id="celtic" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(107,91,149,0.08) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Celtic Cross</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Master Spread</p>
+      <h2 class="chapter-title">The Celtic Cross</h2>
+      <p class="chapter-tagline">"The most comprehensive spread in tarot — ten cards, the full picture of any situation"</p>
+    </div>
+    <div class="rule reveal"></div>
+    <div class="reveal">
+      <p>The Celtic Cross is the most widely used and most comprehensive spread in all of tarot. Ten cards, ten positions, each illuminating a different dimension of the situation. It takes 20-30 minutes to read properly and rewards that time with extraordinary depth and precision. Use it for major life questions, crossroads moments, or when you want the complete picture.</p>
+    </div>
+
+    <div class="spread-block reveal">
+      <div class="spread-title">The Celtic Cross — Ten Card Layout</div>
+      <div class="spread-use">Use: Major decisions · Crossroads moments · Deep self-inquiry · Once a month maximum</div>
+
+      <div style="display:flex;gap:24px;justify-content:center;margin:24px 0;flex-wrap:wrap;">
+        <!-- Cross section -->
+        <div style="display:grid;grid-template-columns:repeat(3,54px);grid-template-rows:repeat(3,76px);gap:8px;align-items:center;justify-items:center;">
+          <div></div>
+          <div class="card-slot"><div class="card-num">3</div><div class="card-label">Above</div></div>
+          <div></div>
+          <div class="card-slot"><div class="card-num">5</div><div class="card-label">Past</div></div>
+          <div style="position:relative;">
+            <div class="card-slot" style="position:absolute;"><div class="card-num">1</div><div class="card-label">Core</div></div>
+            <div class="card-slot horizontal" style="position:absolute;top:11px;left:-11px;opacity:0.7;"><div class="card-num">2</div><div class="card-label" style="font-size:7px;">Challenge</div></div>
+          </div>
+          <div class="card-slot"><div class="card-num">6</div><div class="card-label">Future</div></div>
+          <div></div>
+          <div class="card-slot"><div class="card-num">4</div><div class="card-label">Below</div></div>
+          <div></div>
+        </div>
+        <!-- Staff section -->
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div class="card-slot"><div class="card-num">10</div><div class="card-label">Outcome</div></div>
+          <div class="card-slot"><div class="card-num">9</div><div class="card-label">Hopes</div></div>
+          <div class="card-slot"><div class="card-num">8</div><div class="card-label">External</div></div>
+          <div class="card-slot"><div class="card-num">7</div><div class="card-label">Self</div></div>
+        </div>
+      </div>
+
+      <div class="spread-positions">
+        <div class="position"><span class="position-num">1</span><span class="position-name">The Heart of the Matter</span><div class="position-desc">The core of the situation. The central energy or challenge at the heart of your question.</div></div>
+        <div class="position"><span class="position-num">2</span><span class="position-name">The Crossing Card</span><div class="position-desc">Placed across card 1. The immediate challenge, obstacle, or complicating energy. Not necessarily negative — sometimes it is the very thing that is helping, even if it feels like resistance.</div></div>
+        <div class="position"><span class="position-num">3</span><span class="position-name">Above — The Ideal</span><div class="position-desc">The best possible outcome, the highest aspiration, or the conscious goal in this situation.</div></div>
+        <div class="position"><span class="position-num">4</span><span class="position-name">Below — The Foundation</span><div class="position-desc">The unconscious influence, the deep root, the hidden foundation beneath the situation. Often reveals what is driving things at a level below conscious awareness.</div></div>
+        <div class="position"><span class="position-num">5</span><span class="position-name">Past — What Passed</span><div class="position-desc">The recent past energy that is moving out of the situation. What has been, or is ending.</div></div>
+        <div class="position"><span class="position-num">6</span><span class="position-name">Future — What Approaches</span><div class="position-desc">The near future — what is moving into the situation. An energy, person, or development approaching.</div></div>
+        <div class="position"><span class="position-num">7</span><span class="position-name">Your Position</span><div class="position-desc">How you currently see yourself in relation to this situation. Your attitude, fears, or beliefs about it.</div></div>
+        <div class="position"><span class="position-num">8</span><span class="position-name">External Influences</span><div class="position-desc">How others see this situation, or the environmental/external forces at play around you.</div></div>
+        <div class="position"><span class="position-num">9</span><span class="position-name">Hopes and Fears</span><div class="position-desc">Often the most illuminating card. What you most hope for and most fear — which are frequently the same thing.</div></div>
+        <div class="position"><span class="position-num">10</span><span class="position-name">The Outcome</span><div class="position-desc">The likely outcome if all current energies continue as they are. Not fixed — this is the trajectory, not the destination. It is showing you where you are heading so you can choose whether to continue or redirect.</div></div>
+      </div>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="#deeper" class="btn btn-gold">← Deeper Spreads</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#questions" class="btn btn-gold">Questions →</a>
+    </div>
+  </div>
+</section>
+
+<section id="questions" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.06) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">Asking Good Questions</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Art of the Question</p>
+      <h2 class="chapter-title">Questions</h2>
+      <p class="chapter-tagline">"The quality of the reading is determined by the quality of the question"</p>
+    </div>
+    <div class="rule reveal"></div>
+    <div class="reveal">
+      <div class="section-title">What Makes a Good Tarot Question</div>
+      <p>The best tarot questions are open, curious, and empowered. They come from genuine inquiry rather than fear or the desire to be told what you want to hear. They ask what, how, and what do I need to know — rather than will I or when will. The cards do not predict the future. They illuminate the present so clearly that the future becomes more navigable.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">Powerful Question Formats</div>
+      <div class="journal-prompt"><div class="q">What do I need to know about [situation] right now?</div></div>
+      <div class="journal-prompt"><div class="q">What energy would most serve me to embody in [area of life]?</div></div>
+      <div class="journal-prompt"><div class="q">What am I not seeing about [situation] that would help me?</div></div>
+      <div class="journal-prompt"><div class="q">What is the most important thing for me to focus on this week / month / cycle?</div></div>
+      <div class="journal-prompt"><div class="q">What is this challenge here to teach me?</div></div>
+      <div class="journal-prompt"><div class="q">What would most support my growth right now?</div></div>
+      <div class="journal-prompt"><div class="q">What is the deeper pattern operating in [relationship / situation]?</div></div>
+      <div class="journal-prompt"><div class="q">What do I need to release to move forward?</div></div>
+      <div class="journal-prompt"><div class="q">What is my soul calling me toward right now?</div></div>
+    </div>
+
+    <div class="rule short reveal"></div>
+    <div class="closing-quote reveal">
+      <p>The cards are not the oracle.<br>You are the oracle.<br>The cards are the mirror<br><em>that lets you see yourself clearly enough to know.</em></p>
+    </div>
+    <div class="section-nav reveal">
+      <a href="#celtic" class="btn btn-gold">← Celtic Cross</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+    </div>
+    <div style="height:60px"></div>
+  </div>
+</section>
+
+<script>
+  const s=document.getElementById('stars');for(let i=0;i<120;i++){const el=document.createElement('div');el.className='star';const sz=Math.random()*2+0.4;el.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:-${Math.random()*5}s;--op:${0.1+Math.random()*0.5};`;s.appendChild(el);}
+  const p=document.getElementById('progress');window.addEventListener('scroll',()=>{p.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';},{passive:true});
+  const obs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*50);obs.unobserve(e.target);}});},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Sleep Activation — Subconscious Reprogramming</title>
+<style>
+  :root {
+    --night: #060810;
+    --gold: #c9a84c;
+    --gold-pale: #f5e4a0;
+    --gold-dim: #8a7035;
+    --ivory: #f0ead8;
+    --soft: #d8d0e8;
+    --purple: #6b5b95;
+    --purple-light: #9b8bc5;
+    --indigo: #2a2a6a;
+    --silver: #c8d0e8;
+    --silver-dim: #8090b0;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--night); color:var(--ivory); font-family:Palatino,'Palatino Linotype',Georgia,serif; font-size:18px; line-height:1.85; overflow-x:hidden; }
+  #stars { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+  .star { position:absolute; background:white; border-radius:50%; animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s); opacity:var(--op,0.3); }
+  @keyframes twinkle { 0%,100%{opacity:var(--op,0.3);} 50%{opacity:0.04;} }
+  .progress-bar { position:fixed; top:0; left:0; height:2px; background:linear-gradient(90deg,var(--indigo),var(--purple),var(--silver)); z-index:100; transition:width 0.1s; }
+  .page { position:relative; z-index:1; }
+  #cover { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:60px 24px; background:radial-gradient(ellipse at 50% 30%, rgba(42,42,106,0.1) 0%, transparent 70%); }
+  .cover-symbol { font-size:52px; color:var(--silver); margin-bottom:28px; animation:float 5s ease-in-out infinite; text-shadow:0 0 40px rgba(200,208,232,0.4); }
+  @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+  .cover-title { font-size:clamp(28px,7vw,50px); color:var(--silver); line-height:1.2; margin-bottom:10px; font-style:italic; }
+  .cover-sub { font-size:clamp(11px,2.5vw,14px); color:var(--gold-pale); letter-spacing:0.32em; text-transform:uppercase; margin-bottom:36px; opacity:0.75; }
+  .cover-rule { width:180px; height:1px; background:linear-gradient(90deg,transparent,var(--silver-dim),transparent); margin:0 auto 32px; }
+  .cover-intro { max-width:480px; font-size:17px; font-style:italic; color:var(--soft); line-height:1.9; margin-bottom:14px; }
+  .cover-origin { font-size:12px; color:var(--gold-dim); letter-spacing:0.15em; text-transform:uppercase; margin-bottom:48px; }
+  .nav-pills { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+  .nav-pill { background:rgba(200,208,232,0.06); border:1px solid rgba(200,208,232,0.18); color:var(--silver); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; padding:9px 16px; border-radius:30px; cursor:pointer; text-decoration:none; transition:all 0.3s; }
+  .nav-pill:hover { background:rgba(200,208,232,0.14); border-color:var(--silver); }
+  .scroll-hint { position:absolute; bottom:26px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:8px; color:var(--silver-dim); font-size:10px; letter-spacing:0.2em; text-transform:uppercase; animation:fade-bob 2s ease-in-out infinite; }
+  .scroll-arrow { width:1px; height:34px; background:linear-gradient(to bottom,var(--silver-dim),transparent); }
+  @keyframes fade-bob { 0%,100%{opacity:0.4;transform:translateX(-50%) translateY(0);} 50%{opacity:0.9;transform:translateX(-50%) translateY(5px);} }
+  .section { min-height:100vh; padding:80px 24px; display:flex; flex-direction:column; align-items:center; position:relative; }
+  .section::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--silver-dim),transparent); }
+  .section-label { position:sticky; top:16px; z-index:10; text-align:center; pointer-events:none; margin-bottom:-40px; }
+  .section-badge { display:inline-block; background:rgba(6,8,16,0.9); border:1px solid rgba(200,208,232,0.2); border-radius:20px; padding:6px 18px; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--silver-dim); backdrop-filter:blur(10px); }
+  .content { max-width:620px; width:100%; }
+  .chapter-number { font-size:11px; letter-spacing:0.4em; text-transform:uppercase; color:var(--purple-light); margin-bottom:10px; text-align:center; }
+  .chapter-title { font-size:clamp(26px,7vw,44px); color:var(--silver); text-align:center; margin-bottom:8px; font-style:italic; }
+  .chapter-tagline { font-style:italic; font-size:16px; color:var(--gold-pale); text-align:center; margin-bottom:44px; opacity:0.85; }
+  .rule { width:100%; max-width:560px; height:1px; background:linear-gradient(90deg,transparent,var(--silver-dim),transparent); margin:28px auto; }
+  .rule.gold { background:linear-gradient(90deg,transparent,var(--gold-dim),transparent); }
+  .rule.short { max-width:180px; background:linear-gradient(90deg,transparent,var(--purple),transparent); }
+  .section-title { font-size:13px; letter-spacing:0.25em; text-transform:uppercase; color:var(--silver); margin:36px 0 12px; display:flex; align-items:center; gap:10px; opacity:0.9; }
+  .section-title::before { content:'☽'; color:var(--silver-dim); font-size:11px; }
+  p { color:var(--soft); margin-bottom:16px; font-size:17px; }
+  .science-block { background:rgba(42,42,106,0.08); border:1px solid rgba(107,91,149,0.2); border-radius:10px; padding:20px 22px; margin:16px 0; }
+  .science-label { font-size:10px; letter-spacing:0.25em; text-transform:uppercase; color:var(--purple-light); margin-bottom:8px; }
+  .science-body { color:var(--soft); font-size:16px; line-height:1.75; }
+  .script-block { background:rgba(200,208,232,0.04); border:1px solid rgba(200,208,232,0.15); border-radius:12px; padding:28px 24px; margin:24px 0; }
+  .script-label { font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:var(--silver-dim); margin-bottom:16px; }
+  .script-text { font-style:italic; color:var(--silver); font-size:17px; line-height:2; }
+  .script-note { font-size:13px; color:var(--silver-dim); margin-top:12px; font-style:normal; }
+  .step-list { list-style:none; padding:0; margin:12px 0; }
+  .step-list li { padding:10px 0 10px 28px; position:relative; color:var(--soft); font-size:16px; line-height:1.7; border-bottom:1px solid rgba(255,255,255,0.04); }
+  .step-list li:last-child { border-bottom:none; }
+  .step-list li::before { content:attr(data-n); position:absolute; left:0; color:var(--silver-dim); font-size:12px; top:12px; }
+  .pull-quote { text-align:center; padding:32px 0; }
+  .pull-quote p { font-style:italic; font-size:19px; color:var(--gold-pale); max-width:460px; margin:0 auto; line-height:1.75; }
+  .closing-quote { text-align:center; padding:44px 0; }
+  .closing-quote p { font-style:italic; font-size:19px; color:var(--silver); max-width:440px; margin:0 auto; line-height:1.8; }
+  .section-nav { display:flex; justify-content:center; gap:14px; margin-top:56px; flex-wrap:wrap; }
+  .btn { font-size:11px; letter-spacing:0.2em; text-transform:uppercase; padding:11px 22px; border-radius:30px; cursor:pointer; text-decoration:none; transition:all 0.3s; display:inline-block; }
+  .btn-silver { background:rgba(200,208,232,0.08); border:1px solid var(--silver-dim); color:var(--silver); }
+  .btn-silver:hover { background:rgba(200,208,232,0.16); border-color:var(--silver); }
+  .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.8s ease,transform 0.8s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+  @media(max-width:480px){ body{font-size:16px;} }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress"></div>
+<div id="stars"></div>
+
+<section id="cover" class="page">
+  <div class="cover-symbol">☾</div>
+  <h1 class="cover-title">Sleep Activation</h1>
+  <p class="cover-sub">Subconscious Reprogramming for the Hermetic Path</p>
+  <div class="cover-rule"></div>
+  <p class="cover-intro">
+    You spend a third of your life asleep.<br>
+    Your subconscious mind does not sleep.<br>
+    This is the guide to using those hours<br>
+    as the most powerful creative practice available to you.
+  </p>
+  <p class="cover-origin">Neuroscience · Hermetic Tradition · The Hypnagogic State · Your Own Voice</p>
+  <nav class="nav-pills">
+    <a href="#science" class="nav-pill">The Science</a>
+    <a href="#window" class="nav-pill">The Window</a>
+    <a href="#script" class="nav-pill">The Script</a>
+    <a href="#binaural" class="nav-pill">Binaural Beats</a>
+    <a href="#practice" class="nav-pill">The Practice</a>
+  </nav>
+  <div class="scroll-hint"><span>Begin</span><div class="scroll-arrow"></div></div>
+</section>
+
+<section id="science" class="section" style="background:radial-gradient(ellipse at 50% 0%, rgba(42,42,106,0.08) 0%, transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Science</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">Why Sleep Works</p>
+      <h2 class="chapter-title">The Science</h2>
+      <p class="chapter-tagline">"Your subconscious processes 11 million bits of information per second. Your conscious mind processes 50."</p>
+    </div>
+    <div class="rule reveal"></div>
+    <div class="reveal">
+      <div class="section-title">What Your Brain Does While You Sleep</div>
+      <p>During sleep your brain cycles through five distinct stages — moving between light sleep, deep sleep, and REM (rapid eye movement) dream sleep in roughly 90-minute cycles throughout the night. Each stage serves a different function in the consolidation, integration, and reprogramming of the mind.</p>
+      <p>During deep sleep, the hippocampus — your brain's filing system — transfers the day's experiences from short-term to long-term memory. Neural pathways that were used during the day are strengthened. Pathways that were unused are pruned. Your brain is physically restructuring itself around the experiences and thoughts you had during the day. What you think about before sleep directly influences which pathways get strengthened overnight.</p>
+    </div>
+    <div class="science-block reveal">
+      <div class="science-label">The Neuroscience of Belief Change</div>
+      <div class="science-body">Limiting beliefs are not ideas — they are neural pathways. Deeply worn grooves in the brain created by repeated thought patterns over years or decades. Changing a belief is not a matter of deciding to think differently. It is a matter of creating new neural pathways strong enough to replace the old ones. Sleep is when this physical rewiring happens most efficiently. The brain is literally more plastic — more malleable — during sleep than during waking.</div>
+    </div>
+    <div class="reveal">
+      <div class="section-title">The Reticular Activating System</div>
+      <p>The RAS is a network of neurons in your brainstem that acts as a filter for incoming information — deciding what your conscious mind pays attention to out of the millions of inputs it receives every second. It is the reason you notice your name in a crowded room. It is why, after you buy a new car, you suddenly see that model everywhere.</p>
+      <p>Crucially, the RAS is programmed by your dominant thoughts and beliefs. What you consistently think about and feel strongly about becomes the filter through which reality is perceived. Program it consciously — especially during the sleep window when it is most receptive — and you change what you notice, what you attract, and what you believe is possible. This is the neuroscience of what the Hermetic tradition called mental transmutation.</p>
+    </div>
+    <div class="pull-quote reveal">
+      <p>"Every thought you fall asleep to is an instruction to your subconscious mind. Most people give those instructions unconsciously. You are about to start giving them deliberately."</p>
+    </div>
+    <div class="section-nav reveal">
+      <a href="#cover" class="btn btn-silver">↑ Contents</a>
+      <a href="#window" class="btn btn-silver">The Window →</a>
+    </div>
+  </div>
+</section>
+
+<section id="window" class="section" style="background:radial-gradient(ellipse at 50% 0%, rgba(107,91,149,0.08) 0%, transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Hypnagogic Window</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Golden Window</p>
+      <h2 class="chapter-title">The Hypnagogic State</h2>
+      <p class="chapter-tagline">"The 20 minutes between waking and sleep is the most powerful creative window you have access to"</p>
+    </div>
+    <div class="rule reveal"></div>
+    <div class="reveal">
+      <div class="section-title">What It Is</div>
+      <p>The hypnagogic state is the transitional period between wakefulness and sleep — typically the 10-20 minutes as you drift off. During this window your brain transitions from beta waves (active waking consciousness) through alpha waves (relaxed awareness) into theta waves (the dreamlike, deeply receptive state just before sleep). The theta state is extraordinary — it is the same brainwave pattern seen in deep meditation, in hypnosis, and in the moments of greatest creative insight.</p>
+      <p>In the theta state, the critical faculty of the conscious mind — the part that filters, judges, and rejects new information — is substantially lowered. The barrier between conscious and subconscious mind is at its thinnest. What enters your awareness in this state bypasses the usual defences and goes directly into the deep subconscious where beliefs are formed and held.</p>
+    </div>
+    <div class="science-block reveal">
+      <div class="science-label">Historical Use of the Hypnagogic State</div>
+      <div class="science-body">Thomas Edison famously used the hypnagogic state deliberately. He would sit in a chair holding steel balls in his hands. As he drifted toward sleep, his hands would relax, the balls would drop, the noise would wake him, and he would immediately record whatever images or ideas had arisen in the threshold state. Salvador Dali used the same technique. The Surrealist movement was largely built on accessing hypnagogic imagery. Nikola Tesla reported receiving complete visions of his inventions in this state. The ancients called it the temple sleep — and built entire healing sanctuaries around the practice of entering it deliberately.</div>
+    </div>
+    <div class="reveal">
+      <div class="section-title">The Hermetic Significance</div>
+      <p>In Hermetic terms, the hypnagogic state is the threshold between the conscious mind (solar principle — the Magician) and the subconscious (lunar principle — the High Priestess). It is the moment when the masculine directed will is relaxing its control and the feminine receptive intelligence is rising. It is the moment corresponding to the new moon — the darkness before the seed is planted, the maximum receptivity, the thin place between the worlds.</p>
+      <p>Every mystery school tradition that ever existed had practices designed to access this state deliberately — temple sleep, ritual incubation, guided trance, chant, drumming. They understood that the threshold state was where genuine transformation was possible. You have access to it every single night.</p>
+    </div>
+    <div class="section-nav reveal">
+      <a href="#science" class="btn btn-silver">← The Science</a>
+      <a href="#cover" class="btn btn-silver">↑ Contents</a>
+      <a href="#script" class="btn btn-silver">The Script →</a>
+    </div>
+  </div>
+</section>
+
+<section id="script" class="section" style="background:radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.06) 0%, transparent 60%)">
+  <div class="section-label"><span class="section-badge">Your Personal Script</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">Written For You</p>
+      <h2 class="chapter-title">The Sleep Script</h2>
+      <p class="chapter-tagline">"Read this aloud. Record it in your own voice. Play it as you drift off. Your voice is the most powerful programming tool available."</p>
+    </div>
+    <div class="rule reveal"></div>
+    <div class="reveal">
+      <div class="section-title">Why Your Own Voice</div>
+      <p>Generic sleep affirmation recordings are helpful. Your own voice is transformative. The subconscious mind recognises self-talk — the internal voice — as more authoritative than any external source. When you hear your own voice delivering an instruction, the critical faculty has no basis for rejection. It is you, talking to you. The authenticity is complete. Record this script on your phone, play it through headphones as you drift off, and let it do its work.</p>
+      <p>Record it slowly. Softly. With genuine feeling. Pause between sentences. You are not reading a list. You are speaking to the deepest part of yourself.</p>
+    </div>
+
+    <div class="script-block reveal">
+      <div class="script-label">The Hermetic Sleep Script — Record In Your Own Voice</div>
+      <div class="script-text">
+        I am relaxing now. With every breath, I go deeper.<br><br>
+
+        My body is heavy and warm. My mind is becoming still.<br>
+        I am drifting toward the quiet place within.<br><br>
+
+        I know that as I sleep, my deeper intelligence is working.<br>
+        Processing. Integrating. Creating.<br>
+        I give it clear instructions now.<br><br>
+
+        I am a conscious being in a conscious universe.<br>
+        Everything I need is already within me.<br>
+        I have always had the tools. I am learning to use them.<br><br>
+
+        My mind is clear and powerful.<br>
+        My intuition is sharp and trustworthy.<br>
+        I hear the signals the universe sends me.<br>
+        I act on them with confidence and ease.<br><br>
+
+        I release everything from today that no longer serves me.<br>
+        Every tension. Every concern. Every thought that is not mine.<br>
+        I release it all into the night.<br>
+        The night knows what to do with it.<br><br>
+
+        As I sleep, my subconscious mind works in perfect alignment<br>
+        with the seven principles of reality.<br>
+        As above, so below. As within, so without.<br>
+        What I hold in my deeper mind,<br>
+        I find reflected in my waking world.<br><br>
+
+        I choose now what to hold.<br><br>
+
+        I am abundant. Opportunity flows to me naturally.<br>
+        I am clear. My path reveals itself one step at a time.<br>
+        I am protected. I am guided. I am supported.<br>
+        I am exactly where I need to be.<br><br>
+
+        My creativity is alive and potent.<br>
+        My energy is high and focused.<br>
+        My relationships are honest and nourishing.<br>
+        My body is strong and well.<br><br>
+
+        I trust the rhythm. I trust the timing.<br>
+        I trust what I cannot yet see.<br>
+        The seed I have planted is growing in the dark.<br>
+        I do not need to dig it up to know it is alive.<br><br>
+
+        I am the Fool — willing to step into the unknown.<br>
+        I am the Magician — capable of shaping reality with my attention.<br>
+        I am the High Priestess — connected to the deep intelligence beneath all thought.<br><br>
+
+        Tonight I rest.<br>
+        Tonight my subconscious does what it does best —<br>
+        it integrates, it heals, it creates, it knows.<br><br>
+
+        When I wake, I will bring with me<br>
+        whatever I need from the depths of this night.<br><br>
+
+        I am at peace.<br>
+        I am enough.<br>
+        I am becoming.<br><br>
+
+        <em>Sleep now. The work continues.</em>
+      </div>
+      <div class="script-note">Read slowly — this script should take 8-12 minutes at a gentle pace. Pause after each section. Let the words settle.</div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">How to Personalise It</div>
+      <p>The script above is your foundation. Personalise it by adding one or two specific intentions relevant to what you are currently working with — a goal you are moving toward, a pattern you are releasing, a quality you are developing. Keep the language present tense and positive. Not "I want to be confident" but "I am becoming more confident every day." Not "I am trying to release anxiety" but "I am calm and grounded in all situations."</p>
+      <p>Change it monthly in line with your new moon intention. Whatever you plant at the new moon, reinforce it in your sleep script for that cycle. The two practices together — conscious lunar intention setting plus nightly subconscious programming — create a remarkably powerful creative engine.</p>
+    </div>
+    <div class="section-nav reveal">
+      <a href="#window" class="btn btn-silver">← The Window</a>
+      <a href="#cover" class="btn btn-silver">↑ Contents</a>
+      <a href="#binaural" class="btn btn-silver">Binaural Beats →</a>
+    </div>
+  </div>
+</section>
+
+<section id="binaural" class="section" style="background:radial-gradient(ellipse at 50% 0%, rgba(42,42,106,0.09) 0%, transparent 60%)">
+  <div class="section-label"><span class="section-badge">Binaural Beats</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">Sound Technology</p>
+      <h2 class="chapter-title">Binaural Beats</h2>
+      <p class="chapter-tagline">"Sound that shifts your brainwaves to the exact frequency of maximum receptivity"</p>
+    </div>
+    <div class="rule reveal"></div>
+    <div class="reveal">
+      <div class="section-title">What They Are</div>
+      <p>Binaural beats are an auditory phenomenon that occurs when two slightly different frequencies are played separately into each ear through headphones. The brain perceives a third tone — the difference between the two — and naturally begins to synchronise its own electrical activity to that frequency. This is called brainwave entrainment.</p>
+      <p>If you play 200Hz in the left ear and 204Hz in the right, the brain perceives a 4Hz beat — and begins producing theta waves at 4Hz. The theta state — the hypnagogic threshold — is precisely 4-8Hz. You can literally programme your brain into the state of maximum receptivity using sound.</p>
+    </div>
+    <div class="science-block reveal">
+      <div class="science-label">Brainwave Frequencies Guide</div>
+      <div class="science-body">
+        <p><strong>Beta (14-40Hz)</strong> — Normal waking consciousness. Active thinking, problem solving, anxiety. The state you are in reading this.</p>
+        <p><strong>Alpha (8-14Hz)</strong> — Relaxed awareness. Meditation, light trance, creative flow. The state immediately after closing your eyes and breathing deeply.</p>
+        <p><strong>Theta (4-8Hz)</strong> — Deep meditation, hypnagogic state, REM dreams. Maximum subconscious receptivity. Where genuine reprogramming happens.</p>
+        <p><strong>Delta (0.5-4Hz)</strong> — Deep dreamless sleep. Physical restoration, immune function, deepest healing.</p>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="section-title">How to Use Them</div>
+      <p>For sleep reprogramming, use theta binaural beats (4-8Hz) layered under your sleep script recording. Play them through headphones — binaural beats require headphones to work, as each ear needs to receive a different frequency. The combined effect of your own voice delivering the script while theta beats guide your brain into the hypnagogic state is significantly more powerful than either alone.</p>
+      <p>Theta binaural beats are freely available on YouTube — search "theta binaural beats sleep" or "theta waves 6Hz." Choose a track of at least 30 minutes with no jarring sounds or music that might pull you back to beta. Pure tones or very gentle ambient music underneath works best.</p>
+    </div>
+    <div class="reveal">
+      <div class="section-title">432Hz — The Frequency of Nature</div>
+      <p>Separate from binaural beats, 432Hz music is worth knowing about. Standard Western music is tuned to 440Hz — a tuning standardised in 1939 largely for industrial convenience. Many musicians, sound healers, and researchers argue that 432Hz — which corresponds more precisely to natural harmonic frequencies found in nature, the human body, and ancient instruments — produces a noticeably more resonant and calming effect. Music tuned to 432Hz is widely available and worth experimenting with as background for your sleep practice.</p>
+    </div>
+    <div class="section-nav reveal">
+      <a href="#script" class="btn btn-silver">← The Script</a>
+      <a href="#cover" class="btn btn-silver">↑ Contents</a>
+      <a href="#practice" class="btn btn-silver">The Practice →</a>
+    </div>
+  </div>
+</section>
+
+<section id="practice" class="section" style="background:radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.06) 0%, transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Complete Practice</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">Putting It Together</p>
+      <h2 class="chapter-title">The Complete Sleep Practice</h2>
+      <p class="chapter-tagline">"The night is not a gap in your practice. It is the deepest part of it."</p>
+    </div>
+    <div class="rule reveal"></div>
+    <div class="reveal">
+      <div class="section-title">The Full Sequence</div>
+    </div>
+    <div class="science-block reveal">
+      <div class="science-label">Step by Step — Every Night</div>
+      <div class="science-body">
+        <ul class="step-list">
+          <li data-n="1"><strong>Screen off 30 minutes before sleep.</strong> Blue light suppresses melatonin and keeps the brain in beta. This is non-negotiable for genuine sleep quality.</li>
+          <li data-n="2"><strong>Complete your evening practice</strong> from The Daily Practice — the review, the release, the three wins, the night intention.</li>
+          <li data-n="3"><strong>Read tonight's tarot card</strong> from the Major Arcana book. Let it be the last substantial thing your conscious mind holds.</li>
+          <li data-n="4"><strong>Put headphones in.</strong> Start your theta binaural beats track playing softly.</li>
+          <li data-n="5"><strong>Play your sleep script recording</strong> — your own voice, gently, over the binaural beats. Eyes closed. Let the words wash over you without actively trying to listen. Passive reception is more effective than active attention here.</li>
+          <li data-n="6"><strong>As the script ends, let go completely.</strong> Do not try to stay awake. Do not try to think about the content. Simply drift. The subconscious has received its instructions. Trust it to work.</li>
+          <li data-n="7"><strong>Upon waking — before anything else</strong> — notice what has arisen. Dreams, feelings, ideas, solutions. These are the subconscious delivering the night's work. Write them down before they dissolve.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="section-title">What to Expect Over Time</div>
+      <p>In the first week you will likely notice more vivid dreams and a sense of greater mental clarity upon waking. This is the subconscious beginning to process more actively. In the first month you will begin to notice shifts in habitual thought patterns — old grooves losing their automatic pull, new perspectives arising more naturally. In three months the changes become structural — genuinely different beliefs, different default emotional states, different perceptions of what is possible.</p>
+      <p>This is not magic. It is neuroscience aligned with Hermetic principle. The subconscious mind governs 95% of your behaviour, beliefs, and perceptions. Working with it deliberately — nightly, consistently, using the most receptive window available — is simply the most efficient way to change from the inside out. Which is the only way genuine change ever happens.</p>
+    </div>
+    <div class="rule gold reveal"></div>
+    <div class="closing-quote reveal">
+      <p>Every night you close your eyes,<br>a third of your life begins.<br>The question is not whether<br>your subconscious will be programmed.<br>It is being programmed right now.<br><br><em>The only question is whether you do it deliberately.</em></p>
+    </div>
+    <div class="section-nav reveal">
+      <a href="#binaural" class="btn btn-silver">← Binaural Beats</a>
+      <a href="#cover" class="btn btn-silver">↑ Contents</a>
+    </div>
+    <div style="height:60px"></div>
+  </div>
+</section>
+
+<script>
+  const s=document.getElementById('stars');
+  for(let i=0;i<130;i++){const el=document.createElement('div');el.className='star';const sz=Math.random()*2+0.4;el.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*5}s;--delay:-${Math.random()*6}s;--op:${0.1+Math.random()*0.5};`;s.appendChild(el);}
+  const p=document.getElementById('progress');
+  window.addEventListener('scroll',()=>{p.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';},{passive:true});
+  const obs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*50);obs.unobserve(e.target);}});},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

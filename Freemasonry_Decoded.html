@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Freemasonry Decoded — The Hidden Wisdom</title>
+<style>
+  :root{--night:#070810;--gold:#c9a84c;--gold-pale:#f5e4a0;--gold-dim:#8a7035;--ivory:#f0ead8;--soft:#d8d0e8;--purple:#6b5b95;--purple-light:#9b8bc5;--blue:#1a2a5a;--blue-light:#3a5a9a;}
+  *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+  body{background:var(--night);color:var(--ivory);font-family:Palatino,'Palatino Linotype',Georgia,serif;font-size:18px;line-height:1.85;overflow-x:hidden;}
+  #stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+  .star{position:absolute;background:white;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s);opacity:var(--op,0.3);}
+  @keyframes twinkle{0%,100%{opacity:var(--op,0.3);}50%{opacity:0.04;}}
+  .progress-bar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--gold));z-index:100;transition:width 0.1s;box-shadow:0 0 8px rgba(201,168,76,0.3);}
+  .page{position:relative;z-index:1;}
+  #cover{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px;background:radial-gradient(ellipse at 50% 30%,rgba(26,42,90,0.1) 0%,transparent 70%);}
+  .cover-symbol{font-size:48px;color:var(--gold);margin-bottom:28px;animation:float 4s ease-in-out infinite;text-shadow:0 0 40px rgba(201,168,76,0.4);}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+  .cover-title{font-size:clamp(26px,7vw,48px);color:var(--gold);line-height:1.2;margin-bottom:10px;font-style:italic;}
+  .cover-sub{font-size:clamp(11px,2.5vw,14px);color:var(--gold-pale);letter-spacing:0.32em;text-transform:uppercase;margin-bottom:36px;opacity:0.75;}
+  .cover-rule{width:180px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 32px;}
+  .cover-intro{max-width:480px;font-size:17px;font-style:italic;color:var(--soft);line-height:1.9;margin-bottom:14px;}
+  .cover-origin{font-size:12px;color:var(--gold-dim);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:48px;}
+  .nav-pills{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+  .nav-pill{background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);color:var(--gold-pale);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:9px 16px;border-radius:30px;cursor:pointer;text-decoration:none;transition:all 0.3s;}
+  .nav-pill:hover{background:rgba(201,168,76,0.16);border-color:var(--gold);color:var(--gold);}
+  .scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--gold-dim);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;animation:fade-bob 2s ease-in-out infinite;}
+  .scroll-arrow{width:1px;height:34px;background:linear-gradient(to bottom,var(--gold-dim),transparent);}
+  @keyframes fade-bob{0%,100%{opacity:0.4;transform:translateX(-50%) translateY(0);}50%{opacity:0.9;transform:translateX(-50%) translateY(5px);}}
+  .section{min-height:100vh;padding:80px 24px;display:flex;flex-direction:column;align-items:center;position:relative;}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);}
+  .section-label{position:sticky;top:16px;z-index:10;text-align:center;pointer-events:none;margin-bottom:-40px;}
+  .section-badge{display:inline-block;background:rgba(7,8,16,0.9);border:1px solid rgba(201,168,76,0.25);border-radius:20px;padding:6px 18px;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);backdrop-filter:blur(10px);}
+  .content{max-width:620px;width:100%;}
+  .chapter-number{font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:var(--purple-light);margin-bottom:10px;text-align:center;}
+  .chapter-title{font-size:clamp(26px,7vw,44px);color:var(--gold);text-align:center;margin-bottom:8px;font-style:italic;}
+  .chapter-tagline{font-style:italic;font-size:16px;color:var(--gold-pale);text-align:center;margin-bottom:44px;opacity:0.85;}
+  .rule{width:100%;max-width:560px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);margin:28px auto;}
+  .rule.short{max-width:180px;background:linear-gradient(90deg,transparent,var(--purple),transparent);}
+  .section-title{font-size:13px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin:36px 0 12px;display:flex;align-items:center;gap:10px;}
+  .section-title::before{content:'✦';color:var(--gold-dim);font-size:9px;}
+  p{color:var(--soft);margin-bottom:16px;font-size:17px;}
+  .symbol-block{background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:12px;padding:24px 22px;margin:16px 0;}
+  .symbol-header{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+  .symbol-icon{font-size:28px;color:var(--gold);}
+  .symbol-name{font-size:19px;color:var(--gold);font-style:italic;}
+  .symbol-origin{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--purple-light);}
+  .symbol-body{color:var(--soft);font-size:16px;line-height:1.8;}
+  .pull-quote{text-align:center;padding:32px 0;}
+  .pull-quote p{font-style:italic;font-size:19px;color:var(--gold-pale);max-width:460px;margin:0 auto;line-height:1.75;}
+  .closing-quote{text-align:center;padding:44px 0;}
+  .closing-quote p{font-style:italic;font-size:19px;color:var(--gold-pale);max-width:440px;margin:0 auto;line-height:1.8;}
+  .section-nav{display:flex;justify-content:center;gap:14px;margin-top:56px;flex-wrap:wrap;}
+  .btn{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:11px 22px;border-radius:30px;cursor:pointer;text-decoration:none;transition:all 0.3s;display:inline-block;}
+  .btn-gold{background:rgba(201,168,76,0.1);border:1px solid var(--gold-dim);color:var(--gold);}
+  .btn-gold:hover{background:rgba(201,168,76,0.2);border-color:var(--gold);}
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.8s ease,transform 0.8s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  @media(max-width:480px){body{font-size:16px;}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress"></div>
+<div id="stars"></div>
+
+<section id="cover" class="page">
+  <div class="cover-symbol">△</div>
+  <h1 class="cover-title">Freemasonry Decoded</h1>
+  <p class="cover-sub">The Hidden Wisdom · The Symbols · The Hermetic Core</p>
+  <div class="cover-rule"></div>
+  <p class="cover-intro">Freemasonry is not a secret society. It is a society with secrets — and those secrets are the same Hermetic wisdom we have been studying, encoded in architectural metaphor and preserved across centuries of institutional transmission.</p>
+  <p class="cover-origin">Ancient Egypt · Solomon's Temple · The Mystery Schools · The Grand Lodge · The Living Tradition</p>
+  <nav class="nav-pills">
+    <a href="#history" class="nav-pill">The History</a>
+    <a href="#symbols" class="nav-pill">The Symbols</a>
+    <a href="#degrees" class="nav-pill">The Degrees</a>
+    <a href="#hermetic" class="nav-pill">The Hermetic Core</a>
+  </nav>
+  <div class="scroll-hint"><span>Begin</span><div class="scroll-arrow"></div></div>
+</section>
+
+<section id="history" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(26,42,90,0.08) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">The History</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">Where It Came From</p>
+      <h2 class="chapter-title">The History</h2>
+      <p class="chapter-tagline">"Every stone in every cathedral is a word in a language most people have forgotten how to read"</p>
+    </div>
+    <div class="rule reveal"></div>
+    <div class="reveal">
+      <div class="section-title">The Operative Masons</div>
+      <p>The story of Freemasonry begins with the medieval stonemason guilds — the operative masons who built the great cathedrals of Europe. These were not simply craftsmen. They were the engineers, architects, mathematicians, and geometers of their age — the custodians of the most advanced technical and philosophical knowledge available. Their lodges — the workshops beside the cathedral construction sites — were the first universities, the first places where knowledge was systematically transmitted and protected.</p>
+      <p>The cathedrals themselves are not simply churches. They are three-dimensional Hermetic texts — every proportion, every alignment, every symbol encoding precise knowledge about sacred geometry, the nature of consciousness, and the relationship between the human and the divine. The men who built them understood what they were building at a level the worshippers inside rarely approached.</p>
+    </div>
+    <div class="reveal">
+      <div class="section-title">The Transition to Speculative Masonry</div>
+      <p>By the 17th century, as cathedral building declined, the operative mason guilds began admitting non-builders — philosophers, aristocrats, scientists — who were interested not in the physical craft but in the philosophical and esoteric system encoded within it. This transition from operative to speculative Freemasonry culminated in the formation of the first Grand Lodge in London in 1717. From physical stonemasonry to the metaphorical stonemasonry of the self — building the temple of the human soul rather than physical stone.</p>
+      <p>The founding generation of speculative Freemasonry included Isaac Newton (who we know studied Hermetic texts obsessively), Elias Ashmole (one of the foremost Hermetic scholars of his day), and Christopher Wren (the architect of St Paul's Cathedral, who encoded sacred geometry into everything he designed). These were not superstitious men performing rituals they did not understand. They were among the most sophisticated minds of their century, deliberately preserving and transmitting a system of inner development they understood to be genuinely important.</p>
+    </div>
+    <div class="reveal">
+      <div class="section-title">The Egyptian Origin</div>
+      <p>The deepest roots of Freemasonry trace back through the medieval guilds, through the Jewish tradition of Solomon's Temple, through the Greek mystery schools, to the temples of ancient Egypt. The two pillars Boaz and Jachin that stand at the entrance of every Masonic lodge are the pillars of Solomon's Temple — but their symbolism predates Solomon by at least two thousand years. They appear in the temples of Karnak. They appear in the Hermetic tradition as the pillars of polarity. They appear in the Tarot as the pillars flanking the High Priestess. The same symbol, preserved across four thousand years of human culture, because it describes something real about the fundamental structure of existence.</p>
+    </div>
+    <div class="pull-quote reveal">
+      <p>"Freemasonry is a river. The water that flows through it today came originally from the springs of ancient Egypt. It has been channelled, diverted, sometimes dammed — but the source has never changed."</p>
+    </div>
+    <div class="section-nav reveal">
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#symbols" class="btn btn-gold">The Symbols →</a>
+    </div>
+  </div>
+</section>
+
+<section id="symbols" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.06) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Symbols Decoded</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">What the Images Contain</p>
+      <h2 class="chapter-title">The Symbols</h2>
+      <p class="chapter-tagline">"Every Masonic symbol is a compressed library — an entire teaching encoded in a single image"</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="symbol-block reveal">
+      <div class="symbol-header"><div class="symbol-icon">△👁</div><div><div class="symbol-name">The All-Seeing Eye in the Triangle</div><div class="symbol-origin">Egypt · Hermetic Tradition · Freemasonry · The US Dollar</div></div></div>
+      <div class="symbol-body">The Eye of Providence — divine consciousness observing all of creation from within the triangle of the trinity. This symbol appears in ancient Egyptian iconography as the Eye of Horus — the eye of the falcon god who saw both the physical and the divine worlds. It was adopted into Christian iconography as the eye of God. It appears in Hermetic texts as the eye of The All. In Freemasonry it represents the Great Architect of the Universe — the supreme consciousness that underlies and governs all of reality. The triangle itself represents the trinity in all its forms — father, son, holy ghost; mind, body, spirit; above, middle, below. Three points. One eye. The unity of consciousness within the multiplicity of form. The Principle of Mentalism in a single image.</div>
+    </div>
+
+    <div class="symbol-block reveal">
+      <div class="symbol-header"><div class="symbol-icon">⬛⬜</div><div><div class="symbol-name">The Checkered Floor</div><div class="symbol-origin">Ancient Egypt · Freemasonry · The High Priestess Card</div></div></div>
+      <div class="symbol-body">The black and white checkered floor of the Masonic lodge is one of the oldest and most universal symbols in human spiritual iconography. It appears in the temples of ancient Egypt — specifically in the chapels of the eternal, where the checkered pattern represented the alternation of day and night, life and death, manifestation and dissolution. Every initiate walks across this floor to approach the altar — symbolically walking the path of life itself, alternating between light and dark, between joy and sorrow, between the known and the unknown, but always moving forward toward the light at the altar. This is the Principle of Polarity made into architecture. The Principle of Rhythm made into a floor. You cannot avoid walking on both the black and the white squares. The wisdom is in knowing they are the same floor.</div>
+    </div>
+
+    <div class="symbol-block reveal">
+      <div class="symbol-header"><div class="symbol-icon">📐</div><div><div class="symbol-name">The Square and Compasses</div><div class="symbol-origin">Operative Masonry · Sacred Geometry · Hermetic Philosophy</div></div></div>
+      <div class="symbol-body">The most iconic Masonic symbol. The square forms right angles — the geometry of the earthly, the material, the structured. It represents matter, the physical world, the ethical conduct of earthly life. The compasses draw circles — the geometry of the infinite, the spiritual, the boundless. They represent the soul, the divine, the infinite creative principle. Together — with the letter G for Geometry and for the Grand Architect between them — they encode the Hermetic axiom as above so below into a physical tool. The master mason uses the square to ensure earthly work meets precise standards. He uses the compasses to remind himself that all earthly work takes place within the larger compass of the divine. The Great Work is to bring the square and the compasses — the material and the spiritual — into perfect balance. This is the Principle of Correspondence as a hand tool.</div>
+    </div>
+
+    <div class="symbol-block reveal">
+      <div class="symbol-header"><div class="symbol-icon">🪨</div><div><div class="symbol-name">The Rough and Perfect Ashlar</div><div class="symbol-origin">Operative Masonry · Alchemical Tradition · The Great Work</div></div></div>
+      <div class="symbol-body">The rough ashlar — an uncut stone as it comes from the quarry — and the perfect ashlar — a stone smoothed and shaped to precise dimensions ready to fit into the temple wall. This is the central metaphor of all Masonic practice and the same metaphor as the alchemical Great Work. You are the rough stone. The work of the lodge — the work of inner development, of study, of practice, of honest self-examination — is the chisel. Over time, through patient and deliberate work, the rough stone becomes the perfect ashlar: a human being shaped to their highest potential, ready to contribute to the great temple of humanity. The rough ashlar is the Fool, stepping off the cliff with all his potential unrealised. The perfect ashlar is The World — the journey complete, the integration achieved. Every stage of the Major Arcana journey is one stroke of the chisel.</div>
+    </div>
+
+    <div class="symbol-block reveal">
+      <div class="symbol-header"><div class="symbol-icon">🌿</div><div><div class="symbol-name">The Acacia Sprig</div><div class="symbol-origin">Ancient Egypt · Osiris Myth · Freemasonry · Immortality</div></div></div>
+      <div class="symbol-body">The acacia is a thorny tree native to Egypt and the Middle East — one of the most durable and resilient plants in the natural world. In Egyptian mythology it was associated with Osiris and the afterlife, representing the soul's indestructibility. In Masonic legend, the acacia sprig grows from the grave of Hiram Abiff — the mythic master builder of Solomon's Temple who was murdered rather than reveal the master's word (the deepest secret of the lodge). His grave was found by the regrowth of acacia above it. The sprig represents the immortality of the soul — the part of us that survives physical death, that carries forward the fruits of our inner work across lifetimes. It is placed on the altar and given to candidates during initiation as a reminder that what is genuinely built within the self cannot be destroyed. The inner temple endures.</div>
+    </div>
+
+    <div class="symbol-block reveal">
+      <div class="symbol-header"><div class="symbol-icon">B J</div><div><div class="symbol-name">Boaz and Jachin — The Twin Pillars</div><div class="symbol-origin">Solomon's Temple · Egyptian Temples · The High Priestess</div></div></div>
+      <div class="symbol-body">We have already encountered these pillars extensively in studying the High Priestess. In Freemasonry they stand at the entrance to every lodge — the candidate must pass between them to enter. Boaz means in him is strength — the left pillar, traditionally dark or black. Jachin means he will establish — the right pillar, traditionally light or white. To enter the lodge is to pass consciously through the polarity of existence — to acknowledge that you are entering a space where both the dark and the light, both strength and establishment, both masculine and feminine principles are present and honoured. The lodge that lies beyond the pillars is the space that the High Priestess inhabits — the threshold between the ordinary world and the sacred, between the personal and the universal, between the rough stone you arrived as and the perfect ashlar you are becoming.</div>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="#history" class="btn btn-gold">← History</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#degrees" class="btn btn-gold">The Degrees →</a>
+    </div>
+  </div>
+</section>
+
+<section id="degrees" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(107,91,149,0.08) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Three Degrees</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Initiatory Path</p>
+      <h2 class="chapter-title">The Three Degrees</h2>
+      <p class="chapter-tagline">"The Masonic degrees are the Fool's Journey compressed into three ceremonial experiences"</p>
+    </div>
+    <div class="rule reveal"></div>
+    <div class="reveal">
+      <div class="section-title">The First Degree — Entered Apprentice</div>
+      <p>The candidate enters the lodge blindfolded — hoodwinked in Masonic terminology — with a cable tow around their neck and their left breast bared. They have been prepared outside the lodge for a period of reflection on their own mortality and the seriousness of what they are about to undertake. The blindfold represents the darkness of ignorance and the willingness to be led toward light. Being neither fully clothed nor fully stripped — representing the threshold state, neither the old self nor the new self yet.</p>
+      <p>When the blindfold is removed at the appropriate moment, the candidate is said to receive the light. This is the initiatory experience of the first degree — the Fool stepping off the cliff, moving from darkness into illumination. The candidate is given the tools of an apprentice: the twenty-four inch gauge (representing the division of the day into work, rest, and service to others), the gavel (the will that removes rough edges of character), and the chisel (precision of thought and action). The work has begun.</p>
+    </div>
+    <div class="reveal">
+      <div class="section-title">The Second Degree — Fellow Craft</div>
+      <p>The second degree represents the deepening of the work — the Fellow Craft has proven themselves capable of the first degree's demands and is now admitted to greater knowledge. The central symbol is the winding staircase — an ascending spiral path of learning through the seven liberal arts and sciences: grammar, rhetoric, logic, arithmetic, geometry, music, and astronomy. This is the Fool's Journey moving through The Magician (mastery of tools), The High Priestess (deeper knowledge), The Empress and Emperor (the natural and ordered worlds).</p>
+      <p>The winding staircase is a spiral — not a straight line. This is Principle V (Rhythm) encoded in architecture. The path upward does not go straight. It circles back on itself at higher levels. What seemed understood in the first degree is understood more deeply in the second. What seems to be repetition is actually a return at a higher octave.</p>
+    </div>
+    <div class="reveal">
+      <div class="section-title">The Third Degree — Master Mason</div>
+      <p>The third degree is the most dramatic and most sacred of the Masonic ceremonies — the one that candidates describe as genuinely transformative regardless of their prior scepticism. It enacts the legend of Hiram Abiff — the mythic architect of Solomon's Temple. Hiram is murdered by three fellowcraft masons who want to steal the master's word (representing the highest knowledge) before having earned it through genuine development. His body is found, and through a series of ritual actions, Hiram is raised from death to life.</p>
+      <p>This is the Egyptian Osiris myth in Masonic form. It is the death and resurrection of the initiate — the symbolic death of the old self and the rebirth of the master mason. Every genuine spiritual tradition has a death and resurrection at its core — because the Great Work requires the death of who you were in order to become who you are capable of being. The Third Degree is the Hierophant performing the initiation. You enter as a Fellow Craft. You are raised as a Master Mason.</p>
+    </div>
+    <div class="section-nav reveal">
+      <a href="#symbols" class="btn btn-gold">← The Symbols</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+      <a href="#hermetic" class="btn btn-gold">The Hermetic Core →</a>
+    </div>
+  </div>
+</section>
+
+<section id="hermetic" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.07) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Hermetic Core</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Living Connection</p>
+      <h2 class="chapter-title">The Hermetic Core</h2>
+      <p class="chapter-tagline">"Freemasonry is the outer garment. Hermeticism is what it was designed to clothe."</p>
+    </div>
+    <div class="rule reveal"></div>
+    <div class="reveal">
+      <div class="section-title">The Transmission System</div>
+      <p>Here is what is most important to understand about Freemasonry in the context of your study: it is, at its deepest level, a transmission system for Hermetic wisdom. The rituals, symbols, degrees, and myths are not the content — they are the container. The content is the same wisdom encoded in the Kybalion, the Emerald Tablet, the Tarot, the chakra system, and the lunar mysteries. The same seven principles. The same Great Work. The same Fool's Journey from ignorance to illumination.</p>
+      <p>The genius of the system is that it encodes the teaching in multiple layers simultaneously. The surface layer — fraternal brotherhood, charity work, moral improvement — is genuine and valuable but is not the deepest level. The second layer — symbolic and ritual — uses the drama of ceremony to imprint the teaching at a deeper level than intellectual understanding alone can reach. The third layer — the inner Hermetic teaching — is available only to those who have done enough inner work to perceive it. The symbols speak differently to different levels of preparation.</p>
+    </div>
+    <div class="reveal">
+      <div class="section-title">The Images You Sent</div>
+      <p>The two images you shared are extraordinary documents. The first — the tracing board — is a complete Hermetic diagram. The Sun and Moon (solar and lunar principles), the All-Seeing Eye (Mentalism), the two pillars (Polarity, Correspondence), the checkered floor (Rhythm, Polarity), the rough and perfect ashlar (the Great Work, Cause and Effect), the working tools (the instruments of inner transformation), and the square and compasses (the integration of material and spiritual). Every element of the Kybalion is present in that single image.</p>
+      <p>The second image — the celestial lodge — shows the same system elevated to the cosmic level. The lodge is no longer a physical room but the entire sky. The pillars stand in clouds. The sun blazes on the left (conscious, solar, Magician) and the crescent moon on the right (subconscious, lunar, High Priestess). The Eye of Horus blazes in the triangle at the apex — the All is Mind expressed as divine vision. The plumb line drops from a divine hand — the vertical axis connecting heaven and earth, the path the Hierophant walks, the Hermetic axiom given a physical form. The altar with the open book and the square and compasses at its centre — the Great Work being performed within the temple of the cosmos.</p>
+      <p>You did not come across these images by accident. You are being shown the tradition you are already studying, in one of its most beautiful preserved forms. The Hierophant has sent you a picture of his lodge.</p>
+    </div>
+    <div class="pull-quote reveal">
+      <p>"When you understand the symbols, you realise they have always been there — in the buildings, on the currency, in the art, in the architecture of the cities. The language is everywhere. You were simply not yet fluent."</p>
+    </div>
+    <div class="reveal">
+      <div class="section-title">What This Means For Your Practice</div>
+      <p>You do not need to join a lodge to benefit from the Masonic tradition. The symbols are in the public domain — have been for centuries. The principles they encode are the Hermetic principles you are already working with. What the Masonic tradition adds to your practice is a set of additional perspectives and a historical lineage that deepens your understanding of where this wisdom comes from and how it has survived.</p>
+      <p>Every time you do your morning practice — setting intention, working with the principles, reading the synchronicities — you are doing precisely what the operative masons understood they were doing when they built the cathedrals. You are working on the rough ashlar of yourself. You are building the inner temple. You are using the square to keep your conduct true and the compasses to keep your vision wide. You are walking the checkered floor consciously, knowing that both the black squares and the white squares are necessary, and that the altar at the end of the path is the same for everyone who walks it.</p>
+    </div>
+    <div class="rule reveal"></div>
+    <div class="closing-quote reveal">
+      <p>They built the cathedrals in stone<br>so that something would endure<br>long enough for you to find it.<br><br>You are building the same thing<br>in the only material that truly lasts —<br><br><em>the quality of a human soul.</em></p>
+    </div>
+    <div class="section-nav reveal">
+      <a href="#degrees" class="btn btn-gold">← The Degrees</a>
+      <a href="#cover" class="btn btn-gold">↑ Contents</a>
+    </div>
+    <div style="height:60px"></div>
+  </div>
+</section>
+
+<script>
+  const s=document.getElementById('stars');for(let i=0;i<130;i++){const el=document.createElement('div');el.className='star';const sz=Math.random()*2+0.4;el.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:-${Math.random()*5}s;--op:${0.1+Math.random()*0.5};`;s.appendChild(el);}
+  const p=document.getElementById('progress');window.addEventListener('scroll',()=>{p.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';},{passive:true});
+  const obs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*50);obs.unobserve(e.target);}});},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
