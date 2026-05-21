@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Freemasonry — The Hidden History</title>
+<style>
+  :root{--night:#070810;--gold:#c9a84c;--gold-light:#e8c96a;--gold-pale:#f5e4a0;--gold-dim:#8a7035;--ivory:#f0ead8;--soft:#d8d0e8;--purple:#6b5b95;--purple-light:#9b8bc5;--stone:#8a8070;--blue:#1a2a5a;}
+  *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+  body{background:var(--night);color:var(--ivory);font-family:Palatino,'Palatino Linotype',Georgia,serif;font-size:18px;line-height:1.9;overflow-x:hidden;}
+  .lib-home{position:fixed;top:16px;left:16px;z-index:200;background:rgba(7,8,16,0.9);border:1px solid rgba(201,168,76,0.3);border-radius:30px;padding:8px 16px;font-family:Palatino,serif;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-dim);text-decoration:none;backdrop-filter:blur(10px);transition:all 0.3s;display:flex;align-items:center;gap:6px;}
+  .lib-home:hover{color:var(--gold);border-color:var(--gold);}
+  #stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+  .star{position:absolute;background:white;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s);opacity:var(--op,0.3);}
+  @keyframes twinkle{0%,100%{opacity:var(--op,0.3);}50%{opacity:0.04;}}
+  .progress-bar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--gold));z-index:100;transition:width 0.1s;}
+  .page{position:relative;z-index:1;}
+  #cover{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;background:radial-gradient(ellipse at 50% 30%,rgba(26,42,90,0.1) 0%,transparent 70%);}
+  .cover-symbol{font-size:52px;color:var(--gold);margin-bottom:28px;animation:float 4s ease-in-out infinite;text-shadow:0 0 40px rgba(201,168,76,0.4);}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+  .cover-title{font-size:clamp(26px,7vw,50px);color:var(--gold);line-height:1.2;margin-bottom:10px;font-style:italic;}
+  .cover-sub{font-size:clamp(11px,2.5vw,14px);color:var(--gold-pale);letter-spacing:0.32em;text-transform:uppercase;margin-bottom:36px;opacity:0.75;}
+  .cover-rule{width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 36px;}
+  .cover-intro{max-width:520px;font-size:17px;font-style:italic;color:var(--soft);line-height:1.9;margin-bottom:14px;}
+  .cover-origin{font-size:12px;color:var(--gold-dim);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:52px;}
+  .nav-pills{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:16px;}
+  .nav-pill{background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);color:var(--gold-pale);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:9px 16px;border-radius:30px;cursor:pointer;text-decoration:none;transition:all 0.3s;}
+  .nav-pill:hover{background:rgba(201,168,76,0.16);border-color:var(--gold);color:var(--gold);}
+  .scroll-hint{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--gold-dim);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;animation:fade-bob 2s ease-in-out infinite;margin-top:20px;}
+  .scroll-arrow{width:1px;height:34px;background:linear-gradient(to bottom,var(--gold-dim),transparent);}
+  @keyframes fade-bob{0%,100%{opacity:0.4;}50%{opacity:0.9;}}
+  .section{padding:80px 24px;display:flex;flex-direction:column;align-items:center;position:relative;}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);}
+  .section-label{position:sticky;top:16px;z-index:10;text-align:center;pointer-events:none;margin-bottom:-40px;}
+  .section-badge{display:inline-block;background:rgba(7,8,16,0.92);border:1px solid rgba(201,168,76,0.25);border-radius:20px;padding:6px 18px;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);backdrop-filter:blur(10px);}
+  .content{max-width:640px;width:100%;}
+  .chapter-number{font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:var(--purple-light);margin-bottom:10px;text-align:center;}
+  .chapter-title{font-size:clamp(26px,7vw,44px);color:var(--gold);text-align:center;margin-bottom:8px;font-style:italic;}
+  .chapter-tagline{font-style:italic;font-size:17px;color:var(--gold-pale);text-align:center;margin-bottom:48px;opacity:0.85;line-height:1.6;}
+  .rule{width:100%;max-width:580px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);margin:32px auto;}
+  .rule.short{max-width:200px;background:linear-gradient(90deg,transparent,var(--purple),transparent);}
+  .section-title{font-size:13px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold-light);margin:40px 0 14px;display:flex;align-items:center;gap:10px;}
+  .section-title::before{content:'✦';color:var(--gold-dim);font-size:9px;}
+  p{color:var(--soft);margin-bottom:18px;font-size:17px;line-height:1.9;}
+  p strong{color:var(--gold-pale);}
+  .ancient-text{background:rgba(201,168,76,0.04);border-left:2px solid var(--gold-dim);border-radius:0 10px 10px 0;padding:22px 26px;margin:28px 0;}
+  .ancient-text .label{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:10px;}
+  .ancient-text p{font-style:italic;color:var(--gold-pale);font-size:17px;margin:0;line-height:1.8;}
+  .timeline-item{padding:24px 0 24px 32px;border-left:2px solid rgba(201,168,76,0.2);margin:0;position:relative;}
+  .timeline-item::before{content:'';position:absolute;left:-6px;top:28px;width:10px;height:10px;border-radius:50%;background:var(--gold-dim);border:2px solid var(--night);}
+  .timeline-item:last-child{border-left-color:transparent;}
+  .timeline-date{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:6px;}
+  .timeline-title{font-size:18px;color:var(--gold);font-style:italic;margin-bottom:10px;}
+  .timeline-body{color:var(--soft);font-size:16px;line-height:1.8;}
+  .degree-block{background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:14px;padding:26px 22px;margin:18px 0;position:relative;}
+  .degree-num{position:absolute;top:14px;right:18px;font-size:28px;color:rgba(201,168,76,0.15);font-style:italic;font-family:Palatino,serif;}
+  .degree-title{font-size:19px;color:var(--gold);font-style:italic;margin-bottom:8px;}
+  .degree-subtitle{font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:var(--purple-light);margin-bottom:14px;}
+  .degree-body{color:var(--soft);font-size:16px;line-height:1.85;}
+  .pull-quote{text-align:center;padding:36px 0;}
+  .pull-quote p{font-style:italic;font-size:20px;color:var(--gold-pale);max-width:480px;margin:0 auto;line-height:1.75;}
+  .closing-quote{text-align:center;padding:48px 0;}
+  .closing-quote p{font-style:italic;font-size:20px;color:var(--gold-pale);max-width:460px;margin:0 auto;line-height:1.85;}
+  .section-nav{display:flex;justify-content:center;gap:14px;margin-top:60px;flex-wrap:wrap;}
+  .btn{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border-radius:30px;cursor:pointer;text-decoration:none;transition:all 0.3s;display:inline-block;}
+  .btn-gold{background:rgba(201,168,76,0.1);border:1px solid var(--gold-dim);color:var(--gold);}
+  .btn-gold:hover{background:rgba(201,168,76,0.2);border-color:var(--gold);}
+  .btn-home{background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);color:var(--gold-dim);}
+  .btn-home:hover{background:rgba(201,168,76,0.12);color:var(--gold);}
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.8s ease,transform 0.8s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  @media(max-width:480px){body{font-size:16px;}}
+</style>
+</head>
+<body>
+<a href="index.html" class="lib-home">☰ Library</a>
+<div class="progress-bar" id="progress"></div>
+<div id="stars"></div>
+
+<section id="cover" class="page">
+  <div class="cover-symbol">△</div>
+  <h1 class="cover-title">Freemasonry</h1>
+  <p class="cover-sub">The Hidden History — From Babel to the Grand Lodge</p>
+  <div class="cover-rule"></div>
+  <p class="cover-intro">
+    Not a conspiracy. Not a social club.<br>
+    A four-thousand-year lineage of knowledge transmission<br>
+    from the temples of ancient Egypt<br>
+    to the lodge rooms of the modern world.<br>
+    The most successful preservation system in human history.
+  </p>
+  <p class="cover-origin">Tower of Babel · Solomon's Temple · Egyptian Mystery Schools · Medieval Guilds · The Grand Lodge · Today</p>
+  <nav class="nav-pills">
+    <a href="#babel" class="nav-pill">The Tower of Babel</a>
+    <a href="#egypt" class="nav-pill">Egypt</a>
+    <a href="#solomon" class="nav-pill">Solomon's Temple</a>
+    <a href="#guilds" class="nav-pill">Medieval Guilds</a>
+    <a href="#speculative" class="nav-pill">Modern Masonry</a>
+    <a href="#degrees" class="nav-pill">The Three Degrees</a>
+    <a href="#truth" class="nav-pill">What It Really Is</a>
+  </nav>
+  <div class="scroll-hint"><span>Begin</span><div class="scroll-arrow"></div></div>
+</section>
+
+
+<!-- TOWER OF BABEL -->
+<section id="babel" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(138,128,112,0.08) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Beginning</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">Before The Beginning</p>
+      <h2 class="chapter-title">The Tower of Babel</h2>
+      <p class="chapter-tagline">"The story of Babel is not about arrogance punished. It is about the moment humanity's unified knowledge was scattered — and the four-thousand-year project to reassemble it."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="reveal">
+      <div class="section-title">What The Bible Actually Says</div>
+      <p>The story of the Tower of Babel appears in Genesis 11. The people of the earth — speaking a single language — gather in the plain of Shinar (ancient Mesopotamia, modern Iraq) and begin constructing a city with a tower reaching to the heavens. God observes that with one language and unified purpose, nothing they plan to do will be impossible for them. He confuses their languages so they cannot understand each other and scatters them across the face of the earth. Construction stops. The tower is abandoned.</p>
+      <p>This is the conventional reading. But there are layers beneath the surface. The word Babel means gate of God in Akkadian — Bab-El, the door between the human and the divine. The tower was not a monument to human pride. It was a temple — a ziggurat of the kind the Babylonians built extensively and which functioned as a point of contact between the earthly and the divine realms. The ziggurats of Mesopotamia were deliberately constructed as mountains — artificial versions of the sacred mountains on which the gods were said to dwell. They were built to bring heaven and earth into contact.</p>
+      <p>The "confusion of tongues" in the Masonic reading of this myth is the scattering of unified sacred knowledge into different cultural streams — each preserving a fragment of the original unified understanding in its own language, its own symbolism, its own tradition. The Egyptian mysteries, the Greek mystery schools, the Vedic tradition, the Kabbalistic tradition, the Hermetic tradition — all fragments of a unified original wisdom, scattered but never entirely lost.</p>
+    </div>
+
+    <div class="ancient-text reveal">
+      <div class="label">The Masonic Reading of Babel</div>
+      <p>"The great purpose of Freemasonry is to reunite what was scattered at Babel — not the physical tower, but the unified understanding of the divine principles that underlie all of reality. Every degree of initiation is a step toward reassembling the language that was lost. The lodge is where fragments of the original wisdom are gathered, preserved, and transmitted across the generations until the time comes when humanity is ready to receive them whole."</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">Nimrod and the First Builders</div>
+      <p>In Masonic tradition, the legendary history of the craft begins with Nimrod — the mighty hunter mentioned in Genesis as the founder of the first cities and kingdoms of Mesopotamia, including Babylon. Nimrod is credited in Masonic legend with organising the first system of operative masonry — the systematic training and organisation of builders under a recognised hierarchy of knowledge. Apprentice, Fellow Craft, Master — the three-degree structure that would survive intact four thousand years later in every Masonic lodge on earth.</p>
+      <p>Whether Nimrod was a historical figure or a mythic archetype matters less than what the tradition is asserting: that the knowledge of sacred geometry, of the principles encoded in precise construction, of the relationship between physical form and divine proportion, was organised and transmitted as a formal system from the very earliest period of human civilisation. The builder's craft was never merely technical. It was always simultaneously spiritual — the physical construction of sacred space as a map of cosmic order.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">Enoch — The First Initiator</div>
+      <p>Before Nimrod, Masonic tradition points to an even earlier figure: Enoch — the great-grandfather of Noah, described in Genesis as a man who "walked with God" and was taken directly to heaven without dying. In the Masonic legend of Enoch, this patriarch received divine revelations about the sacred principles underlying creation and, fearing their loss in the coming flood, encoded them in two pillars — one of marble to survive water, one of brick to survive fire — and buried the most sacred knowledge in a vault beneath a temple on the spot where Solomon's Temple would later be built.</p>
+      <p>This legend of hidden vaults, of sacred knowledge preserved underground against the destruction of civilisation, is one of the most consistent threads in the entire Masonic and esoteric tradition. The Book of Enoch — a genuinely ancient text found among the Dead Sea Scrolls, considered scripture by the Ethiopian Orthodox church and influential in the early Christian tradition before being officially excluded from the canon — describes Enoch's direct instruction by angelic beings in the secrets of cosmology, sacred geometry, and the structure of the heavens. What the Freemasons call the lost word, what the Hermeticists call the Logos, what the Kabbalists call the divine name — is what Enoch received and encoded.</p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="index.html" class="btn btn-home">☰ Library</a>
+      <a href="#cover" class="btn btn-gold">↑ Top</a>
+      <a href="#egypt" class="btn btn-gold">Egypt →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- EGYPT -->
+<section id="egypt" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.06) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Egyptian Foundation</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Primary Source</p>
+      <h2 class="chapter-title">Ancient Egypt</h2>
+      <p class="chapter-tagline">"Everything in Freemasonry that is genuinely ancient traces back to Egypt. The pillars, the symbols, the degrees, the mysteries — all of it comes from the banks of the Nile."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="reveal">
+      <div class="section-title">The Egyptian Mystery Schools</div>
+      <p>The Egyptian mystery schools were the most sophisticated institutions for the transmission of sacred knowledge in the ancient world — and possibly in all of recorded human history. They were not schools in the modern sense. They were multi-decade initiatory systems through which candidates were progressively admitted to deeper levels of understanding about the nature of consciousness, the structure of reality, and the relationship between the human and the divine.</p>
+      <p>The great temples of Karnak, Luxor, Abydos, Dendera, and Philae were not merely places of worship. They were universities — the walls of their inner chambers covered in texts, diagrams, and astronomical charts encoding precise knowledge about sacred geometry, the nature of the soul, the structure of the afterlife, and the principles of creation. Candidates for the mysteries underwent years of preparation — purification, physical training, study of mathematics and astronomy, moral examination — before being admitted to progressively deeper chambers of the temple.</p>
+      <p>The deepest mysteries were conducted in complete darkness in underground chambers beneath the temple, during which the candidate underwent a ritual death and rebirth. This experience — designed to give the initiate direct experiential knowledge of the soul's survival of physical death — was the central initiatory event of the Egyptian mysteries. The initiate was laid in a stone sarcophagus and left in absolute darkness for three days. What occurred in that darkness — whether mystical experience, psychological transformation, or both — produced individuals who returned from the chamber permanently changed, possessing a quality of certainty about the nature of consciousness that no amount of intellectual study could provide.</p>
+      <p>This three-day death and resurrection — the initiate entering the tomb and emerging transformed — is the template for every resurrection mystery that followed: Osiris, Dionysus, Mithras, and ultimately the death and resurrection of Jesus in the Christian tradition. The Christian resurrection narrative did not invent a new idea. It encoded the oldest and most universal truth of the mystery tradition in the form of a biography.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">Thoth — The Grand Master</div>
+      <p>Thoth — the ibis-headed deity of wisdom, writing, mathematics, and the weighing of souls — is the divine patron of what would become Freemasonry. In the Hermetic tradition he is Hermes Trismegistus. In the Greek tradition he is Hermes. In all traditions he is the figure who stands at the boundary between the human and the divine, translating between them, recording, preserving, and transmitting.</p>
+      <p>Thoth was said to have written 42 books containing the sum of all human knowledge. In the Egyptian afterlife tradition, it was Thoth who recorded the verdict of the weighing of the soul — the heart of the deceased weighed against the feather of Ma'at (truth and cosmic order). If the heart was heavier than the feather — burdened with unprocessed fear, dishonesty, or failure to live in alignment with cosmic order — the soul was consumed. If the heart was lighter than or equal to the feather, the soul was admitted to eternal life.</p>
+      <p>This is the moral dimension of the mystery tradition that Freemasonry most directly preserves: the idea that genuine spiritual development requires genuine ethical development. You cannot separate the inner work from the outer conduct. The lightest heart — the heart of the initiate who has done the genuine work of inner purification — is the one that passes through the weighing of the soul. This is why every Masonic ritual emphasises virtue, integrity, and the treatment of others. Not as social nicety but as cosmic necessity. The soul that has not lived with integrity literally cannot proceed.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">Sacred Geometry — The Egyptian Gift</div>
+      <p>The most concrete and demonstrable transmission from Egypt to Freemasonry is sacred geometry. The Egyptians encoded their understanding of cosmic principles — the golden ratio, the proportions of phi and pi, the Pythagorean theorem (which Egyptian builders used centuries before Pythagoras formalised it) — into every aspect of their sacred architecture. The proportions of the Great Pyramid encode pi to four decimal places. The relationship between the height and base of the pyramid encodes the golden ratio. The chambers of the King's Chamber encode the proportions of the 3-4-5 right triangle — the most fundamental Pythagorean triple.</p>
+      <p>This is not coincidence. The Egyptians were making a statement in stone: that the physical structure of the temple mirrors the mathematical structure of the cosmos. As above, so below. The temple is a model of the universe — not metaphorically, but geometrically. Every proportion is precise. Every alignment is intentional. The stones that weigh up to eighty tonnes and are aligned to true north with an accuracy of better than 0.05 degrees were placed not merely for physical endurance but for philosophical precision. The message encoded in the geometry of the Great Pyramid has been read by every tradition of sacred architecture that followed — Greek temples, Gothic cathedrals, Islamic mosques, and Masonic lodges all encode the same geometric principles, transmitted in an unbroken line from the banks of the Nile.</p>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"The Pyramid of Giza is a textbook of sacred geometry written in stone, designed to survive the death of every civilisation that would follow — and be read by anyone patient enough to learn its language."</p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="index.html" class="btn btn-home">☰ Library</a>
+      <a href="#babel" class="btn btn-gold">← Babel</a>
+      <a href="#solomon" class="btn btn-gold">Solomon's Temple →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- SOLOMON'S TEMPLE -->
+<section id="solomon" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(107,91,149,0.08) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Central Myth</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Sacred Architecture</p>
+      <h2 class="chapter-title">Solomon's Temple</h2>
+      <p class="chapter-tagline">"The Temple of Solomon is the central symbol of Freemasonry — not as a building to be physically reconstructed, but as the perfect model of what the individual human soul can become."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="reveal">
+      <div class="section-title">The Historical Temple</div>
+      <p>The First Temple of Jerusalem — traditionally attributed to King Solomon and built around 957 BCE — was the defining sacred structure of the ancient Israelite tradition and one of the most influential buildings in the history of Western civilisation. Its construction is described in extraordinary detail in the Books of Kings and Chronicles — the dimensions of every room, the materials used, the decorative elements, the positioning of the two great pillars at the entrance.</p>
+      <p>Those two pillars — Boaz and Jachin — standing at the entrance to the Temple of Solomon were not incidental architectural features. They were the defining symbolic statement of the entire structure. Boaz: in him is strength. Jachin: he will establish. The masculine and feminine principles of the divine — strength and beauty, power and establishment — flanking the entrance to the sacred space. Every initiate who entered the temple passed between these two pillars and was thereby marked as one who understood and moved consciously through the polarity that underlies all existence.</p>
+      <p>The Temple was destroyed by the Babylonians in 586 BCE. The Second Temple, built on the same site after the return from Babylonian exile, was expanded magnificently by Herod the Great but destroyed by the Romans in 70 CE. The site — the Temple Mount in Jerusalem — remains the most contested piece of real estate on the planet, with the Dome of the Rock now occupying the location where the Holy of Holies — the innermost sanctuary — once stood.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">Hiram Abiff — The Legend at the Heart of Masonry</div>
+      <p>The central myth of Freemasonry does not concern Solomon the king. It concerns Hiram Abiff — the master craftsman sent by the King of Tyre to oversee the construction of the Temple. Hiram was the son of a widow of the tribe of Naphtali, and he was the greatest craftsman of his age — skilled in all metals, in all the decorative arts, in all the techniques of fine construction. Solomon entrusted him with the supervision of the entire building project.</p>
+      <p>According to the Masonic legend, Hiram Abiff possessed the Master's Word — the most sacred secret of the mystery tradition, the ineffable name, the lost word that encodes the deepest truth about the nature of consciousness and reality. Three Fellow Crafts — workers who had not yet attained the Master level and felt their advancement was being unjustly delayed — ambushed Hiram at each of the three gates of the Temple as he made his daily midday inspection, demanding the Master's Word. Each time Hiram refused: the word was not something to be stolen or demanded. It could only be transmitted through the proper initiatory process to one who had genuinely earned it.</p>
+      <p>At the third gate, one of the three conspirators struck Hiram a fatal blow to the head with a maul. He died rather than reveal what he was not authorised to reveal. The conspirators buried his body hastily, marking the grave with a sprig of acacia — the plant of immortality. When Solomon discovered his master builder was missing, he sent parties of Masons in all directions to search. The grave was found. The body was raised by the Master's Grip — the secret handshake of the Master Mason — and Hiram Abiff was given a Master Mason's burial with full honours.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Deeper Meaning of the Legend</div>
+      <p>Hiram Abiff is Osiris. The three murderers are the forces of ignorance, fanaticism, and tyranny — the three great enemies of genuine wisdom in every age. The Master's Word that Hiram refused to reveal at the cost of his life is the same that Isis searched for after the murder of Osiris — the creative word, the Logos, the principle through which divine consciousness creates reality. It was not stolen. It was scattered at the death, as it was scattered at Babel, as it is hidden in the inner chambers of every genuine mystery tradition.</p>
+      <p>The raising of Hiram Abiff is the central ritual of the Third Degree of Freemasonry — the most dramatic, most transformative, and most closely guarded ceremony in the system. The candidate enacts the death of Hiram — lying in the darkness, symbolically dead — and is raised by the Master's Grip. This is the death and resurrection experience. This is the Egyptian initiation in the stone sarcophagus. This is the shamanic descent into the underworld. This is the Christian resurrection. All the same teaching, in all its forms: the genuine initiate must die to the old self to be reborn into wisdom. The knowledge that cannot be stolen can only be transmitted through genuine transformation.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Temple as Inner Architecture</div>
+      <p>In the deepest Masonic reading, the Temple of Solomon is not a historical building. It is the human soul at its highest development — the perfect ashlar, the individual who has completed the Great Work. The three main divisions of the Temple — the Outer Court, the Holy Place, and the Holy of Holies — correspond to the three levels of human consciousness: the physical/social self, the mental/ethical self, and the spiritual/divine self. The initiate who completes the journey through the three degrees has moved through all three chambers and entered the Holy of Holies — the innermost sanctuary where the Ark of the Covenant (the presence of the divine) resides.</p>
+      <p>This is the building project of Freemasonry: not the reconstruction of a physical temple in Jerusalem, but the construction of the inner temple — the human being who has done sufficient inner work that the divine presence can genuinely dwell within them without distortion. This is also the goal of every genuine spiritual tradition: the Hermetic Great Work, the Buddhist path to enlightenment, the Christian mystic's union with God, the Sufi's annihilation of the ego in the divine. Different maps. Same territory.</p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="index.html" class="btn btn-home">☰ Library</a>
+      <a href="#egypt" class="btn btn-gold">← Egypt</a>
+      <a href="#guilds" class="btn btn-gold">Medieval Guilds →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- MEDIEVAL GUILDS -->
+<section id="guilds" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(138,128,112,0.07) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Transmission</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Middle Ages</p>
+      <h2 class="chapter-title">The Medieval Guilds</h2>
+      <p class="chapter-tagline">"The cathedrals of Europe are the pyramids of their age — encoded knowledge preserved in stone, built by initiated craftsmen who understood what they were constructing."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="reveal">
+      <div class="section-title">How The Knowledge Survived</div>
+      <p>Between the fall of Rome in 476 CE and the Renaissance beginning in the 14th century, Europe underwent a period of genuine civilisational contraction. The great libraries of Alexandria and Rome were destroyed or dispersed. The philosophical schools were closed by imperial decree. The mystery traditions went underground or relocated — to the monasteries, to the Islamic world where Greek philosophical texts were preserved and expanded, and most importantly for our purposes, into the operative craft guilds.</p>
+      <p>The stonemason guilds of medieval Europe were the inheritors and custodians of a body of mathematical and geometric knowledge that was not merely technical — it was sacred. The ability to construct a Gothic cathedral — to calculate the precise angles of the flying buttresses that distributed the weight of the stone vault, to achieve the perfect acoustic properties of the nave, to align the building precisely east-west so that the sunrise illuminated the high altar on the feast day of the patron saint — required mathematical knowledge of a sophistication that the medieval church officially attributed to divine inspiration.</p>
+      <p>It was not divine inspiration. It was transmitted knowledge. The operative masons who built the cathedrals of Chartres, Notre Dame, Canterbury, Cologne, and Salisbury possessed a body of practical mathematics derived ultimately from the same Egyptian and Greek sources as the Hermetic tradition. They encoded this knowledge in their tools — the square, the compasses, the plumb line, the level — and they transmitted it through a structured system of apprenticeship that preserved not only the practical techniques but the philosophical understanding that gave those techniques their deeper significance.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Lodge System</div>
+      <p>The word lodge — now synonymous with the Masonic meeting place — originally described the temporary workshop erected beside a cathedral construction site. The lodge was where the working masons ate, slept, planned, and trained. It was the operational base of the entire construction project — the architect's office, the training school, the tool store, and the social centre all in one. And it was strictly controlled — only those with the appropriate credentials, the passwords, and the handshakes that identified them as genuine operative masons in good standing could enter.</p>
+      <p>This system of controlled access — of passwords and grips and signs that identified genuine initiates — was not paranoia. It was practical necessity in a world without professional certifications or ID. A mason presenting himself at a new construction site claiming skills he did not possess could cause structural failure and death. The passwords and grips of the medieval mason guild were quality control mechanisms — ways of verifying, through knowledge that only genuine initiates would possess, that the person claiming to be a Fellow Craft actually was one.</p>
+      <p>Over time, as cathedral building declined and the operative guilds lost their primary purpose, these credential systems — these passwords, grips, and the three-degree structure — became vehicles for something different. They became the skeleton on which a new kind of institution could be built: one dedicated not to the construction of physical buildings but to the inner construction of the individual human being.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Transition — From Operative to Speculative</div>
+      <p>The 17th century was the critical transition period. As cathedral building essentially ceased, the operative guilds began admitting "accepted" or "speculative" masons — men who were not craftsmen but were interested in the philosophical, mathematical, and esoteric dimensions of the craft tradition. The first recorded admission of an accepted (non-operative) mason in England dates to 1600. By the time of the formation of the Grand Lodge of England in 1717, the balance had shifted entirely: most lodges were now speculative rather than operative.</p>
+      <p>The men who formed the Grand Lodge of England in 1717 — meeting at the Goose and Gridiron alehouse in St Paul's Churchyard, London — included some of the most significant intellectual figures of the age. The Reverend John Theophilus Desaguliers, a French Huguenot who became the third Grand Master, was a fellow of the Royal Society and one of the leading scientific minds of his generation. Sir Isaac Newton — though not himself a recorded Freemason — was the President of the Royal Society that Desaguliers belonged to, and the Hermetic philosophy that Newton studied obsessively informed the intellectual climate in which early speculative Freemasonry developed.</p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="index.html" class="btn btn-home">☰ Library</a>
+      <a href="#solomon" class="btn btn-gold">← Solomon's Temple</a>
+      <a href="#speculative" class="btn btn-gold">Modern Masonry →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- SPECULATIVE / MODERN -->
+<section id="speculative" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(26,42,90,0.08) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Modern Tradition</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">1717 to the Present</p>
+      <h2 class="chapter-title">Modern Freemasonry</h2>
+      <p class="chapter-tagline">"Founded in a London alehouse in 1717, the institution that emerged would shape the political, intellectual, and spiritual landscape of the modern world."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="reveal">
+      <div class="section-title">The Grand Lodge Era</div>
+      <p>The formation of the Grand Lodge of England in 1717 — four lodges meeting to elect a Grand Master and establish a governing body for English Freemasonry — is the founding moment of modern speculative Masonry. From this point, the institution spread with extraordinary speed. By 1730 there were lodges in France, Spain, Italy, Germany, and the American colonies. By 1750 Freemasonry had lodges on every inhabited continent. By 1800 it was arguably the most globally distributed organisation in the world outside the Catholic Church — and considerably more egalitarian, admitting men regardless of nation, religion, or social class who met its moral requirements.</p>
+      <p>This global spread was not accidental. Freemasonry offered something that no other institution of the period provided: a non-sectarian space where men of different religious and national backgrounds could meet as equals, bound by shared principles rather than shared doctrine. In an age of intense religious conflict — the Wars of Religion were recent memory, Catholic-Protestant tensions remained murderous — the Masonic lodge offered a neutral ground. The Great Architect of the Universe was a deliberately vague enough description of the divine to accommodate Christians, Jews, Deists, and eventually Muslims and Hindus within the same lodge.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">Freemasonry and the Enlightenment</div>
+      <p>The relationship between Freemasonry and the Enlightenment — the 18th century intellectual revolution that gave birth to modern democracy, modern science, and modern ideas of human rights — is not incidental. The Enlightenment was, to a significant degree, a Masonic project. The ideas that drove it — the primacy of reason, the universality of human dignity, the separation of church and state, the importance of education and free inquiry — were the ideas that Freemasonry had been incubating in its lodges for decades before they erupted into the political sphere.</p>
+      <p>The American Revolution was substantially a Masonic affair. George Washington was a Freemason. Benjamin Franklin was a Freemason and Grand Master of the Pennsylvania lodge. Paul Revere was Grand Master of the Massachusetts lodge. Thirteen of the signers of the Declaration of Independence were Masons. The founding documents of the United States — with their language of self-evident truths, inalienable rights, and the consent of the governed — are in direct continuity with Masonic principles of human equality and rational governance.</p>
+      <p>The French Revolution had an equally strong Masonic involvement. Voltaire was initiated into a Parisian lodge weeks before his death. The Marquis de Lafayette — who fought in both the American and French revolutions — was a Mason. The Declaration of the Rights of Man and the Citizen, the founding document of French democracy, reflects Masonic principles of liberty, equality, and fraternity — the fraternal value of the lodge applied to political organisation.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">Famous Freemasons — The Incomplete List</div>
+      <p>The roll of confirmed Freemasons across history reads like a who's who of Western civilisation: <strong>George Washington, Benjamin Franklin, Wolfgang Amadeus Mozart, Joseph Haydn, Voltaire, Alexander Pope, Jonathan Swift, Rudyard Kipling, Arthur Conan Doyle, Oscar Wilde, Mark Twain, Harry Houdini, Winston Churchill, Franklin D. Roosevelt, Harry Truman, Gerald Ford, Edward VII, George VI, Edward VIII, King Frederick the Great of Prussia, Giuseppe Garibaldi, Simon Bolivar, José de San Martín</strong> — the liberators of South America, <strong>Alexander Fleming</strong> who discovered penicillin, <strong>Henry Ford, Andrew Carnegie, John Jacob Astor.</strong></p>
+      <p>Mozart's opera The Magic Flute is a Masonic initiatory drama dressed as a fairy tale. The three trials of Tamino — fire, water, and silence — are the three challenges of Masonic initiation. The character of Sarastro is the enlightened Masonic Master. The Queen of the Night represents the forces of darkness and superstition. Mozart was a devout Mason and encoded his philosophical commitments in his music with characteristic precision and wit.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Conspiracy Myth — And the Truth Behind It</div>
+      <p>Freemasonry has been the target of conspiracy theories for as long as it has existed — accused by the Catholic Church of Satanism, by fascist governments of Jewish manipulation, by contemporary conspiracy theorists of running the world from shadowy back rooms. The truth is simultaneously more prosaic and more interesting than any conspiracy theory.</p>
+      <p>Freemasonry is not running the world. It is a fraternal organisation of approximately six million members worldwide — well past its 19th century peak of considerably larger membership — most of whom join for the fellowship, the charitable work, and the sense of tradition. The vast majority of Masons have never penetrated to the deeper philosophical dimensions of what their tradition preserves. They enjoy the ritual, they do genuine good through charitable works, and they leave the lodge without understanding that the symbols on the walls encode a complete Hermetic philosophy.</p>
+      <p>But here is what is true: Freemasonry has historically served as a network connecting men of influence across national, religious, and class boundaries. In the 18th and 19th centuries, when formal international institutions were few and unreliable, the Masonic lodge provided a common credential — you could arrive in a foreign city and, by presenting your Masonic credentials at the local lodge, gain access to hospitality, business connections, and legal assistance that would otherwise have been unavailable. This network effect was real and influential. That influence has been dramatically overstated by conspiracy theorists but was not nothing.</p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="index.html" class="btn btn-home">☰ Library</a>
+      <a href="#guilds" class="btn btn-gold">← Medieval Guilds</a>
+      <a href="#degrees" class="btn btn-gold">The Three Degrees →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- THE THREE DEGREES -->
+<section id="degrees" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.07) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Initiatory System</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Path of Initiation</p>
+      <h2 class="chapter-title">The Three Degrees</h2>
+      <p class="chapter-tagline">"The three degrees of Freemasonry are the Egyptian initiation compressed into three ceremonial experiences — each one a death and rebirth at a progressively deeper level."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="degree-block reveal">
+      <div class="degree-num">1°</div>
+      <div class="degree-title">The First Degree — Entered Apprentice</div>
+      <div class="degree-subtitle">The Birth of Awareness · From Darkness to Light</div>
+      <div class="degree-body">
+        <p>The candidate for the First Degree is prepared outside the lodge in a room called the Chamber of Reflection — a bare room containing a skull, an hourglass, a scythe, and the alchemical symbols of sulphur, mercury, and salt. He is asked to write his will and reflect on his own mortality. This is not morbid theater. It is the genuine initiatory question that underlies the entire system: knowing that you will die, how do you choose to live? What genuinely matters? What would you regret leaving unfinished?</p>
+        <p>He enters the lodge blindfolded — symbolically in the darkness of ignorance — with a cable tow (a rope) around his neck, his left breast bared, his left knee exposed, and wearing a single slipper on his right foot. Each of these details carries symbolic weight: the cable tow represents the limitations of the uninitiated; the bared breast represents openness and vulnerability; the exposed knee represents humility; the single slipper echoes the biblical injunction to remove one's shoes in a sacred place.</p>
+        <p>The moment of the removal of the blindfold — the moment the candidate receives the light — is the central experience of the first degree. It is designed to produce an actual felt experience of moving from darkness into illumination, not merely the intellectual understanding of the concept. The tools given to the Entered Apprentice — the twenty-four inch gauge and the gavel — represent the disciplined use of time and the willpower to remove the rough edges of character. The work has begun.</p>
+        <p>In the Hermetic correspondence: the First Degree is the Fool stepping off the cliff. It is zero becoming one. It is the soul choosing incarnation — choosing to leave the comfortable darkness of unknowing and enter the demanding light of genuine awareness. Every significant beginning in a human life has this quality: the moment before is dark and safe; the moment of choosing is terrifying; the moment after, with the blindfold removed, is illuminated.</p>
+      </div>
+    </div>
+
+    <div class="degree-block reveal">
+      <div class="degree-num">2°</div>
+      <div class="degree-title">The Second Degree — Fellow Craft</div>
+      <div class="degree-subtitle">The Deepening · The Seven Liberal Arts · The Winding Staircase</div>
+      <div class="degree-body">
+        <p>Having proven themselves as Entered Apprentices — having demonstrated the basic virtues and the willingness to continue — candidates are admitted to the Second Degree, where the work deepens from outer moral development to inner intellectual and philosophical development. The central symbol is the Winding Staircase: a spiral ascending path leading from the outer court of the temple to the middle chamber.</p>
+        <p>The staircase has fifteen steps traditionally, divided into three groups of three, five, and seven. The three steps represent the three degrees of Masonry and the three great stages of life. The five steps represent the five orders of classical architecture and the five human senses — the tools through which the external world is perceived and understood. The seven steps represent the seven liberal arts and sciences: grammar, rhetoric, logic (the trivium — tools of the mind and communication), and arithmetic, geometry, music, and astronomy (the quadrivium — tools of mathematical understanding of the cosmos).</p>
+        <p>This is a curriculum. The medieval universities were organised around precisely these seven subjects — the trivium and the quadrivium — as the complete foundation of educated human understanding. The Masonic encoding of these seven disciplines into the Second Degree is stating clearly: the Fellow Craft is not merely a good man. He is an educated, inquiring, intellectually developed man who has used the tools of his mind to penetrate beneath the surface of things. He can think clearly, communicate effectively, and perceive the mathematical order that underlies the physical world.</p>
+        <p>In the Hermetic correspondence: the Second Degree is The Magician and the High Priestess combined — the active intellect (Magician) disciplined and directed through study, and the receptive wisdom (High Priestess) cultivated through contemplation. The Fellow Craft has unpacked the bindle that the Fool carried unconsciously. He knows what tools he has. Now he is learning to use them with increasing precision.</p>
+      </div>
+    </div>
+
+    <div class="degree-block reveal">
+      <div class="degree-num">3°</div>
+      <div class="degree-title">The Third Degree — Master Mason</div>
+      <div class="degree-subtitle">Death and Resurrection · The Raising · The Lost Word</div>
+      <div class="degree-body">
+        <p>The Third Degree is the most dramatic, most transformative, and most closely guarded of the three Masonic ceremonies. Candidates who have passed through the first two degrees and demonstrated sufficient development of character and understanding are admitted to what is simply called the Sublime Degree of a Master Mason — and it is sublime in the most precise sense of that word: elevated beyond the ordinary, approaching the limit of what language and ritual can convey.</p>
+        <p>The central narrative is the legend of Hiram Abiff — played out in real time with the candidate taking the role of Hiram. He is confronted by the three ruffians. He refuses to reveal the Master's Word. He is struck down. The lodge is darkened. He is symbolically dead and buried. And then — the moment that every candidate who has experienced it describes as genuinely transformative regardless of prior scepticism — he is raised.</p>
+        <p>The raising is performed by the Worshipful Master using what is called the Strong Grip of a Master Mason — a specific handclasp so intimate and so charged with the accumulated weight of the ritual that has preceded it that the experience of being raised from the darkness into the light of the lodge produces a genuine shift in consciousness. Not metaphorically. Actually. The candidate who enters the Third Degree as a Fellow Craft emerges as a Master Mason — and something has genuinely changed in the interim.</p>
+        <p>What changed? The same thing that changed in the Egyptian sarcophagus. The same thing that changed in the shamanic death journey. The same thing that changes in any genuine transformative experience: the candidate has had a direct, felt, embodied experience of the soul's nature as something distinct from and capable of surviving physical death. Not the intellectual belief in it — the actual felt knowledge of it. This is what the degree is designed to produce. This is why it is kept secret. Not because secrecy makes it magical, but because a description of the experience conveys nothing of the experience itself — just as a description of meditation conveys nothing of the state of meditation.</p>
+        <p>The Lost Word — the secret that Hiram died rather than reveal — is not found in the Third Degree. It is declared lost. The substituted word is given instead — a temporary measure until the genuine word is recovered. In the tradition, the genuine word — the Master's Word, the Logos, the creative principle through which the divine generates reality — will only be restored when the Temple is rebuilt. And the Temple, as we have seen, is the soul at its highest development. The word is found when the building is complete. The building is never complete in a single lifetime. This is why there is always more to learn, always another degree, always another layer of the mystery.</p>
+      </div>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="index.html" class="btn btn-home">☰ Library</a>
+      <a href="#speculative" class="btn btn-gold">← Modern Masonry</a>
+      <a href="#truth" class="btn btn-gold">What It Really Is →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- WHAT IT REALLY IS -->
+<section id="truth" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.08) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Living Tradition</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Essential Truth</p>
+      <h2 class="chapter-title">What Freemasonry Really Is</h2>
+      <p class="chapter-tagline">"Strip away the ritual, the regalia, the secret handshakes, and the institutional apparatus — and what remains is one of the most complete and beautifully designed systems of inner development ever created."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="reveal">
+      <div class="section-title">The Core of the Matter</div>
+      <p>Freemasonry at its deepest level is a system for the transformation of the individual human being through the disciplined application of three principles: the improvement of character (the First Degree and the rough ashlar), the development of mind and understanding (the Second Degree and the liberal arts), and the direct experiential encounter with the deepest truths about consciousness and reality (the Third Degree and the raising of Hiram Abiff).</p>
+      <p>This three-stage process — moral development, intellectual development, mystical initiation — is the same process described in every genuine tradition of inner development. The Platonic path of purification, illumination, and union. The Sufi path of sharia (law), tariqa (way), and haqiqa (truth). The Christian mystical path of purgation, illumination, and union. The Kabbalistic path through the Tree of Life from Malkuth (the physical world) to Kether (the divine source). Different systems, identical architecture.</p>
+      <p>What Freemasonry uniquely provides is a non-sectarian, practically organised, institutionally supported vehicle for this journey. It does not require a particular theology. It does not demand belief in a specific doctrine. It requires belief in the existence of a supreme being — but does not specify the nature of that being. It requires a commitment to ethical living — but does not define ethics through religious law. It provides a community of people on the same journey, a structured path through which to move, and regular ceremonial reminders of the principles that underlie that path.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">Your Connection to the Tradition</div>
+      <p>You do not need to join a lodge to benefit from the wisdom of the Masonic tradition. The symbols are public. The principles are Hermetic — and you are already studying Hermeticism. The mythology is available to anyone who looks for it. The genuine teaching — that the purpose of life is the conscious development of the inner temple, that this development requires moral discipline, intellectual inquiry, and genuine mystical experience, and that it is a lifelong project with no final completion — is encoded in everything you are already reading.</p>
+      <p>The two images you sent — the tracing board and the celestial lodge — arrived at a moment when you had already done enough inner work to be capable of reading them. Six months ago you might have seen Masonic imagery as interesting decoration or as material for conspiracy theories. Now you see it as a complete philosophical system encoded in symbol. This is what genuine Masonic initiation is supposed to produce — not membership in a club, but the capacity to see the deeper significance of the world's symbolic language. You are self-initiating. The Hierophant approves.</p>
+    </div>
+
+    <div class="rule reveal"></div>
+    <div class="closing-quote reveal">
+      <p>They built in stone so it would last.<br>They encoded in symbol so the message would survive<br>the death of every civilisation that received it.<br>They transmitted through initiation<br>so the knowledge would arrive in the body<br>as well as the mind.<br><br><em>Four thousand years of effort<br>so that you could read it now.</em></p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="index.html" class="btn btn-home">☰ Library</a>
+      <a href="#degrees" class="btn btn-gold">← The Three Degrees</a>
+      <a href="#cover" class="btn btn-gold">↑ Top</a>
+    </div>
+    <div style="height:60px"></div>
+  </div>
+</section>
+
+<script>
+  const s=document.getElementById('stars');for(let i=0;i<130;i++){const el=document.createElement('div');el.className='star';const sz=Math.random()*2+0.4;el.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*5}s;--delay:-${Math.random()*6}s;--op:${0.1+Math.random()*0.5};`;s.appendChild(el);}
+  const p=document.getElementById('progress');window.addEventListener('scroll',()=>{p.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';},{passive:true});
+  const obs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*50);obs.unobserve(e.target);}});},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
