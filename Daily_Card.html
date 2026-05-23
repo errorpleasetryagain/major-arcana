@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>The Daily Card — Quick Reference</title>
+<style>
+  :root {
+    --night:#06070f;--gold:#c9a84c;--gold-pale:#f5e4a0;--gold-dim:#8a7035;
+    --ivory:#f0ead8;--soft:#d8d0e8;--purple:#6b5b95;--purple-light:#9b8bc5;
+    --silver:#c8d0e8;--card:#0e1020;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--night);color:var(--ivory);font-family:Palatino,'Palatino Linotype',Georgia,serif;font-size:16px;line-height:1.7;overflow-x:hidden;}
+
+  /* BACK TO LIBRARY */
+  .lib-home{position:fixed;top:12px;left:12px;z-index:200;background:rgba(6,7,15,0.92);border:1px solid rgba(201,168,76,0.3);border-radius:30px;padding:7px 14px;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-dim);text-decoration:none;backdrop-filter:blur(10px);transition:all 0.3s;}
+  .lib-home:hover{color:var(--gold);border-color:var(--gold);}
+
+  /* STARS */
+  #stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+  .star{position:absolute;background:white;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s);opacity:var(--op,0.3);}
+  @keyframes twinkle{0%,100%{opacity:var(--op,0.3);}50%{opacity:0.04;}}
+
+  /* LAYOUT */
+  .app{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:70px 16px 100px;}
+
+  /* HEADER */
+  .header{text-align:center;padding:20px 0 32px;}
+  .header-symbol{font-size:28px;color:var(--gold);display:block;margin-bottom:10px;}
+  .header h1{font-size:clamp(22px,5vw,30px);color:var(--gold);font-style:italic;margin-bottom:4px;}
+  .header p{font-size:12px;color:var(--gold-dim);letter-spacing:0.2em;text-transform:uppercase;}
+
+  /* TIME / DATE BAR */
+  .time-bar{background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.15);border-radius:12px;padding:12px 16px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;font-size:13px;}
+  .time-big{font-size:24px;color:var(--gold);font-style:italic;}
+  .time-right{text-align:right;}
+  .time-date{color:var(--soft);}
+  .time-moon{color:var(--purple-light);font-style:italic;font-size:12px;}
+
+  /* TAB NAV */
+  .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:24px;}
+  .tab-btn{padding:12px 8px;border-radius:10px;border:1px solid rgba(201,168,76,0.15);background:rgba(255,255,255,0.02);color:var(--gold-dim);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;text-align:center;transition:all 0.25s;font-family:Palatino,serif;}
+  .tab-btn.active{background:rgba(201,168,76,0.1);border-color:var(--gold);color:var(--gold);}
+  .tab-btn-icon{display:block;font-size:20px;margin-bottom:4px;}
+
+  /* PANELS */
+  .panel{display:none;}
+  .panel.active{display:block;}
+
+  /* SECTION HEADERS */
+  .section-head{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold-dim);margin:24px 0 12px;display:flex;align-items:center;gap:8px;}
+  .section-head::before{content:'✦';font-size:8px;}
+
+  /* CARDS */
+  .card{background:var(--card);border:1px solid rgba(201,168,76,0.12);border-radius:12px;padding:18px 16px;margin-bottom:10px;position:relative;}
+  .card.done{border-color:rgba(201,168,76,0.35);background:rgba(201,168,76,0.05);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
+  .card-title{font-size:17px;color:var(--gold);font-style:italic;}
+  .card-check{width:26px;height:26px;border-radius:50%;border:1px solid rgba(201,168,76,0.3);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;color:transparent;font-size:14px;}
+  .card.done .card-check{background:rgba(201,168,76,0.15);border-color:var(--gold);color:var(--gold);}
+  .card-body{font-size:15px;color:var(--soft);line-height:1.7;}
+  .card-body strong{color:var(--gold-pale);}
+  .card-time{font-size:11px;color:var(--gold-dim);letter-spacing:0.1em;margin-bottom:6px;}
+
+  /* PRINCIPLE CARDS */
+  .principle-card{border-radius:12px;padding:16px;margin-bottom:10px;border-left:3px solid var(--pc,var(--gold-dim));background:rgba(255,255,255,0.02);}
+  .principle-num{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:3px;}
+  .principle-name{font-size:17px;color:var(--gold);font-style:italic;margin-bottom:4px;}
+  .principle-law{font-size:13px;color:var(--gold-pale);font-style:italic;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.05);}
+  .principle-apply{font-size:14px;color:var(--soft);line-height:1.65;}
+  .principle-q{font-size:13px;color:var(--purple-light);font-style:italic;margin-top:8px;}
+
+  /* NUMBER QUICK REF */
+  .num-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+  .num-card{background:rgba(255,255,255,0.02);border:1px solid rgba(201,168,76,0.1);border-radius:10px;padding:12px 14px;}
+  .num-digits{font-size:18px;color:var(--gold);font-style:italic;margin-bottom:3px;}
+  .num-meaning{font-size:13px;color:var(--soft);line-height:1.5;}
+
+  /* PLANET DAY */
+  .planet-day{background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;}
+  .planet-day.today{border-color:var(--gold);background:rgba(201,168,76,0.08);}
+  .planet-icon{font-size:28px;flex-shrink:0;}
+  .planet-info{}
+  .planet-day-name{font-size:14px;color:var(--gold);font-style:italic;margin-bottom:2px;}
+  .planet-day-use{font-size:13px;color:var(--soft);}
+  .today-badge{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,0.12);border-radius:20px;padding:2px 10px;margin-left:8px;}
+
+  /* MANIFESTO */
+  .manifesto{background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:12px;padding:20px 18px;font-style:italic;color:var(--gold-pale);font-size:15px;line-height:2;}
+
+  /* RESET */
+  .reset-btn{width:100%;padding:14px;background:rgba(107,91,149,0.08);border:1px solid rgba(107,91,149,0.2);border-radius:10px;color:var(--purple-light);font-size:12px;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;margin-top:24px;font-family:Palatino,serif;transition:all 0.2s;}
+  .reset-btn:hover{background:rgba(107,91,149,0.15);}
+
+  /* BOTTOM NAV */
+  .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(6,7,15,0.96);backdrop-filter:blur(20px);border-top:1px solid rgba(201,168,76,0.1);display:flex;z-index:50;}
+  .nav-btn{flex:1;padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;background:none;border:none;color:var(--gold-dim);font-size:10px;letter-spacing:0.08em;transition:color 0.2s;}
+  .nav-btn.active{color:var(--gold);}
+  .nav-btn-icon{font-size:20px;}
+
+  @media(max-width:400px){.num-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="lib-home">☰ Library</a>
+<div id="stars"></div>
+
+<div class="app">
+
+  <div class="header">
+    <span class="header-symbol">✦</span>
+    <h1>The Daily Card</h1>
+    <p>Morning · Principles · Evening · Reference</p>
+  </div>
+
+  <!-- TIME BAR -->
+  <div class="time-bar">
+    <div class="time-big" id="clock">00:00</div>
+    <div class="time-right">
+      <div class="time-date" id="dateStr"></div>
+      <div class="time-moon" id="moonStr"></div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" id="tab-morning" onclick="switchTab('morning')"><span class="tab-btn-icon">☀︎</span>Morning</button>
+    <button class="tab-btn" id="tab-principles" onclick="switchTab('principles')"><span class="tab-btn-icon">✦</span>Principles</button>
+    <button class="tab-btn" id="tab-evening" onclick="switchTab('evening')"><span class="tab-btn-icon">☽</span>Evening</button>
+  </div>
+
+  <!-- ══════════════ MORNING PANEL ══════════════ -->
+  <div class="panel active" id="panel-morning">
+
+    <div class="section-head">Morning Sequence — Before Your Phone</div>
+
+    <div class="card" id="m1">
+      <div class="card-top">
+        <div>
+          <div class="card-time">Step 1 · 1 minute</div>
+          <div class="card-title">The First Breath</div>
+        </div>
+        <button class="card-check" onclick="toggleCard('m1')">✓</button>
+      </div>
+      <div class="card-body">Before you open your eyes fully — <strong>three slow deep breaths.</strong> On each exhale, release whatever the night left behind. Then set your intention in one sentence.<br><br><em>Today I move with clarity. Today I am open. Today I create from strength.</em></div>
+    </div>
+
+    <div class="card" id="m2">
+      <div class="card-top">
+        <div>
+          <div class="card-time">Step 2 · 3 minutes</div>
+          <div class="card-title">Gratitude Anchoring</div>
+        </div>
+        <button class="card-check" onclick="toggleCard('m2')">✓</button>
+      </div>
+      <div class="card-body">Three <strong>specific</strong> things you are genuinely grateful for right now. Not generic. The coffee. A conversation. Something your body does. Genuine gratitude is one of the highest vibrational states available — starting your broadcast here changes the day's frequency.</div>
+    </div>
+
+    <div class="card" id="m3">
+      <div class="card-top">
+        <div>
+          <div class="card-time">Step 3 · 2 minutes</div>
+          <div class="card-title">Today's Principle</div>
+        </div>
+        <button class="card-check" onclick="toggleCard('m3')">✓</button>
+      </div>
+      <div class="card-body">Choose one Hermetic principle and hold it in mind for two minutes. Let it colour the day. <strong>→ See the Principles tab.</strong><br><br>Ask: <em>Where will this principle show up in my day?</em></div>
+    </div>
+
+    <div class="card" id="m4">
+      <div class="card-top">
+        <div>
+          <div class="card-time">Step 4 · 2 minutes</div>
+          <div class="card-title">The Intention</div>
+        </div>
+        <button class="card-check" onclick="toggleCard('m4')">✓</button>
+      </div>
+      <div class="card-body">State clearly what you are calling in today. <strong>Positive. Present tense. Specific.</strong><br><br>Not "I want to feel confident" — <em>"I am moving through today with confidence and ease."</em><br><br>Speak it aloud if possible.</div>
+    </div>
+
+    <div class="card" id="m5">
+      <div class="card-top">
+        <div>
+          <div class="card-time">Step 5 · 5 minutes</div>
+          <div class="card-title">Stillness</div>
+        </div>
+        <button class="card-check" onclick="toggleCard('m5')">✓</button>
+      </div>
+      <div class="card-body">Sit. Do nothing. <strong>Receive.</strong> You have set your intention (masculine). Now let the deeper intelligence respond (feminine). Do not fill this time with thought. Simply observe what arises. The most important thing you need to know often arrives in this window.</div>
+    </div>
+
+    <div class="card" id="m6">
+      <div class="card-top">
+        <div>
+          <div class="card-time">With Your Coffee</div>
+          <div class="card-title">The Morning Read</div>
+        </div>
+        <button class="card-check" onclick="toggleCard('m6')">✓</button>
+      </div>
+      <div class="card-body">Open one book from the library. Read one section <strong>slowly</strong> — contemplatively, not informationally. Then ask: <em>Where is this principle showing up in my life right now?</em></div>
+    </div>
+
+    <div class="section-head" style="margin-top:28px;">Today's Planet</div>
+    <div id="todayPlanet" class="planet-day today"></div>
+
+    <div class="section-head">The Phone Rule</div>
+    <div class="card">
+      <div class="card-body"><strong>No phone for 30 minutes after waking.</strong> Every notification is someone else's mental world flooding yours — during the window when your subconscious is most receptive. Guard this window. It is the most valuable creative real estate in your day.</div>
+    </div>
+
+    <button class="reset-btn" onclick="resetMorning()">↺ Reset Morning Checklist</button>
+  </div>
+
+
+  <!-- ══════════════ PRINCIPLES PANEL ══════════════ -->
+  <div class="panel" id="panel-principles">
+
+    <div class="section-head">The Seven Hermetic Principles — Daily Application</div>
+
+    <div class="principle-card" style="--pc:#f5c040;">
+      <div class="principle-num">Principle I</div>
+      <div class="principle-name">Mentalism</div>
+      <div class="principle-law">"The All is Mind. The Universe is Mental."</div>
+      <div class="principle-apply">Everything you experience is mental in nature. Your thoughts are not private — they are broadcasts. What you hold consistently in mind, you create in experience.</div>
+      <div class="principle-q">Ask today: <em>If my dominant thought right now is a creative instruction to the universe — what am I ordering?</em></div>
+    </div>
+
+    <div class="principle-card" style="--pc:#2a8a7a;">
+      <div class="principle-num">Principle II</div>
+      <div class="principle-name">Correspondence</div>
+      <div class="principle-law">"As above, so below. As within, so without."</div>
+      <div class="principle-apply">Your outer world is a mirror of your inner world. Patterns in your relationships, finances, and health correspond precisely to patterns operating inside you. Change the inner and the outer must follow.</div>
+      <div class="principle-q">Ask today: <em>What is my outer world reflecting about my inner state right now?</em></div>
+    </div>
+
+    <div class="principle-card" style="--pc:#c87020;">
+      <div class="principle-num">Principle III</div>
+      <div class="principle-name">Vibration</div>
+      <div class="principle-law">"Nothing rests. Everything moves. Everything vibrates."</div>
+      <div class="principle-apply">You are a transmitter and receiver. Your emotional state is a broadcast. Fear, gratitude, anger, love — all real frequencies. What you emit, you attract back. Use music, movement, breath, and beauty to shift your frequency deliberately.</div>
+      <div class="principle-q">Ask today: <em>What frequency am I broadcasting right now — and what will that attract?</em></div>
+    </div>
+
+    <div class="principle-card" style="--pc:#b06070;">
+      <div class="principle-num">Principle IV</div>
+      <div class="principle-name">Polarity</div>
+      <div class="principle-law">"Everything is dual. Opposites are identical in nature, different in degree."</div>
+      <div class="principle-apply">You are never stuck at one end of a spectrum. Fear and courage are the same energy at different positions. Love and hate are the same spectrum. You can move along any spectrum consciously — this is mental transmutation.</div>
+      <div class="principle-q">Ask today: <em>Where am I standing on a spectrum that I could consciously move along?</em></div>
+    </div>
+
+    <div class="principle-card" style="--pc:#2a4a8a;">
+      <div class="principle-num">Principle V</div>
+      <div class="principle-name">Rhythm</div>
+      <div class="principle-law">"Everything flows, out and in. The pendulum swings in everything."</div>
+      <div class="principle-apply">Everything moves in cycles. High follows low. The depth of the swing one way is the measure of the return. When you are in a low phase, do not fight it — use it for rest, reflection, and planting. The return is coming.</div>
+      <div class="principle-q">Ask today: <em>What phase of the cycle am I in — and what does this phase ask of me?</em></div>
+    </div>
+
+    <div class="principle-card" style="--pc:#4a7a50;">
+      <div class="principle-num">Principle VI</div>
+      <div class="principle-name">Cause & Effect</div>
+      <div class="principle-law">"Every cause has its effect. Chance is law not recognised."</div>
+      <div class="principle-apply">Nothing is random. You are either a cause (acting from intention) or an effect (reacting to circumstances). The signs you see are effects — find the cause and find the message. Every deliberate action you take is a seed entering the causal chain.</div>
+      <div class="principle-q">Ask today: <em>Am I acting as a cause or reacting as an effect right now?</em></div>
+    </div>
+
+    <div class="principle-card" style="--pc:#9b59b6;">
+      <div class="principle-num">Principle VII</div>
+      <div class="principle-name">Gender</div>
+      <div class="principle-law">"Gender is in everything. Everything has its masculine and feminine principles."</div>
+      <div class="principle-apply">Creation requires both active will (masculine — plant the seed) and receptive trust (feminine — let it grow). After a period of strong action, enter receptive mode. After a period of waiting, act. Know which mode the moment requires.</div>
+      <div class="principle-q">Ask today: <em>Does this moment call for directed action or patient trust?</em></div>
+    </div>
+
+    <div class="section-head" style="margin-top:28px;">Quick Number Decoder</div>
+    <div class="num-grid">
+      <div class="num-card"><div class="num-digits">111</div><div class="num-meaning">Portal open. Thoughts manifesting fast. Be deliberate.</div></div>
+      <div class="num-card"><div class="num-digits">222</div><div class="num-meaning">Trust the process. Divine timing. You are not alone.</div></div>
+      <div class="num-card"><div class="num-digits">333</div><div class="num-meaning">Creative power peak. Express yourself. Guides present.</div></div>
+      <div class="num-card"><div class="num-digits">444</div><div class="num-meaning">Protected. Foundation solid. Safe to build and proceed.</div></div>
+      <div class="num-card"><div class="num-digits">555</div><div class="num-meaning">Major change incoming. Release the old. Trust movement.</div></div>
+      <div class="num-card"><div class="num-digits">666</div><div class="num-meaning">Rebalance. Shift from material to spiritual focus.</div></div>
+      <div class="num-card"><div class="num-digits">777</div><div class="num-meaning">Perfect path. Keep going. Spiritually aligned.</div></div>
+      <div class="num-card"><div class="num-digits">888</div><div class="num-meaning">Abundance flowing. Harvest arriving. Infinite cycle.</div></div>
+      <div class="num-card"><div class="num-digits">999</div><div class="num-meaning">Completion. Release what is finished. New cycle ready.</div></div>
+      <div class="num-card"><div class="num-digits">1111</div><div class="num-meaning">Awakening signal. You are on the right path. Pay attention.</div></div>
+      <div class="num-card"><div class="num-digits">1212</div><div class="num-meaning">Break old patterns. Your thoughts are creating reality now.</div></div>
+      <div class="num-card"><div class="num-digits">1234</div><div class="num-meaning">Sequential progress. Right direction. Trust the sequence.</div></div>
+    </div>
+
+    <div class="section-head" style="margin-top:28px;">The Planetary Week</div>
+    <div id="allPlanets"></div>
+
+  </div>
+
+
+  <!-- ══════════════ EVENING PANEL ══════════════ -->
+  <div class="panel" id="panel-evening">
+
+    <div class="section-head">Evening Sequence — The Hour Before Sleep</div>
+
+    <div class="card" id="e1">
+      <div class="card-top">
+        <div>
+          <div class="card-time">Step 1 · 5 minutes</div>
+          <div class="card-title">The Review</div>
+        </div>
+        <button class="card-check" onclick="toggleCard('e1')">✓</button>
+      </div>
+      <div class="card-body">Let the day pass through your mind like a film. <strong>Do not judge — observe.</strong> Notice where you acted from your highest self. Notice where you didn't. Notice where the principles showed up — what correspondences appeared, what caused what.</div>
+    </div>
+
+    <div class="card" id="e2">
+      <div class="card-top">
+        <div>
+          <div class="card-time">Step 2 · 3 minutes</div>
+          <div class="card-title">The Release</div>
+        </div>
+        <button class="card-check" onclick="toggleCard('e2')">✓</button>
+      </div>
+      <div class="card-body">Whatever carries a charge — frustration, worry, a conversation that didn't go right. <strong>Breathe in, name it, breathe out and let it go.</strong> You do not need to solve it tonight. Your subconscious will work on it. Release the emotional grip.</div>
+    </div>
+
+    <div class="card" id="e3">
+      <div class="card-top">
+        <div>
+          <div class="card-time">Step 3 · 2 minutes</div>
+          <div class="card-title">Three Wins</div>
+        </div>
+        <button class="card-check" onclick="toggleCard('e3')">✓</button>
+      </div>
+      <div class="card-body">Name <strong>three things that went well today</strong> — however small. The brain catalogues problems automatically. Consciously cataloguing wins retrains this bias and shifts your dominant broadcast toward appreciation before sleep.</div>
+    </div>
+
+    <div class="card" id="e4">
+      <div class="card-top">
+        <div>
+          <div class="card-time">Step 4 · 2 minutes</div>
+          <div class="card-title">The Night Intention</div>
+        </div>
+        <button class="card-check" onclick="toggleCard('e4')">✓</button>
+      </div>
+      <div class="card-body">Ask your deeper intelligence to work on something specific while you sleep. A problem needing solution. A decision needing clarity. <strong>State it simply, then release it.</strong> Do not try to think your way to an answer — plant the question and trust.</div>
+    </div>
+
+    <div class="card" id="e5">
+      <div class="card-top">
+        <div>
+          <div class="card-time">Step 5 · 10-15 minutes</div>
+          <div class="card-title">The Tarot Card</div>
+        </div>
+        <button class="card-check" onclick="toggleCard('e5')">✓</button>
+      </div>
+      <div class="card-body">Read tonight's card from the <strong>Major Arcana</strong> book. Let it be the last substantial thing your mind holds before sleep. The subconscious will work with it all night. Notice what dreams arise.</div>
+    </div>
+
+    <div class="card" id="e6">
+      <div class="card-top">
+        <div>
+          <div class="card-time">In Bed · Optional but powerful</div>
+          <div class="card-title">Sleep Script + Binaural Beats</div>
+        </div>
+        <button class="card-check" onclick="toggleCard('e6')">✓</button>
+      </div>
+      <div class="card-body">Headphones in. <strong>Theta binaural beats</strong> (4-8Hz) playing softly. Your sleep script recording over the top. Eyes closed. Let the words wash over you passively — do not actively listen. Drift. The subconscious has received its instructions.</div>
+    </div>
+
+    <div class="section-head" style="margin-top:28px;">Evening Journal Prompts</div>
+    <div class="card">
+      <div class="card-body">
+        <strong>Pick one or write freely:</strong><br><br>
+        ✦ What principle showed up most clearly in my day?<br><br>
+        ✦ What was my outer world reflecting about my inner state?<br><br>
+        ✦ Where did I act as a cause? Where did I react as an effect?<br><br>
+        ✦ What sign or synchronicity appeared — and what might it mean?<br><br>
+        ✦ What do I want to wake up knowing tomorrow?
+      </div>
+    </div>
+
+    <div class="section-head" style="margin-top:28px;">The Hermetic Manifesto</div>
+    <div class="manifesto">
+      I am a conscious being in a conscious universe.<br>
+      Everything I think is a broadcast. Everything I feel is a signal.<br>
+      Everything I experience corresponds to everything I am.<br><br>
+
+      I work with seven laws, not against them.<br>
+      What I cannot change on the outside<br>
+      I can always change on the inside —<br>
+      and the outside will follow without exception.<br><br>
+
+      I am not at the mercy of circumstances.<br>
+      I am a cause, not only an effect.<br>
+      I plant seeds with clear intention and trust them to grow.<br><br>
+
+      I read the signs the universe sends me.<br>
+      I honour the rhythms — the highs and the lows both.<br>
+      I trust the timing even when I cannot see the plan.<br><br>
+
+      I am the Fool — willing to step into the unknown.<br>
+      I am the Magician — capable of shaping reality with my attention.<br>
+      I am the High Priestess — connected to the deep intelligence beneath all thought.<br><br>
+
+      <em>I am listening. I am learning. I am becoming.</em>
+    </div>
+
+    <button class="reset-btn" onclick="resetEvening()">↺ Reset Evening Checklist</button>
+  </div>
+
+</div><!-- end .app -->
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="nav-btn active" id="nav-morning" onclick="switchTab('morning')"><span class="nav-btn-icon">☀︎</span>Morning</button>
+  <button class="nav-btn" id="nav-principles" onclick="switchTab('principles')"><span class="nav-btn-icon">✦</span>Principles</button>
+  <button class="nav-btn" id="nav-evening" onclick="switchTab('evening')"><span class="nav-btn-icon">☽</span>Evening</button>
+</div>
+
+<script>
+// ── STARS ──────────────────────────────────────────────────────────────────
+const starsEl = document.getElementById('stars');
+for(let i=0;i<100;i++){
+  const s=document.createElement('div');s.className='star';
+  const sz=Math.random()*1.8+0.3;
+  s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:-${Math.random()*5}s;--op:${0.1+Math.random()*0.4};`;
+  starsEl.appendChild(s);
+}
+
+// ── CLOCK ──────────────────────────────────────────────────────────────────
+function updateClock(){
+  const now = new Date();
+  document.getElementById('clock').textContent = now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('dateStr').textContent = now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+}
+updateClock();
+setInterval(updateClock,10000);
+
+// ── MOON ───────────────────────────────────────────────────────────────────
+function getMoonPhase(){
+  const knownNew = new Date('2024-01-11');
+  const diff = (new Date() - knownNew)/(1000*60*60*24);
+  const cycle = diff % 29.53;
+  if(cycle<1.85) return {emoji:'🌑',name:'New Moon'};
+  if(cycle<7.38) return {emoji:'🌒',name:'Waxing Crescent'};
+  if(cycle<9.22) return {emoji:'🌓',name:'First Quarter'};
+  if(cycle<14.77) return {emoji:'🌔',name:'Waxing Gibbous'};
+  if(cycle<16.61) return {emoji:'🌕',name:'Full Moon'};
+  if(cycle<22.15) return {emoji:'🌖',name:'Waning Gibbous'};
+  if(cycle<23.99) return {emoji:'🌗',name:'Last Quarter'};
+  return {emoji:'🌘',name:'Waning Crescent'};
+}
+const moon = getMoonPhase();
+document.getElementById('moonStr').textContent = moon.emoji + ' ' + moon.name;
+
+// ── PLANETS ────────────────────────────────────────────────────────────────
+const PLANETS = [
+  {day:'Monday',icon:'🌙',name:'Moon',use:'Intuition, emotional work, journaling, lunar practice, home'},
+  {day:'Tuesday',icon:'♂',name:'Mars',use:'Bold action, gym, difficult conversations, decisive steps forward'},
+  {day:'Wednesday',icon:'☿',name:'Mercury',use:'Communication, writing, learning, important emails and calls'},
+  {day:'Thursday',icon:'♃',name:'Jupiter',use:'Expansion, philosophy, generosity, big picture thinking, study'},
+  {day:'Friday',icon:'♀',name:'Venus',use:'Beauty, pleasure, relationships, art, music, creativity, rest'},
+  {day:'Saturday',icon:'♄',name:'Saturn',use:'Structure, discipline, planning, serious work, building foundations'},
+  {day:'Sunday',icon:'☀',name:'Sun',use:'Vitality, identity, purpose, the big vision, solar practice'},
+];
+const todayName = new Date().toLocaleDateString('en-GB',{weekday:'long'});
+
+// Today's planet
+const todayPlanet = PLANETS.find(p=>p.day===todayName) || PLANETS[0];
+document.getElementById('todayPlanet').innerHTML = `
+  <span class="planet-icon">${todayPlanet.icon}</span>
+  <div class="planet-info">
+    <div class="planet-day-name">${todayPlanet.day} — ${todayPlanet.name} <span class="today-badge">Today</span></div>
+    <div class="planet-day-use">${todayPlanet.use}</div>
+  </div>`;
+
+// All planets list
+const allP = document.getElementById('allPlanets');
+PLANETS.forEach(p=>{
+  const isToday = p.day===todayName;
+  allP.innerHTML += `<div class="planet-day${isToday?' today':''}">
+    <span class="planet-icon">${p.icon}</span>
+    <div class="planet-info">
+      <div class="planet-day-name">${p.day} — ${p.name}${isToday?'<span class="today-badge">Today</span>':''}</div>
+      <div class="planet-day-use">${p.use}</div>
+    </div>
+  </div>`;
+});
+
+// ── TABS ───────────────────────────────────────────────────────────────────
+function switchTab(tab){
+  ['morning','principles','evening'].forEach(t=>{
+    document.getElementById('panel-'+t).classList.remove('active');
+    document.getElementById('tab-'+t).classList.remove('active');
+    document.getElementById('nav-'+t).classList.remove('active');
+  });
+  document.getElementById('panel-'+tab).classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+  document.getElementById('nav-'+tab).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ── CHECKLIST ──────────────────────────────────────────────────────────────
+const STORAGE_KEY = 'daily_card_v1';
+function getChecked(){
+  try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||{};}catch{return {};}
+}
+function saveChecked(data){localStorage.setItem(STORAGE_KEY,JSON.stringify(data));}
+
+function toggleCard(id){
+  const data = getChecked();
+  const today = new Date().toDateString();
+  const key = today+'_'+id;
+  if(data[key]){
+    delete data[key];
+    document.getElementById(id).classList.remove('done');
+  } else {
+    data[key] = true;
+    document.getElementById(id).classList.add('done');
+  }
+  saveChecked(data);
+}
+
+function resetMorning(){
+  const data = getChecked();
+  const today = new Date().toDateString();
+  ['m1','m2','m3','m4','m5','m6'].forEach(id=>{
+    delete data[today+'_'+id];
+    const el = document.getElementById(id);
+    if(el) el.classList.remove('done');
+  });
+  saveChecked(data);
+}
+
+function resetEvening(){
+  const data = getChecked();
+  const today = new Date().toDateString();
+  ['e1','e2','e3','e4','e5','e6'].forEach(id=>{
+    delete data[today+'_'+id];
+    const el = document.getElementById(id);
+    if(el) el.classList.remove('done');
+  });
+  saveChecked(data);
+}
+
+// Restore today's checked state
+function restoreChecked(){
+  const data = getChecked();
+  const today = new Date().toDateString();
+  Object.keys(data).forEach(key=>{
+    if(key.startsWith(today+'_')){
+      const id = key.replace(today+'_','');
+      const el = document.getElementById(id);
+      if(el) el.classList.add('done');
+    }
+  });
+  // Auto reset if new day
+  const lastDay = localStorage.getItem('daily_card_lastday');
+  if(lastDay && lastDay !== today){
+    localStorage.removeItem(STORAGE_KEY);
+  }
+  localStorage.setItem('daily_card_lastday', today);
+}
+restoreChecked();
+</script>
+</body>
+</html>
