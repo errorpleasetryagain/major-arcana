@@ -5,274 +5,405 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>The Hermetic Library</title>
 <style>
-  :root{--night:#080812;--gold:#c9a84c;--gold-light:#e8c96a;--gold-pale:#f5e4a0;--gold-dim:#8a7035;--ivory:#f0ead8;--soft:#d8d0e8;--purple:#6b5b95;--purple-light:#9b8bc5;}
+  :root{--night:#07080f;--gold:#c9a84c;--gold-pale:#f5e4a0;--gold-dim:#8a7035;--ivory:#f0ead8;--soft:#d4cce4;--purple:#6b5b95;--purple-light:#9b8bc5;--teal:#1a6a5a;}
   *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
-  body{background:var(--night);color:var(--ivory);font-family:Palatino,'Palatino Linotype',Georgia,serif;font-size:18px;line-height:1.85;overflow-x:hidden;min-height:100vh;}
+  body{background:var(--night);color:var(--ivory);font-family:Palatino,'Palatino Linotype',Georgia,serif;overflow-x:hidden;min-height:100vh;}
   #stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
-  .star{position:absolute;background:white;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s);opacity:var(--op,0.3);}
-  @keyframes twinkle{0%,100%{opacity:var(--op,0.3);}50%{opacity:0.04;}}
-  .page{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px;}
-  .library-symbol{font-size:44px;color:var(--gold);margin-bottom:28px;animation:float 4s ease-in-out infinite;text-shadow:0 0 40px rgba(201,168,76,0.4);}
-  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
-  .library-title{font-size:clamp(30px,8vw,56px);color:var(--gold);font-style:italic;line-height:1.15;margin-bottom:10px;text-shadow:0 0 60px rgba(201,168,76,0.2);}
-  .library-sub{font-size:clamp(11px,2.5vw,14px);color:var(--gold-pale);letter-spacing:0.32em;text-transform:uppercase;margin-bottom:40px;opacity:0.75;}
-  .rule{width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 48px;}
-  .books{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1000px;width:100%;margin-bottom:60px;}
-  .book-card{background:rgba(255,255,255,0.02);border:1px solid rgba(201,168,76,0.15);border-radius:16px;padding:28px 22px;text-decoration:none;display:flex;flex-direction:column;transition:all 0.3s;position:relative;overflow:hidden;}
-  .book-card:hover{border-color:rgba(201,168,76,0.4);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,0.4);}
-  .book-icon{font-size:28px;margin-bottom:14px;}
-  .book-number{font-size:10px;letter-spacing:0.35em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:5px;}
-  .book-title{font-size:20px;color:var(--gold);font-style:italic;margin-bottom:5px;line-height:1.2;}
-  .book-subtitle{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--purple-light);margin-bottom:14px;opacity:0.8;}
-  .book-desc{font-size:14px;color:var(--soft);line-height:1.65;margin-bottom:16px;flex:1;}
-  .book-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:14px;border-top:1px solid rgba(201,168,76,0.08);}
-  .book-tag{background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.15);border-radius:20px;padding:3px 10px;font-size:11px;color:var(--gold-pale);}
-  .open-btn{display:block;margin-top:14px;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);opacity:0.6;transition:opacity 0.3s;}
-  .book-card:hover .open-btn{opacity:1;}
-  .progress-section{max-width:1000px;width:100%;margin-bottom:48px;}
-  .progress-title{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:20px;text-align:center;}
-  .arcana-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;}
-  .arcana-item{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 8px;text-align:center;transition:all 0.3s;}
-  .arcana-item.done{background:rgba(201,168,76,0.06);border-color:rgba(201,168,76,0.25);}
-  .arcana-num{font-size:10px;color:var(--gold-dim);margin-bottom:3px;letter-spacing:0.1em;}
-  .arcana-name{font-size:11px;color:rgba(255,255,255,0.3);font-style:italic;line-height:1.3;}
-  .arcana-item.done .arcana-name{color:var(--gold);}
-  .done-tick{font-size:10px;color:var(--gold);margin-top:3px;display:block;}
-  .footer-quote{max-width:480px;margin-bottom:32px;text-align:center;}
-  .footer-quote p{font-style:italic;font-size:16px;color:var(--gold-pale);opacity:0.6;line-height:1.8;}
-  .footer-rule{width:120px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);margin:0 auto 20px;}
-  .footer-text{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);opacity:0.5;}
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease;}
-  .reveal.visible{opacity:1;transform:translateY(0);}
-  @media(max-width:600px){.books{grid-template-columns:1fr;}.arcana-grid{grid-template-columns:repeat(auto-fill,minmax(72px,1fr));}}
+  .star{position:absolute;background:white;border-radius:50%;animation:tw var(--d,3s) ease-in-out infinite var(--del,0s);opacity:var(--op,.3);}
+  @keyframes tw{0%,100%{opacity:var(--op,.3);}50%{opacity:.03;}}
+  .wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:56px 16px 80px;}
+
+  /* HEADER */
+  .hdr{text-align:center;margin-bottom:52px;}
+  .hdr-sym{font-size:34px;color:var(--gold);display:block;margin-bottom:14px;animation:fl 5s ease-in-out infinite;text-shadow:0 0 40px rgba(201,168,76,.4);}
+  @keyframes fl{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+  .hdr h1{font-size:clamp(28px,6vw,46px);color:var(--gold);font-style:italic;margin-bottom:6px;}
+  .hdr-sub{font-size:11px;color:var(--gold-dim);letter-spacing:.28em;text-transform:uppercase;margin-bottom:24px;}
+  .hdr-rule{width:140px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto;}
+
+  /* SECTION LABELS */
+  .slbl{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold-dim);margin:44px 0 14px;display:flex;align-items:center;gap:10px;}
+  .slbl::before,.slbl::after{content:'';flex:1;height:1px;background:rgba(201,168,76,.12);}
+
+  /* GRID */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:11px;}
+
+  /* BASE CARD */
+  .card{background:rgba(255,255,255,.02);border:1px solid rgba(201,168,76,.11);border-radius:13px;padding:18px 16px;text-decoration:none;display:flex;flex-direction:column;transition:border-color .25s,transform .25s,box-shadow .25s;}
+  .card:hover{border-color:rgba(201,168,76,.32);transform:translateY(-2px);box-shadow:0 8px 26px rgba(0,0,0,.38);}
+  .card.gold{border-color:rgba(201,168,76,.26);background:rgba(201,168,76,.035);}
+  .card.purple{border-color:rgba(107,91,149,.26);background:rgba(107,91,149,.035);}
+  .card.teal{border-color:rgba(26,106,90,.26);background:rgba(26,106,90,.035);}
+  .card.silver{border-color:rgba(200,208,232,.2);background:rgba(200,208,232,.025);}
+
+  .ci{font-size:20px;margin-bottom:9px;}
+  .cv{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:2px;}
+  .ct{font-size:16px;color:var(--gold);font-style:italic;line-height:1.25;margin-bottom:2px;}
+  .cs{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--purple-light);margin-bottom:9px;opacity:.85;}
+  .cd{font-size:13px;color:var(--soft);line-height:1.6;flex:1;margin-bottom:10px;}
+  .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:auto;}
+  .tag{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.13);border-radius:20px;padding:2px 7px;font-size:9px;color:rgba(245,228,160,.6);}
+  .cop{display:block;margin-top:9px;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);opacity:.4;transition:opacity .2s;}
+  .card:hover .cop{opacity:1;}
+
+  /* ARCANA TRACKER */
+  .arc-wrap{margin-top:44px;}
+  .arc-title{font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold-dim);text-align:center;margin-bottom:12px;}
+  .arc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:5px;}
+  .ai{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:7px;padding:7px 4px;text-align:center;}
+  .ai.done{background:rgba(201,168,76,.05);border-color:rgba(201,168,76,.2);}
+  .an{font-size:8px;color:var(--gold-dim);margin-bottom:1px;}
+  .aname{font-size:9px;color:rgba(255,255,255,.18);font-style:italic;line-height:1.3;}
+  .ai.done .aname{color:var(--gold);}
+  .atick{font-size:7px;color:var(--gold);display:block;margin-top:2px;}
+
+  /* FOOTER */
+  .ftr{text-align:center;margin-top:56px;padding-top:24px;border-top:1px solid rgba(201,168,76,.07);}
+  .ftr-q{font-style:italic;font-size:13px;color:rgba(245,228,160,.38);margin-bottom:8px;line-height:1.7;}
+  .ftr-t{font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:rgba(138,112,53,.42);}
+
+  .rev{opacity:0;transform:translateY(16px);transition:opacity .6s,transform .6s;}
+  .rev.vis{opacity:1;transform:none;}
+  @media(max-width:480px){.grid{grid-template-columns:1fr;}.arc-grid{grid-template-columns:repeat(auto-fill,minmax(62px,1fr));}}
 </style>
 </head>
 <body>
 <div id="stars"></div>
-<div class="page">
+<div class="wrap">
 
-  <div class="library-symbol reveal">✦</div>
-  <h1 class="library-title reveal">The Hermetic Library</h1>
-  <p class="library-sub reveal">A Personal Collection · Built One Night at a Time</p>
-  <div class="rule reveal"></div>
+  <!-- HEADER -->
+  <div class="hdr rev">
+    <span class="hdr-sym">✦</span>
+    <h1>The Hermetic Library</h1>
+    <p class="hdr-sub">A Personal Collection · Built One Night at a Time</p>
+    <div class="hdr-rule"></div>
+  </div>
 
-  <div class="books">
+  <!-- QUICK ACCESS -->
+  <div class="slbl rev">Quick Access · Open These Every Day</div>
+  <div class="grid rev">
 
-
-    <a href="Daily_Card.html" class="book-card reveal" style="border-color:rgba(201,168,76,0.4);background:rgba(201,168,76,0.04);">
-      <div class="book-icon">⚡</div>
-      <div class="book-number">Daily Reference</div>
-      <div class="book-title">The Daily Card</div>
-      <div class="book-subtitle">Morning · Principles · Evening</div>
-      <div class="book-desc">Your quick-access daily cheat sheet. Tap-to-complete morning and evening checklists, all seven Hermetic principles with daily questions, the full number decoder, today's planetary energy, and the Hermetic Manifesto.</div>
-      <div class="book-tags"><span class="book-tag">Morning Ritual</span><span class="book-tag">Seven Principles</span><span class="book-tag">Evening Ritual</span><span class="book-tag">Number Decoder</span><span class="book-tag">Today's Planet</span></div>
-      <div class="open-btn">Open Daily Card →</div>
-    </a>
-    <a href="The_Major_Arcana.html" class="book-card reveal">
-      <div class="book-icon">🌙</div>
-      <div class="book-number">Volume I</div>
-      <div class="book-title">The Major Arcana</div>
-      <div class="book-subtitle">A Deep Study</div>
-      <div class="book-desc">The 22 cards explored at depth — Kabbalistic, Hermetic, Egyptian and psychological layers. One card a night. Cards 0–V complete.</div>
-      <div class="book-tags"><span class="book-tag">0 · The Fool</span><span class="book-tag">I · The Magician</span><span class="book-tag">II · High Priestess</span><span class="book-tag">III · Empress</span><span class="book-tag">IV · Emperor</span><span class="book-tag">V · Hierophant</span></div>
-      <div class="open-btn">Open Book →</div>
+    <a href="Daily_Card.html" class="card gold">
+      <div class="ci">⚡</div>
+      <div class="cv">Daily Reference</div>
+      <div class="ct">The Daily Card</div>
+      <div class="cs">Morning · Principles · Evening</div>
+      <div class="cd">Tap-to-complete morning and evening checklists. Seven Hermetic principles with daily questions. Number decoder. Today's planetary energy. The Hermetic Manifesto. Auto-resets each day.</div>
+      <div class="tags"><span class="tag">Morning Ritual</span><span class="tag">Seven Principles</span><span class="tag">Evening Ritual</span><span class="tag">Number Decoder</span></div>
+      <span class="cop">Open Daily →</span>
     </a>
 
-    <a href="The_Kybalion.html" class="book-card reveal">
-      <div class="book-icon">◉</div>
-      <div class="book-number">Volume II</div>
-      <div class="book-title">The Kybalion</div>
-      <div class="book-subtitle">A Modern Study of Hermetic Principles</div>
-      <div class="book-desc">The seven principles of Hermetic philosophy — ancient text alongside plain modern English. The oldest map of reality, made readable.</div>
-      <div class="book-tags"><span class="book-tag">Mentalism</span><span class="book-tag">Correspondence</span><span class="book-tag">Vibration</span><span class="book-tag">Polarity</span><span class="book-tag">Rhythm</span><span class="book-tag">Cause & Effect</span><span class="book-tag">Gender</span></div>
-      <div class="open-btn">Open Book →</div>
+    <a href="Synchronicity_Journal.html" class="card gold">
+      <div class="ci">✦</div>
+      <div class="cv">Interactive Journal</div>
+      <div class="ct">Synchronicity Journal</div>
+      <div class="cs">Record · Decode · See the Pattern</div>
+      <div class="cd">Log every sign. Number decoder, moon phase tracker, pattern insights. Your 444 and 11:11 already logged. Add tonight's 333+444 combination — 333+444=777.</div>
+      <div class="tags"><span class="tag">Sign Journal</span><span class="tag">Number Decoder</span><span class="tag">Moon Phase</span><span class="tag">444 · 333 · 777</span></div>
+      <span class="cop">Open →</span>
     </a>
 
-    <a href="The_Daily_Practice.html" class="book-card reveal">
-      <div class="book-icon">☀︎</div>
-      <div class="book-number">Volume III</div>
-      <div class="book-title">The Daily Practice</div>
-      <div class="book-subtitle">Hermetic Living in the Modern World</div>
-      <div class="book-desc">Your daily compass. Morning and evening sequences, reading signs, each principle in real life, lunar practice, weekly reviews, and the Hermetic Manifesto.</div>
-      <div class="book-tags"><span class="book-tag">Morning Ritual</span><span class="book-tag">Evening Ritual</span><span class="book-tag">Reading Signs</span><span class="book-tag">Lunar Practice</span><span class="book-tag">The Manifesto</span></div>
-      <div class="open-btn">Open Book →</div>
-    </a>
-
-    <a href="The_Emerald_Tablet.html" class="book-card reveal">
-      <div class="book-icon">⊕</div>
-      <div class="book-number">Volume IV</div>
-      <div class="book-title">The Emerald Tablet</div>
-      <div class="book-subtitle">The Source Text</div>
-      <div class="book-desc">The legendary text of Hermes Trismegistus. The complete original text and a deep line-by-line commentary. The most influential spiritual document in Western history.</div>
-      <div class="book-tags"><span class="book-tag">The Legend</span><span class="book-tag">Full Text</span><span class="book-tag">Verse by Verse</span><span class="book-tag">The Great Work</span></div>
-      <div class="open-btn">Open Book →</div>
-    </a>
-
-    <a href="Synchronicity.html" class="book-card reveal">
-      <div class="book-icon">∞</div>
-      <div class="book-number">Volume V</div>
-      <div class="book-title">Synchronicity</div>
-      <div class="book-subtitle">Reading the Universe's Language</div>
-      <div class="book-desc">Carl Jung, Wolfgang Pauli, and the quantum physics of meaningful coincidence. How to recognise signs, distinguish signal from noise, and keep the journal.</div>
-      <div class="book-tags"><span class="book-tag">The Science</span><span class="book-tag">Types of Signs</span><span class="book-tag">The Practice</span><span class="book-tag">The Journal</span></div>
-      <div class="open-btn">Open Book →</div>
-    </a>
-
-    <a href="The_Lunar_Mysteries.html" class="book-card reveal">
-      <div class="book-icon">🌙</div>
-      <div class="book-number">Volume VI</div>
-      <div class="book-title">The Lunar Mysteries</div>
-      <div class="book-subtitle">The Moon, The Tides, and The Human Soul</div>
-      <div class="book-desc">The moon's importance across every ancient civilisation, the science of lunar influence on the body, the eight phases, moon in Tarot, and a complete monthly practice.</div>
-      <div class="book-tags"><span class="book-tag">The Ancients</span><span class="book-tag">Eight Phases</span><span class="book-tag">Moon & Body</span><span class="book-tag">New Moon Ritual</span><span class="book-tag">Full Moon Ritual</span></div>
-      <div class="open-btn">Open Book →</div>
-    </a>
-
-    <a href="Sleep_Activation.html" class="book-card reveal">
-      <div class="book-icon">☾</div>
-      <div class="book-number">Volume VII</div>
-      <div class="book-title">Sleep Activation</div>
-      <div class="book-subtitle">Subconscious Reprogramming</div>
-      <div class="book-desc">The science of the hypnagogic state, your personal sleep script written for the Hermetic path, binaural beats guidance, and the complete nightly practice.</div>
-      <div class="book-tags"><span class="book-tag">The Science</span><span class="book-tag">The Script</span><span class="book-tag">Binaural Beats</span><span class="book-tag">Full Practice</span></div>
-      <div class="open-btn">Open Book →</div>
-    </a>
-
-    <a href="The_Chakra_System.html" class="book-card reveal">
-      <div class="book-icon">⊛</div>
-      <div class="book-number">Volume VIII</div>
-      <div class="book-title">The Chakra System</div>
-      <div class="book-subtitle">Ancient Wisdom · Modern Body</div>
-      <div class="book-desc">Seven energy centres, seven Hermetic principles, seven endocrine glands. Ancient Indian system mapped onto modern neuroscience with a complete Hermetic correspondence table.</div>
-      <div class="book-tags"><span class="book-tag">All Seven Chakras</span><span class="book-tag">Hermetic Map</span><span class="book-tag">Tarot Links</span><span class="book-tag">Daily Practice</span></div>
-      <div class="open-btn">Open Book →</div>
-    </a>
-
-    <a href="Tarot_Spreads.html" class="book-card reveal">
-      <div class="book-icon">🃏</div>
-      <div class="book-number">Volume IX</div>
-      <div class="book-title">Tarot Spreads</div>
-      <div class="book-subtitle">Daily Guidance Practice</div>
-      <div class="book-desc">From the single daily card to the full Celtic Cross. Daily spreads, the Hermetic Five, the New Moon spread, the complete Celtic Cross with all ten positions explained.</div>
-      <div class="book-tags"><span class="book-tag">Daily Spreads</span><span class="book-tag">Hermetic Five</span><span class="book-tag">Celtic Cross</span><span class="book-tag">New Moon Spread</span></div>
-      <div class="open-btn">Open Book →</div>
-    </a>
-
-    <a href="The_Stoic_Hermetic_Path.html" class="book-card reveal">
-      <div class="book-icon">⚖</div>
-      <div class="book-number">Volume X</div>
-      <div class="book-title">The Stoic & Hermetic Path</div>
-      <div class="book-subtitle">Two Traditions · One Practice</div>
-      <div class="book-desc">Marcus Aurelius meets Hermes Trismegistus. The Stoic and Hermetic traditions in dialogue — where they agree, where they complement, and the combined daily practice.</div>
-      <div class="book-tags"><span class="book-tag">The Convergence</span><span class="book-tag">The Dialogue</span><span class="book-tag">Dichotomy of Control</span><span class="book-tag">Combined Practice</span></div>
-      <div class="open-btn">Open Book →</div>
-    </a>
-
-    <a href="Freemasonry_Decoded.html" class="book-card reveal">
-      <div class="book-icon">△</div>
-      <div class="book-number">Volume XI</div>
-      <div class="book-title">Freemasonry Decoded</div>
-      <div class="book-subtitle">The Hidden Wisdom</div>
-      <div class="book-desc">Every symbol from the tracing board images decoded. The history from Egypt to the Grand Lodge. The three degrees. The living connection to everything in this library.</div>
-      <div class="book-tags"><span class="book-tag">The History</span><span class="book-tag">Symbols Decoded</span><span class="book-tag">Three Degrees</span><span class="book-tag">The Hermetic Core</span></div>
-      <div class="open-btn">Open Book →</div>
-    </a>
-
-    <a href="Synchronicity_Journal.html" class="book-card reveal" style="border-color:rgba(201,168,76,0.3);">
-      <div class="book-icon">✦</div>
-      <div class="book-number">Volume XII</div>
-      <div class="book-title">The Synchronicity Journal</div>
-      <div class="book-subtitle">Record · Decode · Recognise the Pattern</div>
-      <div class="book-desc">Your interactive journal for logging signs. Record what happened, your interpretation, which Hermetic principle. Number decoder, pattern insights, moon phase tracker.</div>
-      <div class="book-tags"><span class="book-tag">Sign Journal</span><span class="book-tag">Number Decoder</span><span class="book-tag">Pattern Insights</span><span class="book-tag">Moon Tracker</span></div>
-      <div class="open-btn">Open Journal →</div>
-    </a>
-
-    <a href="The_Planets.html" class="book-card reveal">
-      <div class="book-icon">🪐</div>
-      <div class="book-number">Volume XIII</div>
-      <div class="book-title">The Planets</div>
-      <div class="book-subtitle">A Hermetic Guide to the Solar System</div>
-      <div class="book-desc">Every planet decoded — Sun, Moon, Mercury, Venus, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto. Their mythology, energy, Hermetic correspondence, and how to work with each one.</div>
-      <div class="book-tags"><span class="book-tag">New Moon Now</span><span class="book-tag">All 10 Bodies</span><span class="book-tag">Planetary Week</span><span class="book-tag">Daily Practice</span></div>
-      <div class="open-btn">Open Book →</div>
-    </a>
-
-    <a href="Numerology.html" class="book-card reveal">
-      <div class="book-icon">∞</div>
-      <div class="book-number">Volume XIV</div>
-      <div class="book-title">Numerology</div>
-      <div class="book-subtitle">The Sacred Language of Numbers</div>
-      <div class="book-desc">The complete history from Egypt and Pythagoras through Kabbalah. Every digit 1-9. The master numbers 11, 22, 33. Your personal numbers decoded. The full repeating number decoder.</div>
-      <div class="book-tags"><span class="book-tag">The History</span><span class="book-tag">1 Through 9</span><span class="book-tag">Master Numbers</span><span class="book-tag">Your Numbers</span><span class="book-tag">Sign Decoder</span></div>
-      <div class="open-btn">Open Book →</div>
-    </a>
-
-    <a href="Freemasonry_History.html" class="book-card reveal">
-      <div class="book-icon">△</div>
-      <div class="book-number">Volume XV</div>
-      <div class="book-title">Freemasonry: The Hidden History</div>
-      <div class="book-subtitle">From Babel to the Grand Lodge</div>
-      <div class="book-desc">Tower of Babel, Enoch, Egypt, Solomon's Temple and Hiram Abiff, the medieval cathedral builders, the Grand Lodge, the Enlightenment, and the three degrees in full depth.</div>
-      <div class="book-tags"><span class="book-tag">Tower of Babel</span><span class="book-tag">Egypt & Solomon</span><span class="book-tag">Medieval Guilds</span><span class="book-tag">Modern Masonry</span><span class="book-tag">Three Degrees</span></div>
-      <div class="open-btn">Open Book →</div>
-    </a>
-
-    <a href="Ancient_Bloodlines.html" class="book-card reveal">
-      <div class="book-icon">⚗</div>
-      <div class="book-number">Volume XVI</div>
-      <div class="book-title">Ancient Bloodlines</div>
-      <div class="book-subtitle">The Keepers of Wisdom Through the Ages</div>
-      <div class="book-desc">The four-thousand-year transmission chain. Egypt → Greece → Alexandria → Islamic preservation → Kabbalists → Renaissance → Rosicrucians → and you, now, in this lineage.</div>
-      <div class="book-tags"><span class="book-tag">Egyptian Lineage</span><span class="book-tag">Greek Schools</span><span class="book-tag">Islamic Preservation</span><span class="book-tag">The Kabbalists</span><span class="book-tag">The Rosicrucians</span></div>
-      <div class="open-btn">Open Book →</div>
+    <a href="Blue_Moon_Prayer.html" class="card silver">
+      <div class="ci">🌕</div>
+      <div class="cv">Tonight · May 31 2026</div>
+      <div class="ct">Blue Moon Prayer</div>
+      <div class="cs">Sagittarius Blue Moon · Tonight's Reading</div>
+      <div class="cd">Written from tonight's four cards — The Sun reversed, Four of Wands, Page of Cups, Four of Swords. The release ritual, eight affirmations, and the closing. You already read it on the hill.</div>
+      <div class="tags"><span class="tag">Tonight</span><span class="tag">The Prayer</span><span class="tag">Release Ritual</span><span class="tag">Affirmations</span></div>
+      <span class="cop">Open →</span>
     </a>
 
   </div>
 
-  <!-- ARCANA PROGRESS -->
-  <div class="progress-section reveal">
-    <div class="progress-title">The Fool's Journey · Major Arcana Progress</div>
-    <div class="arcana-grid">
-      <div class="arcana-item done"><div class="arcana-num">0</div><div class="arcana-name">The Fool</div><span class="done-tick">✦</span></div>
-      <div class="arcana-item done"><div class="arcana-num">I</div><div class="arcana-name">The Magician</div><span class="done-tick">✦</span></div>
-      <div class="arcana-item done"><div class="arcana-num">II</div><div class="arcana-name">The High Priestess</div><span class="done-tick">✦</span></div>
-      <div class="arcana-item done"><div class="arcana-num">III</div><div class="arcana-name">The Empress</div><span class="done-tick">✦</span></div>
-      <div class="arcana-item done"><div class="arcana-num">IV</div><div class="arcana-name">The Emperor</div><span class="done-tick">✦</span></div>
-      <div class="arcana-item done"><div class="arcana-num">V</div><div class="arcana-name">The Hierophant</div><span class="done-tick">✦</span></div>
-      <div class="arcana-item"><div class="arcana-num">VI</div><div class="arcana-name">The Lovers</div></div>
-      <div class="arcana-item"><div class="arcana-num">VII</div><div class="arcana-name">The Chariot</div></div>
-      <div class="arcana-item"><div class="arcana-num">VIII</div><div class="arcana-name">Strength</div></div>
-      <div class="arcana-item"><div class="arcana-num">IX</div><div class="arcana-name">The Hermit</div></div>
-      <div class="arcana-item"><div class="arcana-num">X</div><div class="arcana-name">Wheel of Fortune</div></div>
-      <div class="arcana-item"><div class="arcana-num">XI</div><div class="arcana-name">Justice</div></div>
-      <div class="arcana-item"><div class="arcana-num">XII</div><div class="arcana-name">The Hanged Man</div></div>
-      <div class="arcana-item"><div class="arcana-num">XIII</div><div class="arcana-name">Death</div></div>
-      <div class="arcana-item"><div class="arcana-num">XIV</div><div class="arcana-name">Temperance</div></div>
-      <div class="arcana-item"><div class="arcana-num">XV</div><div class="arcana-name">The Devil</div></div>
-      <div class="arcana-item"><div class="arcana-num">XVI</div><div class="arcana-name">The Tower</div></div>
-      <div class="arcana-item"><div class="arcana-num">XVII</div><div class="arcana-name">The Star</div></div>
-      <div class="arcana-item"><div class="arcana-num">XVIII</div><div class="arcana-name">The Moon</div></div>
-      <div class="arcana-item"><div class="arcana-num">XIX</div><div class="arcana-name">The Sun</div></div>
-      <div class="arcana-item"><div class="arcana-num">XX</div><div class="arcana-name">Judgement</div></div>
-      <div class="arcana-item"><div class="arcana-num">XXI</div><div class="arcana-name">The World</div></div>
+  <!-- BEDTIME READINGS -->
+  <div class="slbl rev">Bedtime Readings · Open Before Sleep</div>
+  <div class="grid rev">
+
+    <a href="Kybalion_Reading.html" class="card purple">
+      <div class="ci">◉</div>
+      <div class="cv">Bedtime Reading I</div>
+      <div class="ct">The Kybalion</div>
+      <div class="cs">All Seven Principles · Slow Prose</div>
+      <div class="cd">All seven Hermetic principles in slow immersive bedtime prose. No history. No diagrams. Just the teaching, one principle at a time, written for the threshold between waking and sleep.</div>
+      <div class="tags"><span class="tag">Mentalism</span><span class="tag">Correspondence</span><span class="tag">Vibration</span><span class="tag">Polarity</span><span class="tag">Rhythm</span></div>
+      <span class="cop">Begin Reading →</span>
+    </a>
+
+    <a href="The_Great_Work_Reading.html" class="card purple">
+      <div class="ci">✦</div>
+      <div class="cv">Bedtime Reading II</div>
+      <div class="ct">The Great Work</div>
+      <div class="cs">Six Slow Chapters · Before Sleep</div>
+      <div class="cd">The oldest question. Nigredo, Albedo, Rubedo. The cups in the kitchen and what they mean. What the practice is actually for. A final passage written for the last minutes before sleep.</div>
+      <div class="tags"><span class="tag">The Great Work</span><span class="tag">Three Stages</span><span class="tag">The Lineage</span><span class="tag">Before Sleep</span></div>
+      <span class="cop">Begin Reading →</span>
+    </a>
+
+    <a href="Corpus_Hermeticum_Reading.html" class="card purple">
+      <div class="ci">⊕</div>
+      <div class="cv">Bedtime Reading III</div>
+      <div class="ct">The Corpus Hermeticum</div>
+      <div class="cs">The Divine Dialogues · Before Sleep</div>
+      <div class="cd">Poimandres. The Mixing Bowl. The Secret Sermon on the Mountain. The Closing Hymn — the oldest prayer in recorded history. Ends with sleep as initiation.</div>
+      <div class="tags"><span class="tag">Poimandres</span><span class="tag">The Mixing Bowl</span><span class="tag">Secret Sermon</span><span class="tag">Closing Hymn</span></div>
+      <span class="cop">Begin Reading →</span>
+    </a>
+
+  </div>
+
+  <!-- FOUNDATION LIBRARY I-X -->
+  <div class="slbl rev">The Foundation Library · Volumes I–X</div>
+  <div class="grid rev">
+
+    <a href="The_Major_Arcana.html" class="card">
+      <div class="ci">🌙</div>
+      <div class="cv">Volume I</div>
+      <div class="ct">The Major Arcana</div>
+      <div class="cs">Cards 0–V Complete · SVG Illustrated</div>
+      <div class="cd">The Fool through The Hierophant. Kabbalistic, Hermetic, Egyptian and psychological layers. SVG illustrated. One card a night practice. Cards VI–XXI to come.</div>
+      <div class="tags"><span class="tag">0 · Fool</span><span class="tag">I · Magician</span><span class="tag">II · High Priestess</span><span class="tag">III · Empress</span><span class="tag">IV · Emperor</span><span class="tag">V · Hierophant</span></div>
+      <span class="cop">Open Book →</span>
+    </a>
+
+    <a href="The_Kybalion.html" class="card">
+      <div class="ci">◉</div>
+      <div class="cv">Volume II</div>
+      <div class="ct">The Kybalion</div>
+      <div class="cs">Seven Hermetic Principles · In Depth</div>
+      <div class="cd">The seven principles with history, ancient text, and plain English. The philosophical foundation of everything else in this library.</div>
+      <div class="tags"><span class="tag">Mentalism</span><span class="tag">Correspondence</span><span class="tag">Vibration</span><span class="tag">Polarity</span><span class="tag">Rhythm</span><span class="tag">Cause & Effect</span><span class="tag">Gender</span></div>
+      <span class="cop">Open Book →</span>
+    </a>
+
+    <a href="The_Daily_Practice.html" class="card">
+      <div class="ci">☀︎</div>
+      <div class="cv">Volume III</div>
+      <div class="ct">The Daily Practice</div>
+      <div class="cs">Hermetic Living in the Modern World</div>
+      <div class="cd">Morning and evening sequences, reading signs, each principle in real life, lunar practice, weekly reviews, and the Hermetic Manifesto.</div>
+      <div class="tags"><span class="tag">Morning Ritual</span><span class="tag">Evening Ritual</span><span class="tag">Reading Signs</span><span class="tag">The Manifesto</span></div>
+      <span class="cop">Open Book →</span>
+    </a>
+
+    <a href="The_Emerald_Tablet.html" class="card">
+      <div class="ci">⊕</div>
+      <div class="cv">Volume IV</div>
+      <div class="ct">The Emerald Tablet</div>
+      <div class="cs">The Source Text · Line by Line</div>
+      <div class="cd">The complete original text and deep line-by-line commentary. The most influential spiritual document in Western history. The foundation of alchemy and Hermeticism.</div>
+      <div class="tags"><span class="tag">The Legend</span><span class="tag">Full Text</span><span class="tag">Commentary</span><span class="tag">The Great Work</span></div>
+      <span class="cop">Open Book →</span>
+    </a>
+
+    <a href="Synchronicity.html" class="card">
+      <div class="ci">∞</div>
+      <div class="cv">Volume V</div>
+      <div class="ct">Synchronicity</div>
+      <div class="cs">Reading the Universe's Language</div>
+      <div class="cd">Jung, Pauli, and the quantum physics of meaningful coincidence. How to recognise signs, distinguish signal from noise, and build the journalling practice.</div>
+      <div class="tags"><span class="tag">The Science</span><span class="tag">Types of Signs</span><span class="tag">Jung & Pauli</span><span class="tag">The Practice</span></div>
+      <span class="cop">Open Book →</span>
+    </a>
+
+    <a href="The_Lunar_Mysteries.html" class="card">
+      <div class="ci">🌙</div>
+      <div class="cv">Volume VI</div>
+      <div class="ct">The Lunar Mysteries</div>
+      <div class="cs">The Moon · The Tides · The Soul</div>
+      <div class="cd">The moon across every ancient civilisation, the science of lunar influence on the body, the eight phases in depth, and a complete monthly practice including blue moons.</div>
+      <div class="tags"><span class="tag">Eight Phases</span><span class="tag">Moon & Body</span><span class="tag">New Moon Ritual</span><span class="tag">Blue Moon</span></div>
+      <span class="cop">Open Book →</span>
+    </a>
+
+    <a href="Sleep_Activation.html" class="card">
+      <div class="ci">☾</div>
+      <div class="cv">Volume VII</div>
+      <div class="ct">Sleep Activation</div>
+      <div class="cs">Subconscious Reprogramming</div>
+      <div class="cd">The hypnagogic state, your personal sleep script, binaural beats guidance, and the complete nightly practice for reprogramming while you sleep.</div>
+      <div class="tags"><span class="tag">The Science</span><span class="tag">Your Script</span><span class="tag">Binaural Beats</span><span class="tag">Full Practice</span></div>
+      <span class="cop">Open Book →</span>
+    </a>
+
+    <a href="The_Chakra_System.html" class="card">
+      <div class="ci">⊛</div>
+      <div class="cv">Volume VIII</div>
+      <div class="ct">The Chakra System</div>
+      <div class="cs">Ancient Wisdom · Modern Body</div>
+      <div class="cd">Seven energy centres mapped onto modern neuroscience, the endocrine system, and the Hermetic principles. Full correspondence table and daily practice.</div>
+      <div class="tags"><span class="tag">All Seven Chakras</span><span class="tag">Hermetic Map</span><span class="tag">Tarot Links</span><span class="tag">Daily Practice</span></div>
+      <span class="cop">Open Book →</span>
+    </a>
+
+    <a href="Tarot_Spreads.html" class="card">
+      <div class="ci">🃏</div>
+      <div class="cv">Volume IX</div>
+      <div class="ct">Tarot Spreads</div>
+      <div class="cs">Daily Guidance Practice</div>
+      <div class="cd">Daily spreads, the Hermetic Five, New Moon spread, and the complete Celtic Cross with all ten positions explained. How to ask questions that receive real answers.</div>
+      <div class="tags"><span class="tag">Daily Spreads</span><span class="tag">Hermetic Five</span><span class="tag">Celtic Cross</span><span class="tag">New Moon Spread</span></div>
+      <span class="cop">Open Book →</span>
+    </a>
+
+    <a href="The_Stoic_Hermetic_Path.html" class="card">
+      <div class="ci">⚖</div>
+      <div class="cv">Volume X</div>
+      <div class="ct">The Stoic & Hermetic Path</div>
+      <div class="cs">Two Traditions · One Practice</div>
+      <div class="cd">Marcus Aurelius meets Hermes Trismegistus. Where they agree, where they complement, and the combined daily practice that uses both traditions.</div>
+      <div class="tags"><span class="tag">The Convergence</span><span class="tag">The Dialogue</span><span class="tag">Dichotomy of Control</span><span class="tag">Combined Practice</span></div>
+      <span class="cop">Open Book →</span>
+    </a>
+
+  </div>
+
+  <!-- DEEP LIBRARY XI-XIX -->
+  <div class="slbl rev">The Deep Library · Volumes XI–XIX</div>
+  <div class="grid rev">
+
+    <a href="Freemasonry_Decoded.html" class="card">
+      <div class="ci">△</div>
+      <div class="cv">Volume XI</div>
+      <div class="ct">Freemasonry Decoded</div>
+      <div class="cs">The Hidden Wisdom · The Symbols</div>
+      <div class="cd">Every symbol from the tracing board decoded. History from Egypt to the Grand Lodge. The three degrees and their Hermetic meaning. The living connection to this library.</div>
+      <div class="tags"><span class="tag">Symbols Decoded</span><span class="tag">The History</span><span class="tag">Three Degrees</span><span class="tag">Hermetic Core</span></div>
+      <span class="cop">Open Book →</span>
+    </a>
+
+    <a href="The_Planets.html" class="card">
+      <div class="ci">🪐</div>
+      <div class="cv">Volume XII</div>
+      <div class="ct">The Planets</div>
+      <div class="cs">A Hermetic Guide to the Solar System</div>
+      <div class="cd">Every planet decoded from Sun to Pluto. Mythology, energy, Hermetic correspondence. Planetary week table. Why new moons and blue moons feel the way they feel.</div>
+      <div class="tags"><span class="tag">All 10 Bodies</span><span class="tag">Planetary Week</span><span class="tag">Moon Phases</span><span class="tag">Daily Practice</span></div>
+      <span class="cop">Open Book →</span>
+    </a>
+
+    <a href="Numerology.html" class="card">
+      <div class="ci">∞</div>
+      <div class="cv">Volume XIII</div>
+      <div class="ct">Numerology</div>
+      <div class="cs">The Sacred Language of Numbers</div>
+      <div class="cd">Egypt, Pythagoras, Kabbalah. Every digit 1–9. Master numbers 11, 22, 33. Your personal numbers. Why 444 and 333 were sent specifically to you. 333+444=777.</div>
+      <div class="tags"><span class="tag">History</span><span class="tag">1 Through 9</span><span class="tag">Master Numbers</span><span class="tag">Your Numbers</span><span class="tag">777</span></div>
+      <span class="cop">Open Book →</span>
+    </a>
+
+    <a href="Freemasonry_History.html" class="card">
+      <div class="ci">△</div>
+      <div class="cv">Volume XIV</div>
+      <div class="ct">Freemasonry: The Hidden History</div>
+      <div class="cs">From the Tower of Babel to the Grand Lodge</div>
+      <div class="cd">Tower of Babel, Enoch, Egypt, Solomon's Temple and Hiram Abiff, the medieval cathedral builders, the Grand Lodge of 1717, and the three degrees in full depth.</div>
+      <div class="tags"><span class="tag">Tower of Babel</span><span class="tag">Egypt & Solomon</span><span class="tag">Medieval Guilds</span><span class="tag">Three Degrees</span></div>
+      <span class="cop">Open Book →</span>
+    </a>
+
+    <a href="Ancient_Bloodlines.html" class="card">
+      <div class="ci">⚗</div>
+      <div class="cv">Volume XV</div>
+      <div class="ct">Ancient Bloodlines</div>
+      <div class="cs">The Keepers of Wisdom Through the Ages</div>
+      <div class="cd">Egypt → Greece → Alexandria → Islamic preservation → Kabbalists → Ficino → Bruno → Rosicrucians → and you, now, in this lineage.</div>
+      <div class="tags"><span class="tag">Egyptian Lineage</span><span class="tag">Greek Schools</span><span class="tag">Islamic Preservation</span><span class="tag">The Rosicrucians</span></div>
+      <span class="cop">Open Book →</span>
+    </a>
+
+    <a href="The_Inner_Orders.html" class="card">
+      <div class="ci">⚗</div>
+      <div class="cv">Volume XVI</div>
+      <div class="ct">The Inner Orders</div>
+      <div class="cs">SRIA · Crowley · False Fraternities</div>
+      <div class="cd">The SRIA's full history and nine grades. Symbols and grips decoded. Aleister Crowley honestly assessed. The Golden Dawn from founding to legacy. False fraternities and how to spot them.</div>
+      <div class="tags"><span class="tag">The SRIA</span><span class="tag">Nine Grades</span><span class="tag">Crowley</span><span class="tag">Golden Dawn</span><span class="tag">False Fraternities</span></div>
+      <span class="cop">Open Book →</span>
+    </a>
+
+    <a href="Joining_Freemasonry.html" class="card gold">
+      <div class="ci">🚪</div>
+      <div class="cv">Volume XVII</div>
+      <div class="ct">Joining Freemasonry</div>
+      <div class="cs">A Practical Guide for the Genuine Seeker</div>
+      <div class="cd">The honest picture. How to find his lodge from the cups in the kitchen — Kitchener No.3788 and Georgian No.4595. The process, the suit question, the reading list.</div>
+      <div class="tags"><span class="tag">Honest Picture</span><span class="tag">Finding His Lodge</span><span class="tag">The Process</span><span class="tag">Reading List</span></div>
+      <span class="cop">Open Book →</span>
+    </a>
+
+    <a href="The_Masonic_Path.html" class="card gold">
+      <div class="ci">△</div>
+      <div class="cv">Volume XVIII</div>
+      <div class="ct">The Masonic Path</div>
+      <div class="cs">Complete Preparation Guide · All Degrees & Orders</div>
+      <div class="cd">For someone already in the investigatory stage. What to learn before each degree. What each ceremony looks and feels like. Royal Arch. All further orders. Your complete roadmap to the SRIA.</div>
+      <div class="tags"><span class="tag">Where You Are Now</span><span class="tag">Three Degrees</span><span class="tag">Royal Arch</span><span class="tag">Further Orders</span><span class="tag">Your Roadmap</span></div>
+      <span class="cop">Open Book →</span>
+    </a>
+
+    <a href="Meditation_Guide.html" class="card teal">
+      <div class="ci">🧘</div>
+      <div class="cv">Volume XIX</div>
+      <div class="ct">The Meditation Guide</div>
+      <div class="cs">Reaching the Eternal Calm · Built for ADHD</div>
+      <div class="cd">Why conventional meditation fails ADHD brains. Six techniques ranked easiest to deepest. Full chakra sequence. Morning integration schedule. The eternal calm — what it is and how you get there.</div>
+      <div class="tags"><span class="tag">ADHD Methods</span><span class="tag">Box Breathing</span><span class="tag">Chakra Sequence</span><span class="tag">Morning Integration</span><span class="tag">Eternal Calm</span></div>
+      <span class="cop">Open Book →</span>
+    </a>
+
+  </div>
+
+  <!-- ARCANA TRACKER -->
+  <div class="arc-wrap rev">
+    <div class="arc-title">The Fool's Journey · Major Arcana Progress</div>
+    <div class="arc-grid">
+      <div class="ai done"><div class="an">0</div><div class="aname">The Fool</div><span class="atick">✦</span></div>
+      <div class="ai done"><div class="an">I</div><div class="aname">The Magician</div><span class="atick">✦</span></div>
+      <div class="ai done"><div class="an">II</div><div class="aname">High Priestess</div><span class="atick">✦</span></div>
+      <div class="ai done"><div class="an">III</div><div class="aname">The Empress</div><span class="atick">✦</span></div>
+      <div class="ai done"><div class="an">IV</div><div class="aname">The Emperor</div><span class="atick">✦</span></div>
+      <div class="ai done"><div class="an">V</div><div class="aname">The Hierophant</div><span class="atick">✦</span></div>
+      <div class="ai"><div class="an">VI</div><div class="aname">The Lovers</div></div>
+      <div class="ai"><div class="an">VII</div><div class="aname">The Chariot</div></div>
+      <div class="ai"><div class="an">VIII</div><div class="aname">Strength</div></div>
+      <div class="ai"><div class="an">IX</div><div class="aname">The Hermit</div></div>
+      <div class="ai"><div class="an">X</div><div class="aname">Wheel of Fortune</div></div>
+      <div class="ai"><div class="an">XI</div><div class="aname">Justice</div></div>
+      <div class="ai"><div class="an">XII</div><div class="aname">The Hanged Man</div></div>
+      <div class="ai"><div class="an">XIII</div><div class="aname">Death</div></div>
+      <div class="ai"><div class="an">XIV</div><div class="aname">Temperance</div></div>
+      <div class="ai"><div class="an">XV</div><div class="aname">The Devil</div></div>
+      <div class="ai"><div class="an">XVI</div><div class="aname">The Tower</div></div>
+      <div class="ai"><div class="an">XVII</div><div class="aname">The Star</div></div>
+      <div class="ai"><div class="an">XVIII</div><div class="aname">The Moon</div></div>
+      <div class="ai"><div class="an">XIX</div><div class="aname">The Sun</div></div>
+      <div class="ai"><div class="an">XX</div><div class="aname">Judgement</div></div>
+      <div class="ai"><div class="an">XXI</div><div class="aname">The World</div></div>
     </div>
   </div>
 
-  <div class="footer-quote reveal">
-    <p>"The lips of wisdom are closed, except to the ears of understanding."</p>
+  <!-- FOOTER -->
+  <div class="ftr rev">
+    <p class="ftr-q">"The lips of wisdom are closed, except to the ears of understanding."</p>
+    <p class="ftr-t">19 Volumes · 3 Bedtime Readings · 3 Tools · A Living Collection · 333+444=777</p>
   </div>
-  <div class="footer-rule"></div>
-  <p class="footer-text reveal">The Hermetic Library · 16 Volumes · A Living Collection</p>
-  <div style="height:40px"></div>
 
 </div>
 
 <script>
+  // Stars
   const s=document.getElementById('stars');
-  for(let i=0;i<140;i++){const el=document.createElement('div');el.className='star';const sz=Math.random()*2+0.4;el.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:-${Math.random()*5}s;--op:${0.1+Math.random()*0.5};`;s.appendChild(el);}
-  const obs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target);}});},{threshold:0.1});
-  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  for(let i=0;i<140;i++){
+    const e=document.createElement('div');e.className='star';
+    const sz=Math.random()*1.8+.3,gold=Math.random()>.72;
+    e.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*4.5}s;--del:-${Math.random()*5}s;--op:${.07+Math.random()*.42};background:${gold?'#c9a84c':'white'};`;
+    s.appendChild(e);
+  }
+  // Reveal
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('vis'),i*55);obs.unobserve(e.target);}});
+  },{threshold:.08});
+  document.querySelectorAll('.rev').forEach(el=>obs.observe(el));
 </script>
 </body>
 </html>

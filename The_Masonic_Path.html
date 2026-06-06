@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>The Masonic Path — A Complete Preparation Guide</title>
+<style>
+  :root{--night:#06070f;--gold:#c9a84c;--gold-light:#e8c96a;--gold-pale:#f5e4a0;--gold-dim:#8a7035;--ivory:#f0ead8;--soft:#d8d0e8;--purple:#6b5b95;--purple-light:#9b8bc5;--silver:#c8d0e8;--blue:#1a2a5a;--teal:#1a6a5a;}
+  *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+  body{background:var(--night);color:var(--ivory);font-family:Palatino,'Palatino Linotype',Georgia,serif;font-size:18px;line-height:1.9;overflow-x:hidden;}
+  .lib-home{position:fixed;top:16px;left:16px;z-index:200;background:rgba(6,7,15,0.92);border:1px solid rgba(201,168,76,0.3);border-radius:30px;padding:8px 16px;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-dim);text-decoration:none;backdrop-filter:blur(10px);transition:all 0.3s;display:flex;align-items:center;gap:6px;}
+  .lib-home:hover{color:var(--gold);border-color:var(--gold);}
+  #stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+  .star{position:absolute;background:white;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s);opacity:var(--op,0.3);}
+  @keyframes twinkle{0%,100%{opacity:var(--op,0.3);}50%{opacity:0.04;}}
+  .progress-bar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--gold));z-index:100;transition:width 0.1s;}
+  .page{position:relative;z-index:1;}
+  #cover{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;background:radial-gradient(ellipse at 50% 30%,rgba(26,42,90,0.1) 0%,transparent 70%);}
+  .cover-symbol{font-size:52px;color:var(--gold);margin-bottom:28px;animation:float 4s ease-in-out infinite;text-shadow:0 0 40px rgba(201,168,76,0.4);}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+  .cover-title{font-size:clamp(24px,6vw,46px);color:var(--gold);line-height:1.2;margin-bottom:10px;font-style:italic;}
+  .cover-sub{font-size:clamp(11px,2.5vw,14px);color:var(--gold-pale);letter-spacing:0.28em;text-transform:uppercase;margin-bottom:36px;opacity:0.75;}
+  .cover-rule{width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 36px;}
+  .cover-intro{max-width:520px;font-size:17px;font-style:italic;color:var(--soft);line-height:1.9;margin-bottom:14px;}
+  .nav-pills{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:16px;}
+  .nav-pill{background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);color:var(--gold-pale);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:9px 16px;border-radius:30px;cursor:pointer;text-decoration:none;transition:all 0.3s;}
+  .nav-pill:hover{background:rgba(201,168,76,0.16);border-color:var(--gold);color:var(--gold);}
+  .scroll-hint{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--gold-dim);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;animation:fade-bob 2s ease-in-out infinite;margin-top:20px;}
+  .scroll-arrow{width:1px;height:34px;background:linear-gradient(to bottom,var(--gold-dim),transparent);}
+  @keyframes fade-bob{0%,100%{opacity:0.4;}50%{opacity:0.9;}}
+  .section{padding:80px 24px;display:flex;flex-direction:column;align-items:center;position:relative;}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);}
+  .section-label{position:sticky;top:16px;z-index:10;text-align:center;pointer-events:none;margin-bottom:-40px;}
+  .section-badge{display:inline-block;background:rgba(6,7,15,0.92);border:1px solid rgba(201,168,76,0.25);border-radius:20px;padding:6px 18px;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);backdrop-filter:blur(10px);}
+  .content{max-width:640px;width:100%;}
+  .chapter-number{font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:var(--purple-light);margin-bottom:10px;text-align:center;}
+  .chapter-title{font-size:clamp(26px,7vw,44px);color:var(--gold);text-align:center;margin-bottom:8px;font-style:italic;}
+  .chapter-tagline{font-style:italic;font-size:17px;color:var(--gold-pale);text-align:center;margin-bottom:48px;opacity:0.85;line-height:1.6;}
+  .rule{width:100%;max-width:580px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);margin:32px auto;}
+  .rule.short{max-width:200px;background:linear-gradient(90deg,transparent,var(--purple),transparent);}
+  .section-title{font-size:13px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold-light);margin:40px 0 14px;display:flex;align-items:center;gap:10px;}
+  .section-title::before{content:'✦';color:var(--gold-dim);font-size:9px;}
+  p{color:var(--soft);margin-bottom:18px;font-size:17px;line-height:1.9;}
+  p strong{color:var(--gold-pale);}
+
+  /* DEGREE BLOCKS */
+  .degree-block{background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.18);border-radius:16px;padding:28px 24px;margin:20px 0;position:relative;}
+  .degree-header{display:flex;align-items:flex-start;gap:16px;margin-bottom:18px;}
+  .degree-badge{background:linear-gradient(135deg,rgba(201,168,76,0.2),rgba(201,168,76,0.08));border:1px solid rgba(201,168,76,0.4);border-radius:10px;padding:10px 14px;text-align:center;flex-shrink:0;min-width:60px;}
+  .degree-num{font-size:22px;color:var(--gold);font-style:italic;display:block;line-height:1;}
+  .degree-symbol{font-size:16px;color:var(--gold-dim);display:block;margin-top:4px;}
+  .degree-info{}
+  .degree-name{font-size:21px;color:var(--gold);font-style:italic;margin-bottom:4px;}
+  .degree-subtitle{font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:var(--purple-light);}
+  .degree-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:16px 0;}
+  .degree-item{background:rgba(255,255,255,0.03);border-radius:8px;padding:11px 13px;}
+  .degree-item-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:3px;}
+  .degree-item-value{font-size:14px;color:var(--soft);line-height:1.5;}
+  .degree-body{color:var(--soft);font-size:16px;line-height:1.85;margin-top:8px;}
+  .degree-body strong{color:var(--gold-pale);}
+
+  /* LEARN BOXES */
+  .learn-box{background:rgba(26,42,90,0.08);border:1px solid rgba(26,42,90,0.25);border-radius:12px;padding:20px 18px;margin:14px 0;}
+  .learn-title{font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--silver);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+  .learn-title::before{content:'◎';font-size:10px;}
+  .learn-body{color:var(--soft);font-size:15px;line-height:1.8;}
+  .learn-body li{margin-bottom:8px;padding-left:16px;position:relative;}
+  .learn-body li::before{content:'·';position:absolute;left:0;color:var(--gold-dim);}
+
+  /* ORDER CARDS */
+  .order-card{border-radius:14px;padding:22px 20px;margin:14px 0;border-left:3px solid var(--oc,var(--gold-dim));background:rgba(255,255,255,0.02);}
+  .order-name{font-size:19px;color:var(--gold);font-style:italic;margin-bottom:4px;}
+  .order-req{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--purple-light);margin-bottom:10px;}
+  .order-body{color:var(--soft);font-size:15px;line-height:1.8;}
+
+  /* FEEL BLOCK */
+  .feel-block{background:rgba(107,91,149,0.07);border:1px solid rgba(107,91,149,0.2);border-radius:12px;padding:20px 18px;margin:14px 0;}
+  .feel-title{font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--purple-light);margin-bottom:10px;}
+  .feel-body{font-style:italic;color:var(--soft);font-size:16px;line-height:1.85;}
+
+  .ancient-text{background:rgba(201,168,76,0.04);border-left:2px solid var(--gold-dim);border-radius:0 10px 10px 0;padding:18px 22px;margin:22px 0;}
+  .ancient-text .label{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:6px;}
+  .ancient-text p{font-style:italic;color:var(--gold-pale);font-size:16px;margin:0;line-height:1.8;}
+
+  .pull-quote{text-align:center;padding:32px 0;}
+  .pull-quote p{font-style:italic;font-size:19px;color:var(--gold-pale);max-width:460px;margin:0 auto;line-height:1.75;}
+  .closing-quote{text-align:center;padding:44px 0;}
+  .closing-quote p{font-style:italic;font-size:19px;color:var(--gold-pale);max-width:440px;margin:0 auto;line-height:1.85;}
+  .section-nav{display:flex;justify-content:center;gap:14px;margin-top:56px;flex-wrap:wrap;}
+  .btn{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border-radius:30px;cursor:pointer;text-decoration:none;transition:all 0.3s;display:inline-block;}
+  .btn-gold{background:rgba(201,168,76,0.1);border:1px solid var(--gold-dim);color:var(--gold);}
+  .btn-gold:hover{background:rgba(201,168,76,0.2);border-color:var(--gold);}
+  .btn-home{background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);color:var(--gold-dim);}
+  .btn-home:hover{background:rgba(201,168,76,0.12);color:var(--gold);}
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.8s ease,transform 0.8s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  @media(max-width:480px){body{font-size:16px;}.degree-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<a href="index.html" class="lib-home">☰ Library</a>
+<div class="progress-bar" id="progress"></div>
+<div id="stars"></div>
+
+<section id="cover" class="page">
+  <div class="cover-symbol">△</div>
+  <h1 class="cover-title">The Masonic Path</h1>
+  <p class="cover-sub">A Complete Preparation Guide · Every Degree · Every Order</p>
+  <div class="cover-rule"></div>
+  <p class="cover-intro">
+    You are already in the investigatory stage.<br>
+    Emails are being exchanged. The wheels are turning.<br>
+    This is everything you need to know — what to learn,<br>
+    what to expect, what it feels like, and where the path leads<br>
+    from the first knock on the door to the SRIA and beyond.
+  </p>
+  <nav class="nav-pills">
+    <a href="#now" class="nav-pill">Where You Are Now</a>
+    <a href="#first" class="nav-pill">First Degree</a>
+    <a href="#second" class="nav-pill">Second Degree</a>
+    <a href="#third" class="nav-pill">Third Degree</a>
+    <a href="#royal-arch" class="nav-pill">Royal Arch</a>
+    <a href="#orders" class="nav-pill">The Further Orders</a>
+    <a href="#commitment" class="nav-pill">The Commitment</a>
+  </nav>
+  <div class="scroll-hint"><span>Begin</span><div class="scroll-arrow"></div></div>
+</section>
+
+
+<!-- WHERE YOU ARE NOW -->
+<section id="now" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.07) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Investigatory Stage</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">Right Now</p>
+      <h2 class="chapter-title">Where You Are Now</h2>
+      <p class="chapter-tagline">"The investigatory stage is not a test to pass. It is a conversation — the lodge and you deciding together whether you are right for each other."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="reveal">
+      <div class="section-title">What the Investigatory Stage Actually Is</div>
+      <p>You have made contact. Emails are being exchanged. The lodge Secretary or a senior member is in communication with you. This is the investigatory period — the time between initial contact and the formal petition and ballot. It typically lasts anywhere from a few weeks to a few months depending on the lodge's schedule and how quickly relationships develop.</p>
+      <p>The purpose of this stage is twofold. First, the lodge wants to satisfy itself that you are a person of good character with genuine reasons for wanting to join. Second — and this is the part most candidates underestimate — <strong>you are also assessing the lodge.</strong> This is a long-term commitment. The people you meet during the investigatory stage are the people you will be sitting in lodge with for years. Make sure you like them. Make sure the culture feels right.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">What the Lodge Is Looking For in You</div>
+      <p>The Book of Constitutions — the official UGLE rulebook, the document you found — sets out the essential requirements for candidates. You must be a man of good repute, free-born (in the symbolic sense of being of free mind and will), and a believer in a Supreme Being. You must be of sufficient age (21 in most English lodges, though 18 with special dispensation in some), of sound judgement, and able to make the financial commitment of lodge dues and dining fees.</p>
+      <p>Beyond the formal requirements, lodges are looking for sincerity and genuine motivation. The worst candidates are those who join for networking, for business connections, or out of idle curiosity. The best candidates — the ones lodges remember and value — are those who join because they genuinely want to do the inner work, to be part of a tradition, and to contribute to something larger than themselves. You have more genuine motivation than most candidates who have ever knocked on the door of Kitchener Lodge. Your family connection, your prior study, your understanding of what the tradition actually preserves — these are extraordinary advantages.</p>
+    </div>
+
+    <div class="feel-block reveal">
+      <div class="feel-title">What the Home Visit Will Feel Like</div>
+      <div class="feel-body">Two or three members of the lodge — probably the Secretary and one or two senior brothers — will come to your home for a conversation. It will feel like a friendly chat, not an interrogation. They will want to know why you want to join, whether you understand broadly what Freemasonry involves, whether Aimee is supportive, and whether your finances are stable enough to meet the commitment. Have the lodge cups visible. Mention your study of the tradition. Tell them honestly that the family connection is central to why you are approaching this particular lodge. These things will land with real weight. The home visit should last about an hour and you will likely feel warmer toward the lodge when they leave than when they arrived.</div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">What to Do Right Now — Before Initiation</div>
+      <p>Use the time between now and your initiation productively. Read Wilmshurst's The Meaning of Masonry — freely available online as it is out of copyright. It is short, clear, and will transform your experience of the degree ceremonies. Read the Masonic ritual book once you are given one — you will receive a copy of the First Degree ceremony to study in advance. Learn the words. Understand each gesture. The more preparation you bring, the more the ceremony can give you.</p>
+      <p>Also: begin your morning and evening practice with specific Masonic intention. Each morning, hold the Masonic tools in mind — the gauge, the gavel, the chisel. Ask: where am I using these today? Where am I measuring my time well, removing rough edges of character, applying precision of thought? The Masonic symbolism is entirely compatible with the Hermetic daily practice. They are the same practice in different costume.</p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="index.html" class="btn btn-home">☰ Library</a>
+      <a href="#cover" class="btn btn-gold">↑ Top</a>
+      <a href="#first" class="btn btn-gold">First Degree →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- FIRST DEGREE -->
+<section id="first" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(26,42,90,0.09) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Entered Apprentice</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Beginning</p>
+      <h2 class="chapter-title">The First Degree</h2>
+      <p class="chapter-tagline">"You enter in darkness. You leave in light. Everything in between is designed to make that transition felt as well as understood."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="degree-block reveal">
+      <div class="degree-header">
+        <div class="degree-badge"><span class="degree-num">1°</span><span class="degree-symbol">☽</span></div>
+        <div class="degree-info">
+          <div class="degree-name">Entered Apprentice</div>
+          <div class="degree-subtitle">From Darkness to Light · The First Step</div>
+        </div>
+      </div>
+      <div class="degree-grid">
+        <div class="degree-item"><div class="degree-item-label">Duration</div><div class="degree-item-value">45-60 minutes ceremony</div></div>
+        <div class="degree-item"><div class="degree-item-label">What you wear</div><div class="degree-item-value">Dark suit, prepared by Tyler</div></div>
+        <div class="degree-item"><div class="degree-item-label">Tools given</div><div class="degree-item-value">24" gauge, gavel, chisel</div></div>
+        <div class="degree-item"><div class="degree-item-label">Hermetic parallel</div><div class="degree-item-value">The Fool stepping off the cliff</div></div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">What Happens — Step by Step</div>
+      <p>You arrive early — typically 30-45 minutes before the lodge opens. You are met by the Tyler, the outer guard of the lodge, who is the one Masonic officer stationed permanently outside the lodge room door. He will take you to the preparation room.</p>
+      <p>In the preparation room the Tyler will ask you to remove certain items — your jacket, your left shoe, specific items of jewellery. You will have one trouser leg rolled up, one breast bared, and a cable tow — a length of rope — around your neck. You will be blindfolded. This preparation is done with complete explanation and your full consent at every step. Nothing is done to you without your knowledge.</p>
+      <p>Each element of this preparation carries symbolic weight. The rolled trouser leg exposes the knee — a sign of humility. The bared breast exposes the heart — openness and vulnerability before the lodge. The cable tow represents the ties and limitations of the uninitiated life. The blindfold represents the darkness of ignorance — the state all human beings are in before genuine illumination.</p>
+    </div>
+
+    <div class="feel-block reveal">
+      <div class="feel-title">What It Feels Like — The Honest Account</div>
+      <div class="feel-body">Standing blindfolded outside the lodge room, you will hear the sounds of the lodge assembling — chairs, footsteps, the murmur of brothers taking their positions. You will feel the weight of the cable tow. There is a physical vulnerability that is entirely intentional. You are genuinely not in control. This is the correct state for receiving what comes next. The Worshipful Master knocks. The Inner Guard asks who seeks admission. The Senior Deacon — your guide through the entire ceremony — speaks for you. The door opens. You are led in. The lodge room falls completely silent as you enter. You cannot see any of this. You can feel it. The atmosphere of a properly worked lodge in this moment is unlike anything most people encounter in ordinary life. You will feel it in your chest.</div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Moment of Light</div>
+      <p>At the appropriate point in the ceremony — after you have been led to the altar, after you have taken the obligation, after the Worshipful Master has asked if you desire light in Freemasonry — the blindfold is removed. The lodge room is illuminated before you. The brothers are arrayed in their positions. The altar with the Volume of the Sacred Law, the square and compasses, and the three great lights is directly before you. Every face in the room is looking at you.</p>
+      <p>Men who have prepared properly for this moment — who understand intellectually what it represents, who have been in genuine darkness long enough for the contrast to land with full force — often find it genuinely overwhelming. Not theatrically. The combination of physical release (the sudden visibility after genuine darkness), the emotional weight of the moment, and the symbolic significance of what is happening operates at a level beneath ordinary analytical processing. This is intentional. This is the technology of ritual working as it has been refined over centuries.</p>
+    </div>
+
+    <div class="learn-box reveal">
+      <div class="learn-title">What to Learn Before the First Degree</div>
+      <div class="learn-body">
+        <ul>
+          <li><strong>The Entered Apprentice obligation</strong> — you will be given this in advance. Know it. Not just the words but the meaning of each section. The obligation is a genuine commitment — treat it as one.</li>
+          <li><strong>The signs, token, and word of an Entered Apprentice</strong> — the due guard, the sign, the grip, and the password. Your Mentor will help you with these. You need them to re-enter the lodge after the ceremony.</li>
+          <li><strong>The working tools and their moral instruction</strong> — the 24-inch gauge (measuring your time into work, rest, and service), the gavel (the will that removes rough edges of character), the chisel (the precision that distinguishes good from better). Know not just what they are but what they mean.</li>
+          <li><strong>The charge after initiation</strong> — a long address given to every new Entered Apprentice by the Worshipful Master. You will not be tested on this but reading it in advance means you can receive it fully rather than struggling to follow unfamiliar language.</li>
+          <li><strong>Read Wilmshurst's first chapter</strong> — The Purpose of Masonry. It will reframe everything.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">Life as an Entered Apprentice</div>
+      <p>After your initiation you are the most junior member of the lodge. You will attend meetings but must retire when Third Degree work is being done. You will be assigned a Mentor — build this relationship genuinely. You will study your ritual. You will be invited to the festive board after every meeting you attend — go, always. The festive board is where the brotherhood becomes real. The formal ceremony is the seed. The dinner is where it takes root.</p>
+      <p>The minimum period between First and Second Degree is four weeks but most lodges take three to six months. Use this time. This is not a waiting room — it is the foundational period of your Masonic life. The depth of engagement you bring to the Entered Apprentice phase determines the depth of what the subsequent degrees can give you.</p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="index.html" class="btn btn-home">☰ Library</a>
+      <a href="#now" class="btn btn-gold">← Where You Are</a>
+      <a href="#second" class="btn btn-gold">Second Degree →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- SECOND DEGREE -->
+<section id="second" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.06) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Fellow Craft</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Intellectual Deepening</p>
+      <h2 class="chapter-title">The Second Degree</h2>
+      <p class="chapter-tagline">"Where the First Degree opens the eye, the Second Degree opens the mind. The winding staircase. The hidden mysteries of nature and science."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="degree-block reveal">
+      <div class="degree-header">
+        <div class="degree-badge"><span class="degree-num">2°</span><span class="degree-symbol">◎</span></div>
+        <div class="degree-info">
+          <div class="degree-name">Fellow Craft</div>
+          <div class="degree-subtitle">Mind Developed · The Winding Stair</div>
+        </div>
+      </div>
+      <div class="degree-grid">
+        <div class="degree-item"><div class="degree-item-label">Duration</div><div class="degree-item-value">45-60 minutes ceremony</div></div>
+        <div class="degree-item"><div class="degree-item-label">Central symbol</div><div class="degree-item-value">The Winding Staircase</div></div>
+        <div class="degree-item"><div class="degree-item-label">Tools given</div><div class="degree-item-value">Square, level, plumb rule</div></div>
+        <div class="degree-item"><div class="degree-item-label">Hermetic parallel</div><div class="degree-item-value">The Magician mastering tools</div></div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">What Changes at the Second Degree</div>
+      <p>You enter the Second Degree as someone who has done the foundational inner work of the First — who has been through the symbolic birth into light and has spent the intervening months demonstrating genuine engagement with the craft. The Second Degree takes everything you have received and deepens it.</p>
+      <p>The ceremony is structurally similar to the First — preparation, entry, obligation, instruction — but the content shifts from moral to intellectual. Where the First Degree is about purifying the heart and committing to the ethical life, the Second Degree is about developing the mind. The central lecture — the explanation of the Winding Staircase — is one of the most intellectually rich passages in all of Freemasonry.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Winding Staircase — What It Actually Means</div>
+      <p>The staircase leading to the middle chamber of Solomon's Temple has fifteen steps in the English working, arranged in groups of three, five, and seven. Each group corresponds to a level of knowledge. The three steps — the three degrees of Masonry. The five steps — the five senses and the five architectural orders (Tuscan, Doric, Ionic, Corinthian, Composite). The seven steps — the seven liberal arts and sciences.</p>
+      <p>The seven liberal arts — grammar, rhetoric, logic, arithmetic, geometry, music, and astronomy — were the complete curriculum of the medieval university. They are divided into the trivium (the tools of mind: grammar, rhetoric, logic) and the quadrivium (the mathematical sciences: arithmetic, geometry, music, astronomy). Together they represent the complete education of the human being — the development of the capacity to think clearly, communicate precisely, reason validly, understand number, perceive form, hear harmony, and map the cosmos.</p>
+      <p>Geometry is given special prominence — it is the fifth step and the one most dwelt upon in the lecture. <strong>Geometry is the language in which the cosmos is written.</strong> This is the Hermetic insight that the Pythagoreans discovered, that the cathedral builders encoded in stone, that the Golden Dawn encoded in the Tarot attributions. The Fellow Craft who genuinely receives this lecture understands that the study of sacred geometry is not an eccentric hobby but the closest thing to a universal language that human beings have discovered.</p>
+    </div>
+
+    <div class="feel-block reveal">
+      <div class="feel-title">What the Second Degree Feels Like</div>
+      <div class="feel-body">The Second Degree ceremony is often described as the most intellectually stimulating of the three. For someone of your level of prior study — who has read the Kybalion, who understands the Hermetic principles, who has studied Kabbalah and the numerological tradition — the lecture on the seven liberal arts will arrive with extraordinary resonance. You will be sitting in a lodge room hearing Freemasons explain, in their traditional language, the same principles you have been reading about in the Emerald Tablet and the Corpus Hermeticum. The ceremony will feel like a confirmation of everything you have already studied — not new information but the familiar wisdom in a new and ancient costume.</div>
+    </div>
+
+    <div class="learn-box reveal">
+      <div class="learn-title">What to Learn Before the Second Degree</div>
+      <div class="learn-body">
+        <ul>
+          <li><strong>The Fellow Craft obligation</strong> — deeper and longer than the First. Know it fully.</li>
+          <li><strong>The new signs, token, and word</strong> — the Second Degree grip and password are different from the First. You need these to enter the lodge as a Fellow Craft.</li>
+          <li><strong>The working tools of a Fellow Craft</strong> — the square (moral uprightness, squaring your actions by the square of virtue), the level (equality before the divine), and the plumb rule (rectitude of conduct, walking upright before God and man). Understand the moral teaching encoded in each.</li>
+          <li><strong>The seven liberal arts</strong> — even a basic understanding of what each one covers and why Freemasonry emphasises them will transform your experience of the lecture.</li>
+          <li><strong>Read MacNulty's Freemasonry: A Journey Through Ritual and Symbol</strong> — his treatment of the Fellow Craft degree and the Kabbalistic interpretation of the winding staircase is outstanding.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="index.html" class="btn btn-home">☰ Library</a>
+      <a href="#first" class="btn btn-gold">← First Degree</a>
+      <a href="#third" class="btn btn-gold">Third Degree →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- THIRD DEGREE -->
+<section id="third" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(107,91,149,0.09) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Master Mason</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Completion</p>
+      <h2 class="chapter-title">The Third Degree</h2>
+      <p class="chapter-tagline">"The most significant ceremonial experience available to a human being within the Western initiatory tradition. Approach it with everything you have."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="degree-block reveal">
+      <div class="degree-header">
+        <div class="degree-badge"><span class="degree-num">3°</span><span class="degree-symbol">☀</span></div>
+        <div class="degree-info">
+          <div class="degree-name">Master Mason</div>
+          <div class="degree-subtitle">Death & Resurrection · The Raising of Hiram Abiff</div>
+        </div>
+      </div>
+      <div class="degree-grid">
+        <div class="degree-item"><div class="degree-item-label">Duration</div><div class="degree-item-value">60-90 minutes ceremony</div></div>
+        <div class="degree-item"><div class="degree-item-label">Central drama</div><div class="degree-item-value">The legend of Hiram Abiff</div></div>
+        <div class="degree-item"><div class="degree-item-label">The raising</div><div class="degree-item-value">The Lion's Paw grip</div></div>
+        <div class="degree-item"><div class="degree-item-label">Hermetic parallel</div><div class="degree-item-value">Osiris — death and resurrection</div></div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">What Makes the Third Different</div>
+      <p>The First Degree moves you from darkness to light. The Second Degree moves you from light to deeper understanding. The Third Degree moves you through death to resurrection. It is qualitatively different from the first two — not simply more of the same, but a genuinely different kind of experience. Men who have been through all three consistently describe the Third as the most significant. Sceptics going in often come out changed in ways they struggle to articulate. This is the ceremony working as it was designed to work.</p>
+      <p>You will know the legend of Hiram Abiff already from your reading. What you cannot fully anticipate is what it feels like to enact it — to be Hiram, not to observe his story but to live it in real time in a darkened lodge room with the full gravity of two hundred years of English Masonic tradition behind the working. The intellectual preparation helps. But the Third Degree ultimately operates below the level of intellectual processing. Your job is to be present and to let it land.</p>
+    </div>
+
+    <div class="feel-block reveal">
+      <div class="feel-title">What the Third Degree Feels Like — Honestly</div>
+      <div class="feel-body">The lodge room will be darker than usual. The atmosphere will be heavier. The brothers' faces will be more serious. You will enact the legend — meeting the three ruffians, being struck down, lying in the darkness. There will be a period of genuine stillness. Then the raising — the Master's grip, the Lion's Paw, the movement from horizontal to upright, from prone to standing. Men describe the moment of being raised as producing an involuntary emotional response — not grief, not joy exactly, but something in between. A quality of recognition. Something that was theoretical has become real in the body. The journey from the preparation room to this moment will feel complete in a way that is hard to explain and easy to feel. Approach it with maximum openness. The analytical mind — which you have in abundance — must step aside for this one. Let it work on you.</div>
+    </div>
+
+    <div class="learn-box reveal">
+      <div class="learn-title">What to Learn Before the Third Degree</div>
+      <div class="learn-body">
+        <ul>
+          <li><strong>The Master Mason obligation</strong> — the most extensive of the three. The language is the most serious. Receive every word consciously.</li>
+          <li><strong>The legend of Hiram Abiff in full</strong> — you know the outline from your reading. Now learn the details. Every element of the legend carries symbolic weight. The three ruffians represent the three enemies of genuine wisdom in every age. The acacia sprig represents the soul's immortality. The lost word represents the highest mystery of the tradition.</li>
+          <li><strong>The working tools of a Master Mason</strong> — the skirret (keeping life true to a fixed centre), the pencil (the recording of all actions, as God records all), and the compasses (keeping passions and prejudices within due bounds). The compasses in particular — this is the same compasses as in the square and compasses, now specifically entrusted to you as a Master.</li>
+          <li><strong>Read the Third Section of the Third Degree tracing board explanation</strong> — this is the extended meditation on mortality and the soul's destination that concludes the Third Degree working. It is one of the most beautiful pieces of prose in the entire Masonic ritual.</li>
+          <li><strong>Meditate specifically on your own mortality before this degree.</strong> The Third Degree is designed to produce a genuine confrontation with death — not as threat but as teacher. The Chamber of Reflection that you will sit in before the ceremony is there for a reason. Use it.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">After the Third Degree — What Changes</div>
+      <p>When you emerge from the Third Degree as a Master Mason, the lodge is fully open to you. You can now attend the workings of all three degrees, including sitting in the lodge to witness and support candidates going through the degrees you have completed. This witnessing role is important — seeing other candidates go through the ceremonies from the other side of the blindfold gives you a completely different perspective on what you yourself received.</p>
+      <p>You now have access to the full network of Masonic recognition — the signs, tokens, and words of all three degrees. You can visit any regular lodge in the world and be recognised as a Master Mason. You can now explore the further orders and degrees that require Master Mason status. The Blue Lodge journey is complete. The path continues.</p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="index.html" class="btn btn-home">☰ Library</a>
+      <a href="#second" class="btn btn-gold">← Second Degree</a>
+      <a href="#royal-arch" class="btn btn-gold">The Royal Arch →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ROYAL ARCH -->
+<section id="royal-arch" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.08) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Completion of Pure Masonry</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Fourth — and Truest — Degree</p>
+      <h2 class="chapter-title">The Holy Royal Arch</h2>
+      <p class="chapter-tagline">"The UGLE officially considers the Royal Arch the completion of the Master Mason degree. This is where the Lost Word — the deepest mystery — is revealed."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="degree-block reveal">
+      <div class="degree-header">
+        <div class="degree-badge"><span class="degree-num">RA</span><span class="degree-symbol">⊕</span></div>
+        <div class="degree-info">
+          <div class="degree-name">Holy Royal Arch</div>
+          <div class="degree-subtitle">The Lost Word Found · The Completion</div>
+        </div>
+      </div>
+      <div class="degree-grid">
+        <div class="degree-item"><div class="degree-item-label">Requirement</div><div class="degree-item-value">Master Mason status</div></div>
+        <div class="degree-item"><div class="degree-item-label">Organisation</div><div class="degree-item-value">Royal Arch Chapter</div></div>
+        <div class="degree-item"><div class="degree-item-label">UGLE position</div><div class="degree-item-value">Completion of pure Masonry</div></div>
+        <div class="degree-item"><div class="degree-item-label">Hermetic parallel</div><div class="degree-item-value">The Logos — the recovered Word</div></div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">What the Royal Arch Is</div>
+      <p>In 1813 when the two rival English Grand Lodges — the Ancients and the Moderns — merged to form the United Grand Lodge of England, they issued the Articles of Union which stated that pure ancient Masonry consists of three degrees including the Supreme Order of the Holy Royal Arch. The Royal Arch is not, officially, a separate degree — it is the completion of the Third. The Lost Word that Hiram Abiff died rather than reveal, that was declared lost at his death and replaced with a substitute, is recovered in the Royal Arch Chapter.</p>
+      <p>The ceremony takes place not in a lodge but in a Chapter — the Royal Arch equivalent of the lodge room. The officers have different titles (Most Excellent Zerubbabel as Principal, High Priest, Principal Scribe) and the symbolism draws on a different strand of the tradition — the rebuilding of Solomon's Temple after the Babylonian captivity, and the discovery of a hidden vault beneath the ruins containing the most sacred knowledge of the original Temple.</p>
+    </div>
+
+    <div class="feel-block reveal">
+      <div class="feel-title">What the Royal Arch Gives You</div>
+      <div class="feel-body">The Royal Arch ceremony is widely considered the most philosophically profound in mainstream English Freemasonry. The discovery of the vault, the recovery of what was lost, and the revelation of the sacred word — delivered in a ceremony that operates simultaneously on Kabbalistic, Hermetic, and mystical Christian levels — constitutes a genuine deepening of everything received in the three craft degrees. Men who have taken the Royal Arch after a genuine engagement with the Third Degree describe it as the moment when the meaning of everything preceding it suddenly becomes clear. The lost piece of the puzzle found. Do not skip this.</div>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="index.html" class="btn btn-home">☰ Library</a>
+      <a href="#third" class="btn btn-gold">← Third Degree</a>
+      <a href="#orders" class="btn btn-gold">Further Orders →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- THE FURTHER ORDERS -->
+<section id="orders" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(138,32,32,0.06) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">Beyond the Blue Lodge</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Full Map</p>
+      <h2 class="chapter-title">The Further Orders</h2>
+      <p class="chapter-tagline">"Freemasonry is not three degrees and a dinner. It is an entire civilisation of inner development — and it only reveals its full depth once you have the Master Mason key."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="reveal">
+      <p>Once you hold the Master Mason degree, an entire world of further degrees and orders becomes available. Not all of them will be relevant to you. But knowing they exist — understanding the full map of the Masonic landscape — allows you to move through the craft degrees with your destination in view. Here is the complete picture of what lies ahead.</p>
+    </div>
+
+    <!-- THE ANCIENT & ACCEPTED RITE -->
+    <div class="order-card reveal" style="--oc:#c9a84c;">
+      <div class="order-name">The Ancient & Accepted Rite — The Scottish Rite</div>
+      <div class="order-req">Requires: Master Mason · 33 Degrees Total</div>
+      <div class="order-body">
+        <p>The Ancient and Accepted Rite — also called the Scottish Rite in the United States — operates a system of 33 degrees, of which the first three are the Craft degrees you already hold. The further degrees (4th through 33rd) are conferred in a condensed form, with the exception of the 18th, 30th, and 33rd which are full ceremonial workings.</p>
+        <p>The <strong>18th Degree — Knight of the Rose Croix</strong> — is the most important for you specifically. Widely considered the most beautiful ceremony in all of Freemasonry, the Rose Croix degree is an explicitly Christian mystical working that draws directly on Rosicrucian symbolism — the Rose and Cross, the search for the Lost Word, the death of darkness and the birth of light. It is the Rosicrucian tradition expressed in Masonic form. For someone moving toward the SRIA, the Rose Croix degree is essential preparation. It will arrive like a homecoming.</p>
+        <p>The <strong>30th Degree — Knight Kadosh</strong> — concerns itself with philosophical and Kabbalistic themes of justice, truth, and the inner knight. The <strong>33rd Degree — Inspector General</strong> — is an honorary degree awarded for outstanding service to the Rite, not a degree one can pursue or apply for.</p>
+      </div>
+    </div>
+
+    <!-- MARK MASONRY -->
+    <div class="order-card reveal" style="--oc:#2980b9;">
+      <div class="order-name">Mark Master Mason</div>
+      <div class="order-req">Requires: Master Mason · Pre-Royal Arch in practice</div>
+      <div class="order-body">Mark Masonry is often taken alongside or just before the Royal Arch. The degree concerns itself with the medieval craft practice of each master mason carving a personal mark into every stone he worked — his signature, his quality guarantee, his identity encoded in the work of his hands. The philosophical teaching concerns the value of individual contribution to collective enterprise, and the recognition that genuine work done honestly and invisibly will eventually be found and rewarded. A beautiful and often overlooked degree. The Mark lodge meets separately from the Craft lodge and has its own ritual and its own officers.</div>
+    </div>
+
+    <!-- KNIGHTS TEMPLAR -->
+    <div class="order-card reveal" style="--oc:#8a2020;">
+      <div class="order-name">United Religious, Military & Masonic Orders — Knights Templar</div>
+      <div class="order-req">Requires: Master Mason · Christian profession of faith</div>
+      <div class="order-body">
+        <p>The Masonic Knights Templar order is the most overtly chivalric branch of English Freemasonry, requiring a specific Christian faith rather than simply belief in a Supreme Being. It operates through Preceptories (the equivalent of lodges) and works three degrees: the Order of the Temple, the Order of St Paul (also called the Mediterranean Pass), and the Order of Malta.</p>
+        <p>The connection to the historical Knights Templar — the medieval crusading order founded in Jerusalem in 1119 and suppressed by the Pope and the French king in 1307 — is not direct lineage but deliberate symbolic connection. The Masonic Templars preserve the spirit and the symbolism of the original order, including the legend that the Templars discovered ancient wisdom beneath the ruins of Solomon's Temple during their occupation of the site. Whether this legend is historically accurate is less important than what it is encoding: the theme of hidden sacred knowledge discovered in the depths and brought back to the light that runs throughout the entire Masonic tradition.</p>
+      </div>
+    </div>
+
+    <!-- SRIA -->
+    <div class="order-card reveal" style="--oc:#6b5b95;">
+      <div class="order-name">Societas Rosicruciana in Anglia — SRIA</div>
+      <div class="order-req">Requires: Master Mason · Christian · Recommendation by existing member</div>
+      <div class="order-body">You already know this one in depth. The most intellectually serious esoteric organisation in British Freemasonry. Nine grades from Zelator to Supreme Magus. Monthly papers on Hermetic philosophy, Kabbalah, alchemy, sacred geometry. The organisation from which the Golden Dawn was born. The destination that your entire library has been pointing you toward. The path: Kitchener Lodge → Royal Arch → Rose Croix → SRIA. Probably three to five years from now. Worth every one of those years of preparation.</div>
+    </div>
+
+    <!-- RESEARCH LODGES -->
+    <div class="order-card reveal" style="--oc:#1a6a5a;">
+      <div class="order-name">Research Lodges — Quatuor Coronati</div>
+      <div class="order-req">Requires: Master Mason · Open to all craft Masons</div>
+      <div class="order-body">Research lodges exist specifically for the study of Masonic history and philosophy rather than the regular working of ceremonies. The premier research lodge is Quatuor Coronati Lodge No. 2076 in London — the oldest and most distinguished Masonic research lodge in the world, founded in 1884. Its published proceedings — Ars Quatuor Coronatorum — represent the highest standard of Masonic scholarship available. Most English provinces also have their own research lodges meeting locally. These are where you will find the brothers who have gone as deep as you want to go. Find your local one early.</div>
+    </div>
+
+    <!-- ORDER OF THE SECRET MONITOR -->
+    <div class="order-card reveal" style="--oc:#c87020;">
+      <div class="order-name">The Order of the Secret Monitor</div>
+      <div class="order-req">Requires: Master Mason · Open to all faiths</div>
+      <div class="order-body">A lesser-known but genuinely moving Masonic order based on the biblical relationship between David and Jonathan — the supreme example of loyal fraternal friendship. The three degrees of the Secret Monitor concern themselves with the duties of brotherhood, with the obligation to warn a brother who is going wrong, and with the rewards of genuine loyalty. Less philosophically complex than the higher degrees but deeply humanly resonant. Often the first further order taken after the Royal Arch.</div>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="index.html" class="btn btn-home">☰ Library</a>
+      <a href="#royal-arch" class="btn btn-gold">← Royal Arch</a>
+      <a href="#commitment" class="btn btn-gold">The Commitment →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- THE COMMITMENT -->
+<section id="commitment" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.08) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">Can You Take This On?</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Real Question</p>
+      <h2 class="chapter-title">The Commitment</h2>
+      <p class="chapter-tagline">"You are not asking whether you are capable. You clearly are. You are asking whether this is the right time and the right use of your energy. Here is the honest answer."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="reveal">
+      <div class="section-title">What the Commitment Actually Requires</div>
+      <p>Kitchener Lodge No. 3788 has 18 members and meets — most English lodges meet — once a month on a fixed evening, typically between October and May with a summer break of three to four months. That is roughly seven meetings a year, each running four to five hours including the festive board. Thirty-five hours of lodge time per year. That is less than a week of working days.</p>
+      <p>The additional commitment is the preparation — learning the ritual for each degree before it happens, reading the material your Mentor recommends, occasionally giving a paper or taking part in ceremony as you progress through lodge offices. None of this is onerous. All of it is, by your own demonstrated pattern of recent months, exactly the kind of thing you already do for its own sake.</p>
+      <p>The financial commitment — covered earlier — is roughly £500-600 in year one, £400 a year thereafter. Manageable.</p>
+      <p>The suit, the meetings, the formality — you already know this is less intimidating than it sounds. One evening a month in a dark suit. Dinner afterwards. Brotherhood that deepens with every meeting. That is the reality of the commitment at the Blue Lodge level.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Timing Question</div>
+      <p>You mentioned you want to know if you can take on the commitment given what is going on in your life right now. The Three Swords cards are in the room — the anxiety, the restriction, the cycle completing. Work is heavy. Things are weighing on you. Is this the right time?</p>
+      <p>Here is the honest Masonic answer: the tradition would say yes. Not because everything is perfectly resolved and the timing is ideal — but precisely because it is not. The First Degree takes a man in whatever state he arrives in and offers him the experience of moving from darkness into light. The ritual is not reserved for people who have already sorted themselves out. It is the tool for sorting yourself out.</p>
+      <p>Furthermore: small lodges like Kitchener with 18 members need engaged, committed brothers. They will give you more attention, more genuine mentoring, and more meaningful involvement in the lodge's life than a large busy lodge where a new member can get lost in the crowd. You will matter to them. That matters.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">What Aimee Needs to Know</div>
+      <p>The investigation visit will include a question about whether your partner is supportive of your application. Aimee's connection to the tradition through her grandfather makes this conversation easier than for most candidates — but it is worth having it explicitly rather than assuming. The question of a partner joining Freemasonry can produce complex feelings even when the family connection is positive. Her grandfather's membership was his — she may have feelings about his tradition being entered by someone else.</p>
+      <p>Have a genuine conversation. Show her the library. Tell her what the tradition actually is — not the conspiracy caricature, not the social club stereotype, but what you have learned through months of serious study. The cups in the kitchen are her inheritance as much as yours. The lodge that made them is part of her family story. She deserves to understand what door you are knocking on and why.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Complete Path — Your Roadmap</div>
+      <p><strong>Now:</strong> Investigatory stage. Emails. Building the relationship. Reading Wilmshurst.</p>
+      <p><strong>3-6 months:</strong> Home visit, ballot, initiation as Entered Apprentice into Kitchener Lodge No. 3788.</p>
+      <p><strong>6-18 months:</strong> Second Degree (Fellow Craft). Active engagement with lodge life. Finding the brothers who go deep.</p>
+      <p><strong>12-24 months:</strong> Third Degree (Master Mason). The raising. The lodge fully open.</p>
+      <p><strong>Within a year of MM:</strong> Holy Royal Arch. The completion. The Lost Word.</p>
+      <p><strong>2-3 years:</strong> Rose Croix (18th Degree, Ancient & Accepted Rite). The Rosicrucian ceremony in Masonic form.</p>
+      <p><strong>3-5 years:</strong> SRIA — the Societas Rosicruciana in Anglia. Nine grades. The destination the library has been pointing toward. Everything you have been reading for the past months — the Kybalion, the Corpus Hermeticum, the Kabbalistic tradition, the Rosicrucian history — becomes the living curriculum of the organisation you are now inside.</p>
+    </div>
+
+    <div class="ancient-text reveal">
+      <div class="label">What Aimee's Grandfather Already Knew</div>
+      <p>He sat in the same lodge room you are about to enter. He learned the same ritual. He took the same three degrees. He drank from the cups that now sit in your kitchen. And then he came home to the house where you sleep and made tea. The tradition and ordinary life are not separate. They are the same life, looked at from different depths. That is the whole of the teaching, and he already knew it.</p>
+    </div>
+
+    <div class="rule reveal"></div>
+    <div class="closing-quote reveal">
+      <p>You are ready.<br>You have been preparing<br>without knowing it<br>for longer than you realise.<br><br>The investigatory stage<br>is the lodge deciding about you.<br>But you have already decided.<br><br><em>Knock on the door.</em></p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="index.html" class="btn btn-home">☰ Library</a>
+      <a href="#orders" class="btn btn-gold">← Further Orders</a>
+      <a href="#cover" class="btn btn-gold">↑ Top</a>
+    </div>
+    <div style="height:60px"></div>
+  </div>
+</section>
+
+<script>
+  const s=document.getElementById('stars');for(let i=0;i<130;i++){const el=document.createElement('div');el.className='star';const sz=Math.random()*2+0.4;el.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*5}s;--delay:-${Math.random()*6}s;--op:${0.1+Math.random()*0.5};`;s.appendChild(el);}
+  const p=document.getElementById('progress');window.addEventListener('scroll',()=>{p.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';},{passive:true});
+  const obs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*50);obs.unobserve(e.target);}});},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
