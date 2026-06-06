@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>The Meditation Guide — Reaching the Eternal Calm</title>
+<style>
+  :root{
+    --night:#04050c;--gold:#c9a84c;--gold-light:#e8c96a;--gold-pale:#f5e4a0;
+    --gold-dim:#8a7035;--ivory:#f0ead8;--soft:#d0c8e0;--purple:#6b5b95;
+    --purple-light:#9b8bc5;--silver:#c8d0e8;--teal:#1a6a5a;
+    --c1:#e74c3c;--c2:#e67e22;--c3:#f1c40f;--c4:#27ae60;
+    --c5:#2980b9;--c6:#6b5b95;--c7:#9b59b6;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+  body{background:var(--night);color:var(--ivory);font-family:Palatino,'Palatino Linotype',Georgia,serif;font-size:18px;line-height:1.9;overflow-x:hidden;}
+
+  .lib-home{position:fixed;top:16px;left:16px;z-index:200;background:rgba(4,5,12,0.92);border:1px solid rgba(201,168,76,0.3);border-radius:30px;padding:8px 16px;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-dim);text-decoration:none;backdrop-filter:blur(10px);transition:all 0.3s;display:flex;align-items:center;gap:6px;}
+  .lib-home:hover{color:var(--gold);border-color:var(--gold);}
+
+  #stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+  .star{position:absolute;background:white;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s);opacity:var(--op,0.3);}
+  @keyframes twinkle{0%,100%{opacity:var(--op,0.3);}50%{opacity:0.02;}}
+
+  .progress-bar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--purple),var(--teal),var(--gold));z-index:100;transition:width 0.1s;}
+
+  .page{position:relative;z-index:1;}
+
+  /* COVER */
+  #cover{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;background:radial-gradient(ellipse at 50% 30%,rgba(107,91,149,0.1) 0%,transparent 70%);}
+  .cover-symbol{font-size:52px;color:var(--gold);margin-bottom:28px;animation:float 5s ease-in-out infinite;text-shadow:0 0 40px rgba(201,168,76,0.4);}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+  .cover-title{font-size:clamp(26px,7vw,48px);color:var(--gold);line-height:1.2;margin-bottom:10px;font-style:italic;}
+  .cover-sub{font-size:clamp(11px,2.5vw,14px);color:var(--gold-pale);letter-spacing:0.28em;text-transform:uppercase;margin-bottom:36px;opacity:0.75;}
+  .cover-rule{width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 36px;}
+  .cover-intro{max-width:520px;font-size:17px;font-style:italic;color:var(--soft);line-height:1.9;margin-bottom:14px;}
+  .nav-pills{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:16px;}
+  .nav-pill{background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);color:var(--gold-pale);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:9px 16px;border-radius:30px;text-decoration:none;transition:all 0.3s;}
+  .nav-pill:hover{background:rgba(201,168,76,0.16);border-color:var(--gold);color:var(--gold);}
+  .scroll-hint{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--gold-dim);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;animation:fade-bob 2s ease-in-out infinite;margin-top:20px;}
+  .scroll-arrow{width:1px;height:34px;background:linear-gradient(to bottom,var(--gold-dim),transparent);}
+  @keyframes fade-bob{0%,100%{opacity:0.4;}50%{opacity:0.9;}}
+
+  /* SECTIONS */
+  .section{padding:80px 24px;display:flex;flex-direction:column;align-items:center;position:relative;}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);}
+  .section-label{position:sticky;top:16px;z-index:10;text-align:center;pointer-events:none;margin-bottom:-40px;}
+  .section-badge{display:inline-block;background:rgba(4,5,12,0.92);border:1px solid rgba(201,168,76,0.25);border-radius:20px;padding:6px 18px;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);backdrop-filter:blur(10px);}
+  .content{max-width:640px;width:100%;}
+  .chapter-number{font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:var(--purple-light);margin-bottom:10px;text-align:center;}
+  .chapter-title{font-size:clamp(26px,7vw,44px);color:var(--gold);text-align:center;margin-bottom:8px;font-style:italic;}
+  .chapter-tagline{font-style:italic;font-size:17px;color:var(--gold-pale);text-align:center;margin-bottom:48px;opacity:0.85;line-height:1.6;}
+  .rule{width:100%;max-width:580px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);margin:32px auto;}
+  .rule.short{max-width:200px;background:linear-gradient(90deg,transparent,var(--purple),transparent);}
+  .section-title{font-size:13px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold-light);margin:40px 0 14px;display:flex;align-items:center;gap:10px;}
+  .section-title::before{content:'✦';color:var(--gold-dim);font-size:9px;}
+  p{color:var(--soft);margin-bottom:18px;font-size:17px;line-height:1.9;}
+  p strong{color:var(--gold-pale);}
+
+  /* ADHD BLOCKS */
+  .adhd-block{background:rgba(107,91,149,0.08);border:1px solid rgba(107,91,149,0.25);border-radius:14px;padding:22px 20px;margin:18px 0;}
+  .adhd-label{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--purple-light);margin-bottom:10px;}
+  .adhd-body{color:var(--soft);font-size:16px;line-height:1.8;}
+  .adhd-body strong{color:var(--gold-pale);}
+
+  /* TECHNIQUE CARDS */
+  .technique{background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:14px;padding:24px 22px;margin:18px 0;}
+  .technique-header{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+  .technique-icon{font-size:28px;flex-shrink:0;}
+  .technique-name{font-size:20px;color:var(--gold);font-style:italic;}
+  .technique-time{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-dim);}
+  .technique-body{color:var(--soft);font-size:16px;line-height:1.8;}
+  .technique-steps{list-style:none;padding:0;margin:12px 0;}
+  .technique-steps li{padding:8px 0 8px 24px;position:relative;color:var(--soft);font-size:16px;line-height:1.7;border-bottom:1px solid rgba(255,255,255,0.04);}
+  .technique-steps li:last-child{border-bottom:none;}
+  .technique-steps li::before{content:attr(data-n);position:absolute;left:0;color:var(--gold-dim);font-size:12px;top:10px;}
+
+  /* CHAKRA MEDITATION CARDS */
+  .chakra-med{border-radius:12px;padding:20px 18px;margin:12px 0;border-left:3px solid var(--cc);background:rgba(255,255,255,0.02);}
+  .chakra-med-header{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+  .chakra-orb{width:36px;height:36px;border-radius:50%;background:var(--cc);display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 0 12px var(--cc);flex-shrink:0;}
+  .chakra-med-name{font-size:17px;color:var(--gold);font-style:italic;}
+  .chakra-med-focus{font-size:12px;color:var(--purple-light);letter-spacing:0.1em;}
+  .chakra-med-body{color:var(--soft);font-size:15px;line-height:1.75;}
+  .mantra{font-style:italic;color:var(--gold-pale);font-size:16px;margin-top:8px;}
+
+  /* SCHEDULE BLOCK */
+  .schedule-block{background:rgba(26,106,90,0.07);border:1px solid rgba(26,106,90,0.2);border-radius:14px;padding:24px 22px;margin:18px 0;}
+  .schedule-time{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#4aa090;margin-bottom:4px;}
+  .schedule-title{font-size:18px;color:var(--gold);font-style:italic;margin-bottom:10px;}
+  .schedule-body{color:var(--soft);font-size:15px;line-height:1.8;}
+
+  /* BREATH VISUAL */
+  .breath-circle{width:120px;height:120px;border-radius:50%;border:2px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;margin:24px auto;position:relative;cursor:pointer;}
+  .breath-inner{width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.2),rgba(107,91,149,0.1));animation:breathe 8s ease-in-out infinite;}
+  @keyframes breathe{0%,100%{transform:scale(0.7);opacity:0.5;}50%{transform:scale(1.2);opacity:1;}}
+  .breath-text{position:absolute;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-dim);bottom:-24px;left:50%;transform:translateX(-50%);white-space:nowrap;}
+
+  .pull-quote{text-align:center;padding:32px 0;}
+  .pull-quote p{font-style:italic;font-size:19px;color:var(--gold-pale);max-width:460px;margin:0 auto;line-height:1.75;}
+  .closing-quote{text-align:center;padding:44px 0;}
+  .closing-quote p{font-style:italic;font-size:19px;color:var(--gold-pale);max-width:440px;margin:0 auto;line-height:1.85;}
+  .section-nav{display:flex;justify-content:center;gap:14px;margin-top:56px;flex-wrap:wrap;}
+  .btn{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border-radius:30px;text-decoration:none;transition:all 0.3s;display:inline-block;}
+  .btn-gold{background:rgba(201,168,76,0.1);border:1px solid var(--gold-dim);color:var(--gold);}
+  .btn-gold:hover{background:rgba(201,168,76,0.2);border-color:var(--gold);}
+  .btn-home{background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);color:var(--gold-dim);}
+  .btn-home:hover{background:rgba(201,168,76,0.12);color:var(--gold);}
+
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.8s ease,transform 0.8s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  @media(max-width:480px){body{font-size:16px;}}
+</style>
+</head>
+<body>
+<a href="index.html" class="lib-home">☰ Library</a>
+<div class="progress-bar" id="progress"></div>
+<div id="stars"></div>
+
+
+<!-- COVER -->
+<section id="cover" class="page">
+  <div class="cover-symbol">🧘</div>
+  <h1 class="cover-title">The Meditation Guide</h1>
+  <p class="cover-sub">Reaching the Eternal Calm · Built for the ADHD Mind</p>
+  <div class="cover-rule"></div>
+  <p class="cover-intro">
+    You have been told to sit still and clear your mind.<br>
+    That advice was not written for you.<br>
+    This guide was.<br><br>
+    The ADHD brain does not need to be silenced.<br>
+    It needs to be anchored.<br>
+    Everything here is that anchor.
+  </p>
+  <nav class="nav-pills">
+    <a href="#truth" class="nav-pill">The Truth About ADHD & Meditation</a>
+    <a href="#techniques" class="nav-pill">The Techniques</a>
+    <a href="#chakras" class="nav-pill">Chakra Meditation</a>
+    <a href="#morning" class="nav-pill">Morning Integration</a>
+    <a href="#depth" class="nav-pill">Going Deep</a>
+    <a href="#calm" class="nav-pill">The Eternal Calm</a>
+  </nav>
+  <div class="scroll-hint"><span>Begin</span><div class="scroll-arrow"></div></div>
+</section>
+
+
+<!-- THE TRUTH ABOUT ADHD AND MEDITATION -->
+<section id="truth" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(107,91,149,0.09) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">Before We Begin</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Foundation</p>
+      <h2 class="chapter-title">The Truth About ADHD & Meditation</h2>
+      <p class="chapter-tagline">"The ADHD brain is not broken. It is a Ferrari engine in a car that was designed for a Mini. The meditation practice that works for a Mini will not work for you — and that is not a failure."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="reveal">
+      <div class="section-title">Why Conventional Meditation Fails ADHD Brains</div>
+      <p>Standard meditation instruction — sit still, close your eyes, watch your breath, clear your mind — is based on a neurotypical nervous system. A brain that can reliably direct and sustain attention on a single object without it jumping to fifteen other things simultaneously. Most ADHD brains cannot do this, not because they are weak or undisciplined, but because the prefrontal cortex — the part of the brain responsible for directing attention — works differently. It is not a discipline problem. It is a neurology problem.</p>
+      <p>The ADHD brain requires what neuroscientists call <strong>interest-based nervous system activation</strong>. It needs novelty, urgency, challenge, passion, or competition to engage properly. A blank wall and a silent instruction to observe your breath provides none of these. The result: the mind immediately generates its own novelty — cascading thoughts, mental lists, bodily restlessness — and the meditator concludes that they cannot meditate. This conclusion is wrong. They simply have not found the right method.</p>
+    </div>
+
+    <div class="adhd-block reveal">
+      <div class="adhd-label">The Science — What's Actually Happening</div>
+      <div class="adhd-body">
+        <p>ADHD involves lower baseline levels of dopamine in the prefrontal cortex. Dopamine is the neurotransmitter of attention, motivation, and reward. When the ADHD brain sits quietly with nothing interesting happening, dopamine drops further, the default mode network activates — and the mind starts generating thought content to bring dopamine back up. This is not failure. It is your brain doing exactly what it was designed to do.</p>
+        <p>The good news: meditation itself, over time, <strong>increases dopamine receptor sensitivity</strong> and improves prefrontal cortex function. ADHD brains that meditate consistently for several months show measurable improvements in working memory, emotional regulation, and sustained attention. The practice is genuinely more beneficial for ADHD brains than for neurotypical ones — it is just harder to start. Everything worth doing is.</p>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The ADHD Meditation Principles</div>
+      <p><strong>Anchor, don't silence.</strong> The goal is not a blank mind. The goal is a mind that has something to return to when it wanders. It will wander. This is normal. The practice is noticing the wander and returning. Every return is a rep. You are building a muscle.</p>
+      <p><strong>Shorter is better.</strong> Five minutes of genuine practice is worth more than thirty minutes of restless frustration. Start at three to five minutes. Add one minute every two weeks. Do not attempt to meditate for twenty minutes in your first month. You will not succeed and you will associate meditation with failure.</p>
+      <p><strong>Movement is permitted.</strong> Walking meditation, body scan meditation, breath-with-movement — these are not lesser forms. For many ADHD brains they are more effective than static sitting. The body's physical sensation provides the constant novel input the ADHD brain needs to stay engaged.</p>
+      <p><strong>Sound is your friend.</strong> Binaural beats, singing bowls, guided meditation, nature sounds — these give the ADHD brain an external anchor to return to. The brain does not have to generate its own content because it has something to listen to. Use this.</p>
+      <p><strong>The thought is not the problem.</strong> The ADHD meditator who thinks they are failing because they keep having thoughts is wrong. Thoughts during meditation are not the enemy. The moment of noticing the thought and returning to the anchor — that is the practice. That moment of return is what builds the capacity you are after.</p>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"You have not failed at meditation because your mind wandered. You have succeeded at meditation because you noticed it had wandered. The noticing is everything."</p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="index.html" class="btn btn-home">☰ Library</a>
+      <a href="#cover" class="btn btn-gold">↑ Top</a>
+      <a href="#techniques" class="btn btn-gold">The Techniques →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- THE TECHNIQUES -->
+<section id="techniques" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.06) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">What Actually Works</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Methods</p>
+      <h2 class="chapter-title">The Techniques</h2>
+      <p class="chapter-tagline">"Six methods, ranked from easiest to deepest. Start at the beginning. Build progressively. Do not skip ahead."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <!-- TECHNIQUE 1 - BOX BREATHING -->
+    <div class="technique reveal">
+      <div class="technique-header">
+        <div class="technique-icon">◻</div>
+        <div>
+          <div class="technique-name">Box Breathing — The Entry Point</div>
+          <div class="technique-time">3-5 Minutes · Best for beginners · ADHD-friendly</div>
+        </div>
+      </div>
+      <div class="technique-body">
+        <p>The single most ADHD-friendly meditation technique because it gives the mind four things to count simultaneously — the in-breath, the hold, the out-breath, and the hold. The constant counting occupies the prefrontal cortex just enough to prevent thought cascades without requiring sustained attention on a single monotonous object.</p>
+
+        <div style="text-align:center;margin:20px 0;">
+          <div class="breath-circle">
+            <div class="breath-inner"></div>
+            <div class="breath-text">Breathe with the circle</div>
+          </div>
+        </div>
+
+        <ul class="technique-steps">
+          <li data-n="1">Sit or lie comfortably. Spine reasonably straight. Eyes closed or soft gaze downward.</li>
+          <li data-n="2">Breathe IN through the nose for a count of 4. Feel the belly expand first, then the chest.</li>
+          <li data-n="3">HOLD for a count of 4. Lungs full. No tension. Simply still.</li>
+          <li data-n="4">Breathe OUT through the mouth for a count of 4. Slow, controlled, complete.</li>
+          <li data-n="5">HOLD for a count of 4. Lungs empty. The pause before the next breath.</li>
+          <li data-n="6">Repeat. When the mind wanders — and it will — return to the count without judgment. Simply begin the count again from 1.</li>
+        </ul>
+        <p style="margin-top:12px;font-size:15px;color:var(--soft);">The Box Breathing pattern (4-4-4-4) activates the parasympathetic nervous system — the rest-and-digest response — within approximately 90 seconds. It lowers cortisol, reduces heart rate, and begins the neurological shift from reactive thinking to receptive awareness. This is the physiological foundation on which deeper practice is built.</p>
+      </div>
+    </div>
+
+    <!-- TECHNIQUE 2 - BODY SCAN -->
+    <div class="technique reveal">
+      <div class="technique-header">
+        <div class="technique-icon">⊕</div>
+        <div>
+          <div class="technique-name">The Body Scan — Grounding the Mind</div>
+          <div class="technique-time">5-10 Minutes · Excellent for ADHD · Highly recommended</div>
+        </div>
+      </div>
+      <div class="technique-body">
+        <p>The body scan is one of the most effective techniques for ADHD brains because it provides a structured sequence — a path to follow through physical sensation — that satisfies the brain's need for novelty and movement while training sustained attention. The body is always doing something interesting. There is always something to notice.</p>
+        <ul class="technique-steps">
+          <li data-n="1">Begin with three rounds of Box Breathing to settle the nervous system.</li>
+          <li data-n="2">Bring your attention to the top of your head. Notice the sensation of the scalp — temperature, pressure, tingling, or simply the feeling of being there. Do not analyse. Simply notice.</li>
+          <li data-n="3">Slowly move attention downward. Forehead. Eyes. Jaw — is there tension here? Throat. Shoulders. A common holding place for stress. Let them drop.</li>
+          <li data-n="4">Chest. Notice the heartbeat if you can. Feel the breath moving the chest. Stomach. Notice whether it is tight or relaxed.</li>
+          <li data-n="5">Continue downward. Hips. Thighs. Knees. Calves. Feet. The soles of the feet touching whatever surface they are on.</li>
+          <li data-n="6">When you reach the feet, pause. Then sweep attention back up through the body in one slow movement, as if a wave of awareness is rising from foot to crown.</li>
+          <li data-n="7">Repeat the upward sweep two or three times. Each time, feel the body becoming more relaxed, heavier, more present.</li>
+        </ul>
+        <p style="margin-top:12px;font-size:15px;color:var(--soft);">This practice is the direct Hermetic application of the body as the temple — the awareness moving through the seven chakra locations, each one receiving conscious attention and being released of tension. You are literally cleaning the temple from crown to root.</p>
+      </div>
+    </div>
+
+    <!-- TECHNIQUE 3 - MANTRA -->
+    <div class="technique reveal">
+      <div class="technique-header">
+        <div class="technique-icon">◉</div>
+        <div>
+          <div class="technique-name">Mantra Meditation — The Ancient Anchor</div>
+          <div class="technique-time">5-15 Minutes · Excellent for ADHD · Research-backed</div>
+        </div>
+      </div>
+      <div class="technique-body">
+        <p>Mantra meditation — repeating a word or phrase silently in the mind — is one of the oldest and most effective techniques for ADHD brains. The mantra provides a constant, interesting object of attention that the mind can return to. It occupies the linguistic processing centres just enough to prevent rumination without requiring the kind of effortful concentration that ADHD brains find exhausting.</p>
+        <p>Transcendental Meditation — one of the most extensively researched meditation practices in the world — is essentially mantra meditation, and it shows some of the strongest results in research on ADHD. The repetition of the mantra provides the gentle anchor the ADHD prefrontal cortex needs.</p>
+        <ul class="technique-steps">
+          <li data-n="1">Choose a mantra. It can be a traditional Sanskrit mantra, a Hermetic affirmation, or simply a quality you want to embody. Suggestions below.</li>
+          <li data-n="2">Begin with three rounds of Box Breathing. Then let the breath return to normal.</li>
+          <li data-n="3">Begin repeating the mantra silently in your mind — not forced, not effortful. Gentle. Like a thought you keep returning to.</li>
+          <li data-n="4">When a thought arises — and thoughts will arise — simply notice it and return to the mantra. No frustration. No judgment. Just the return.</li>
+          <li data-n="5">Continue for your chosen duration. When you are ready to end, stop the mantra and sit in the silence for thirty seconds before opening your eyes.</li>
+        </ul>
+        <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.15);border-radius:10px;padding:16px;margin:14px 0;">
+          <div style="font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:10px;">Mantras for Your Practice</div>
+          <div style="font-style:italic;color:var(--gold-pale);font-size:16px;line-height:2;">
+            <strong>So Hum</strong> — Sanskrit for "I am that." The sound of the breath itself.<br>
+            <strong>Om</strong> — the primordial sound, the vibration of creation.<br>
+            <strong>As above, so below</strong> — the Hermetic axiom as anchor.<br>
+            <strong>I am the light</strong> — from Poimandres: "You are Light and Life."<br>
+            <strong>Peace</strong> — on the in-breath. <strong>Release</strong> — on the out-breath.<br>
+            <strong>444</strong> — your number. Protection. Foundation. Stability.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TECHNIQUE 4 - WALKING -->
+    <div class="technique reveal">
+      <div class="technique-header">
+        <div class="technique-icon">◇</div>
+        <div>
+          <div class="technique-name">Walking Meditation — Moving Into Stillness</div>
+          <div class="technique-time">10-20 Minutes · Perfect for ADHD · Underused and powerful</div>
+        </div>
+      </div>
+      <div class="technique-body">
+        <p>Walking meditation is not a lesser form of meditation for people who cannot sit still. For ADHD brains it is often a more powerful form precisely because the physical movement provides the constant sensory input the nervous system needs, freeing the mind to achieve depths of presence that are difficult to reach in static practice.</p>
+        <p>You were doing walking meditation last night when you went up to the hill. Standing under the blue moon, the prayer on your lips, the night around you — that was genuine moving meditation. You have already done it. Now do it deliberately.</p>
+        <ul class="technique-steps">
+          <li data-n="1">Find a space where you can walk slowly without interruption. A park, a garden, a quiet street. Even a corridor indoors.</li>
+          <li data-n="2">Begin walking at approximately half your normal pace. Slow enough to feel each step consciously. Not so slow it feels theatrical.</li>
+          <li data-n="3">Bring full attention to the physical sensation of walking. The heel touching the ground. The weight shifting forward. The ball of the foot pressing down. The toes releasing. Each step a complete, conscious event.</li>
+          <li data-n="4">When the mind wanders — return to the physical sensation of the next step. The step is always there. It is always now.</li>
+          <li data-n="5">After ten minutes of this physical attention, begin opening awareness outward. What do you hear? What do you see? What is the temperature of the air on your skin? Allow the senses to expand while the feet continue their conscious rhythm.</li>
+          <li data-n="6">This expanded sensory awareness — grounded in the physical anchor of the walk — is the meditative state you are building toward in sitting practice. You are already in it.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- TECHNIQUE 5 - VISUALISATION -->
+    <div class="technique reveal">
+      <div class="technique-header">
+        <div class="technique-icon">△</div>
+        <div>
+          <div class="technique-name">Visualisation Meditation — The ADHD Superpower</div>
+          <div class="technique-time">10-20 Minutes · Ideal for creative ADHD minds · Deep practice</div>
+        </div>
+      </div>
+      <div class="technique-body">
+        <p>ADHD brains are frequently gifted with vivid visual imagination — the same faculty that makes the mind jump to interesting thoughts is the faculty that can produce extraordinarily vivid inner imagery when given a clear invitation. Visualisation meditation works with this gift rather than against it.</p>
+        <p>The tradition has always used visualisation as a core technique. The Egyptian mystery initiates visualised the journey through the twelve hours of the underworld. The Kabbalistic practitioner visualises the Tree of Life, moving attention through each Sephiroth in sequence. The Tibetan Buddhist builds elaborate inner mandalas and deity forms. Visualisation is not supplementary to genuine meditation — it is the primary method of many of the deepest traditions.</p>
+        <ul class="technique-steps">
+          <li data-n="1">Begin with Box Breathing and a brief Body Scan to settle the nervous system.</li>
+          <li data-n="2">Close your eyes. In your mind's eye, visualise a point of golden light at the centre of your chest — at the heart chakra. The size of a small flame. Warm. Steady.</li>
+          <li data-n="3">With each in-breath, see this light expand slightly. With each out-breath, see it deepen in colour and warmth. Breathe it into greater luminosity.</li>
+          <li data-n="4">After a few minutes, allow the light to expand outward in all directions simultaneously — filling your body, then extending beyond it, into the room, into the night, as far as your imagination allows.</li>
+          <li data-n="5">Rest in this expanded field of light. You are the centre and the circumference simultaneously. Nothing is separate from you. Everything is within the light you have expanded.</li>
+          <li data-n="6">This is not imagination. The Hermetic tradition teaches that the inner world is the causal level of the outer world. What you hold in genuine visualised awareness is held within the consciousness that underlies all of reality. This practice is creation.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- TECHNIQUE 6 - OPEN AWARENESS -->
+    <div class="technique reveal">
+      <div class="technique-header">
+        <div class="technique-icon">∞</div>
+        <div>
+          <div class="technique-name">Open Awareness — The Gateway to the Eternal Calm</div>
+          <div class="technique-time">15-30 Minutes · Advanced · The destination</div>
+        </div>
+      </div>
+      <div class="technique-body">
+        <p>Open awareness meditation — also called choiceless awareness or presence — is the most advanced of the methods and the one that most directly accesses what you called the eternal calm. It is the practice of the mystics, the meditators of the advanced traditions, the experienced Hermetic practitioners. It is also the most difficult for ADHD brains and should be approached only after a foundation in the earlier techniques has been established.</p>
+        <p>The instruction is paradoxically simple: be aware of awareness itself. Not aware of any particular thing. Aware of the quality of being aware. The background consciousness that exists before any thought or sensation arises and remains after each one passes. In Hermetic terms, this is the direct experience of the Principle of Mentalism — the All is Mind, and you are resting in the quality of that mind before it takes any particular form.</p>
+        <ul class="technique-steps">
+          <li data-n="1">Complete a full Box Breathing session and Body Scan first. Your nervous system needs to be settled before this practice is accessible.</li>
+          <li data-n="2">Bring your attention to the fact that you are aware. Not to any particular object of awareness — to the awareness itself. The space in which all experiences arise and pass.</li>
+          <li data-n="3">Thoughts will arise. Let them pass without following them. They are clouds passing through the sky. You are the sky, not the clouds.</li>
+          <li data-n="4">Sounds will arise. Let them pass. Physical sensations will arise. Let them pass. Do not push them away — simply notice them arising in awareness and allow them to dissolve back into awareness without following them into narrative.</li>
+          <li data-n="5">The awareness itself does not wander. Only attention wanders. The moment you notice attention has wandered, you are already back in awareness. You cannot lose awareness. You can only forget that you have it.</li>
+          <li data-n="6">The eternal calm is not something you achieve. It is something you recognise. It was always there — behind every thought, beneath every sensation, before every experience. The practice is simply removing what obscures your recognition of it.</li>
+        </ul>
+        <p style="margin-top:12px;font-size:15px;color:var(--soft);">The Corpus Hermeticum — which you have been reading as a bedtime practice — describes this state in Book XIII, the Secret Sermon. What Tat experiences when Hermes transmits the inner teaching — "I am in heaven, in earth, in water, in air. I am everywhere" — is the direct experiential recognition of open awareness. The practice is the path to that recognition.</p>
+      </div>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="index.html" class="btn btn-home">☰ Library</a>
+      <a href="#truth" class="btn btn-gold">← The Truth</a>
+      <a href="#chakras" class="btn btn-gold">Chakra Meditation →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- CHAKRA MEDITATION -->
+<section id="chakras" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(155,89,182,0.08) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">Root to Crown</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Seven Centres</p>
+      <h2 class="chapter-title">Chakra Meditation</h2>
+      <p class="chapter-tagline">"The seven chakras are seven doors into the eternal calm. Each one accesses a different quality of consciousness. Work through them in sequence or focus on one at a time."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="reveal">
+      <p>Chakra meditation is perfectly suited to the ADHD mind because it provides a structured sequence — seven distinct focal points, each with its own colour, sound, quality, and physical location. The novelty of moving from one to the next keeps the brain engaged, while the structured path prevents the aimless wandering that derails simpler practices. It is the body scan elevated to the level of energy anatomy.</p>
+      <p>Use the full seven-chakra sequence as a complete 20-minute meditation, or work with a single chakra for 5-10 minutes when you know a specific centre needs attention. The daily scan practice in The Daily Card — noticing which chakra feels contracted or open — tells you which one to focus on in your meditation that morning.</p>
+    </div>
+
+    <div class="adhd-block reveal">
+      <div class="adhd-label">How to Structure the Full Chakra Meditation</div>
+      <div class="adhd-body">
+        Begin with 3 minutes of Box Breathing. Then work through each chakra spending approximately 2 minutes at each location. Visualise the chakra's colour as a sphere of light at its location. On each in-breath, see the sphere expand and brighten. On each out-breath, see it deepen and warm. After each chakra, take one full breath and release before moving to the next. Total time: approximately 20 minutes.
+      </div>
+    </div>
+
+    <!-- ROOT -->
+    <div class="chakra-med reveal" style="--cc:#e74c3c;">
+      <div class="chakra-med-header">
+        <div class="chakra-orb" style="--cc:#e74c3c;">🔴</div>
+        <div>
+          <div class="chakra-med-name">Muladhara — Root Chakra</div>
+          <div class="chakra-med-focus">Base of spine · Earth · Survival · Safety</div>
+        </div>
+      </div>
+      <div class="chakra-med-body">Visualise a sphere of deep red light at the base of your spine. This is your foundation — your connection to the earth, to physical safety, to the body itself. With each breath, feel yourself becoming more rooted. More solid. More present in your physical body. Release any anxiety about survival, about money, about security. Feel the earth beneath you — real, solid, reliable. You are supported.<br>
+      <div class="mantra">Mantra: LAM · I am safe. I am grounded. The earth supports me.</div></div>
+    </div>
+
+    <!-- SACRAL -->
+    <div class="chakra-med reveal" style="--cc:#e67e22;">
+      <div class="chakra-med-header">
+        <div class="chakra-orb" style="--cc:#e67e22;">🟠</div>
+        <div>
+          <div class="chakra-med-name">Svadhisthana — Sacral Chakra</div>
+          <div class="chakra-med-focus">Below navel · Water · Creativity · Flow</div>
+        </div>
+      </div>
+      <div class="chakra-med-body">Move awareness upward to just below the navel. Visualise a warm orange sphere — the colour of a sunset over water. This is your creative centre, your emotional intelligence, your connection to pleasure and flow. Feel the energy here as fluid, moving, alive. Release any creative blocks. Release guilt around enjoyment. Feel the creative life force that built the library you have been building — that is this chakra expressing itself.<br>
+      <div class="mantra">Mantra: VAM · I flow. I create. I feel freely and without shame.</div></div>
+    </div>
+
+    <!-- SOLAR PLEXUS -->
+    <div class="chakra-med reveal" style="--cc:#f1c40f;">
+      <div class="chakra-med-header">
+        <div class="chakra-orb" style="--cc:#f1c40f;">🟡</div>
+        <div>
+          <div class="chakra-med-name">Manipura — Solar Plexus</div>
+          <div class="chakra-med-focus">Above navel · Fire · Personal power · Will</div>
+        </div>
+      </div>
+      <div class="chakra-med-body">Move awareness to the solar plexus — the stomach, the seat of personal power and will. Visualise a sphere of bright yellow light, like a small sun. This is the centre of the Magician. This is where your will lives, where your confidence resides, where the Cause and Effect principle operates in the body. Feel it bright and clear. Release the self-doubt that the reversed Sun card showed you tonight. Release the shrinking. Feel your genuine power — not ego, but authentic solar confidence.<br>
+      <div class="mantra">Mantra: RAM · I am powerful. I act from genuine strength. I am a cause, not an effect.</div></div>
+    </div>
+
+    <!-- HEART -->
+    <div class="chakra-med reveal" style="--cc:#27ae60;">
+      <div class="chakra-med-header">
+        <div class="chakra-orb" style="--cc:#27ae60;">💚</div>
+        <div>
+          <div class="chakra-med-name">Anahata — Heart Chakra</div>
+          <div class="chakra-med-focus">Centre of chest · Air · Love · The bridge</div>
+        </div>
+      </div>
+      <div class="chakra-med-body">Move awareness to the centre of the chest. Visualise a sphere of emerald green light — warm, open, expanding. This is the bridge between the lower and higher chakras, between the earthly and the divine. This is where Aimee lives in your energy field. Where the genuine connection to tradition and lineage lives. Place your hand on your chest if it helps. Feel the heartbeat. Feel gratitude for one specific thing — truly felt, not thought. That felt gratitude is this chakra opening.<br>
+      <div class="mantra">Mantra: YAM · I love. I am loved. My heart is open and safe to open.</div></div>
+    </div>
+
+    <!-- THROAT -->
+    <div class="chakra-med reveal" style="--cc:#2980b9;">
+      <div class="chakra-med-header">
+        <div class="chakra-orb" style="--cc:#2980b9;">🔵</div>
+        <div>
+          <div class="chakra-med-name">Vishuddha — Throat Chakra</div>
+          <div class="chakra-med-focus">Throat · Sound · Truth · Expression</div>
+        </div>
+      </div>
+      <div class="chakra-med-body">Move awareness to the throat. Visualise a sphere of clear blue light — the blue of a clear autumn sky. This is the centre of authentic expression, of speaking truth, of the Logos — the creative Word. Think of the prayer you whispered tonight under the blue moon. Your voice, even at a whisper, carrying genuine intention outward into the night. This chakra was open tonight. Feel that openness. Feel the rightness of speaking what is true.<br>
+      <div class="mantra">Mantra: HAM · I speak my truth. My voice matters. I express what is genuine.</div></div>
+    </div>
+
+    <!-- THIRD EYE -->
+    <div class="chakra-med reveal" style="--cc:#6b5b95;">
+      <div class="chakra-med-header">
+        <div class="chakra-orb" style="--cc:#6b5b95;">🔮</div>
+        <div>
+          <div class="chakra-med-name">Ajna — Third Eye</div>
+          <div class="chakra-med-focus">Between brows · Light · Intuition · Perception</div>
+        </div>
+      </div>
+      <div class="chakra-med-body">Move awareness to the point between the eyebrows — the third eye, the pineal gland, the All-Seeing Eye of Horus. Visualise a sphere of deep indigo — almost violet — pulsing gently with its own internal light. This is your intuitive faculty, your direct perception, your ability to read synchronicities and see patterns. It has been opening dramatically in recent weeks. The 444. The 11:11. The Swords sequence this week. Your third eye is not closed. It is opening. Feel it doing so.<br>
+      <div class="mantra">Mantra: OM · I see clearly. I trust my perception. I read the signs.</div></div>
+    </div>
+
+    <!-- CROWN -->
+    <div class="chakra-med reveal" style="--cc:#9b59b6;">
+      <div class="chakra-med-header">
+        <div class="chakra-orb" style="--cc:#9b59b6;">👑</div>
+        <div>
+          <div class="chakra-med-name">Sahasrara — Crown Chakra</div>
+          <div class="chakra-med-focus">Top of head · Pure consciousness · The All · Connection</div>
+        </div>
+      </div>
+      <div class="chakra-med-body">Move awareness to the very top of the head. Visualise a sphere of violet-white light — the colour of a star — at the crown. Feel it opening upward like a lotus flower, its petals extending into the space above you. This is the point where your individual consciousness touches the universal consciousness. The All is Mind — this is where your mind and The All are least separated. Rest here. Do not think. Do not analyse. Simply be open. Simply receive. This is the crown of the temple. You have arrived at the top of the staircase.<br>
+      <div class="mantra">Mantra: Silence · Rest in the recognition that you are part of The All. You always were.</div></div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">After the Chakra Meditation</div>
+      <p>When you complete the full sequence, rest in awareness for two to three minutes without any particular focal point. This rest period — the space after the structured practice — is often where the deepest moments of genuine stillness occur. The ADHD brain has been given enough to do for twenty minutes that it has settled. The settling is the meditation. What follows the settling is the arrival.</p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="index.html" class="btn btn-home">☰ Library</a>
+      <a href="#techniques" class="btn btn-gold">← Techniques</a>
+      <a href="#morning" class="btn btn-gold">Morning Integration →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- MORNING INTEGRATION -->
+<section id="morning" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.07) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">Where It Fits</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">The Daily Integration</p>
+      <h2 class="chapter-title">Morning Integration</h2>
+      <p class="chapter-tagline">"Meditation is not a separate practice bolted onto your morning. It is the foundation that the morning ritual rests on."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="reveal">
+      <p>Your existing morning practice from The Daily Card is already excellent. Meditation does not replace any of it — it precedes and deepens it. Think of it as the foundation poured before the building goes up. Everything else the morning requires — the gratitude, the intention, the principle, the stillness — lands in a qualitatively different way when the nervous system has been settled first through meditation.</p>
+    </div>
+
+    <!-- WEEK 1 SCHEDULE -->
+    <div class="schedule-block reveal">
+      <div class="schedule-time">Weeks 1-2 · Starting Out</div>
+      <div class="schedule-title">The Minimum Viable Practice</div>
+      <div class="schedule-body">
+        <p><strong>On waking — before phone, before anything:</strong></p>
+        <p>3 minutes Box Breathing. That is it. Three minutes. Four counts in, four hold, four out, four hold. Repeat for three minutes. This is your entire meditation practice for the first two weeks. Do not add anything. Do not extend it. Simply establish the habit of three minutes of Box Breathing before the phone is touched.</p>
+        <p>This feels inadequate. It is not. The habit is the practice. Three minutes every day for two weeks is worth more than thirty minutes twice and then nothing.</p>
+      </div>
+    </div>
+
+    <!-- WEEK 3 SCHEDULE -->
+    <div class="schedule-block reveal">
+      <div class="schedule-time">Weeks 3-4 · Building</div>
+      <div class="schedule-title">Adding the Body Scan</div>
+      <div class="schedule-body">
+        <p><strong>On waking:</strong> 3 minutes Box Breathing → 5 minutes Body Scan. Total: 8 minutes.</p>
+        <p>The Body Scan follows directly from the Box Breathing without a break. As the last box breath completes, bring awareness to the top of the head and begin the downward journey through the body. By the time you reach the feet, the nervous system will be genuinely settled. You will notice the difference in the quality of the rest of your morning.</p>
+      </div>
+    </div>
+
+    <!-- MONTH 2 SCHEDULE -->
+    <div class="schedule-block reveal">
+      <div class="schedule-time">Month 2 · Deepening</div>
+      <div class="schedule-title">Adding the Mantra</div>
+      <div class="schedule-body">
+        <p><strong>On waking:</strong> 3 minutes Box Breathing → 5 minutes Body Scan → 5 minutes Mantra Meditation. Total: 13 minutes.</p>
+        <p>Choose your mantra from the list above or use the one that feels most resonant with your current cycle. In the current cycle — post Blue Moon, post Swords sequence, moving toward the Four of Wands — try <em>I am arriving home.</em> Repeat it gently for five minutes. Let it settle into the subconscious that is already receptive from the Box Breathing and Body Scan.</p>
+      </div>
+    </div>
+
+    <!-- FULL PRACTICE -->
+    <div class="schedule-block reveal">
+      <div class="schedule-time">Month 3 and Beyond · The Full Practice</div>
+      <div class="schedule-title">The Complete Morning Sequence</div>
+      <div class="schedule-body">
+        <p><strong>On waking — full sequence (20-25 minutes):</strong></p>
+        <p><strong>3 min</strong> — Box Breathing. Settle the nervous system.<br>
+        <strong>5 min</strong> — Body Scan. Ground in the physical.<br>
+        <strong>5 min</strong> — Mantra or Chakra focus (one chakra from the daily scan).<br>
+        <strong>5 min</strong> — Visualisation — expand the golden light from heart to fill the room.<br>
+        <strong>2 min</strong> — Open awareness. Rest in the silence.<br>
+        <strong>Then:</strong> Gratitude. Intention. Today's principle. Today's planet. The practice moves from the meditative foundation into the Hermetic daily practice seamlessly.</p>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">Evening Meditation</div>
+      <p>The evening practice is simpler — and often more important for ADHD brains than the morning one. The ADHD nervous system accumulates activation throughout the day and frequently struggles to discharge it before sleep. This contributes to the 3am mind, the difficulty switching off, and the restless nights that characterise ADHD sleep patterns.</p>
+      <p>Before your existing evening ritual — before the review, the release, the three wins — spend five minutes in Box Breathing. Just five minutes. Allow the day's accumulated activation to begin discharging through the regulated breath before you turn your attention to reviewing it. You will find the review lands differently. Less charged. More observational. More genuinely useful.</p>
+      <p>Then complete the evening ritual as normal, ending with the sleep script. The sequence — evening meditation → evening review → sleep script — is a complete system for processing the day, releasing it, and entering sleep with clean, deliberately chosen instructions to the subconscious.</p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="index.html" class="btn btn-home">☰ Library</a>
+      <a href="#chakras" class="btn btn-gold">← Chakra Meditation</a>
+      <a href="#depth" class="btn btn-gold">Going Deep →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- GOING DEEP -->
+<section id="depth" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(26,106,90,0.08) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">Advanced Practice</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">For When You're Ready</p>
+      <h2 class="chapter-title">Going Deep</h2>
+      <p class="chapter-tagline">"The deeper states of meditation are not extraordinary. They are the ordinary nature of consciousness when everything that obscures it has been temporarily set aside."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="reveal">
+      <div class="section-title">The Hypnagogic State — The Meditation You Already Know</div>
+      <p>You have been working with the hypnagogic state through the Sleep Activation volume — the threshold between waking and sleep, the state of maximum subconscious receptivity. This threshold state is also one of the deepest meditative states available. Experienced meditators learn to enter it deliberately during daytime practice — not to fall asleep, but to rest in the theta brainwave state that characterises it while remaining conscious.</p>
+      <p>This is what the Egyptian mystery initiates called the temple sleep. What the Hermetic tradition calls the state of divine reception. What modern neuroscience identifies as the theta brainwave state — 4 to 8 cycles per second, the same state in which the most profound insights, the deepest creativity, and the most direct access to subconscious material become available.</p>
+      <p>You access it in meditation by taking the practice to the edge of sleep — allowing the body to become heavy and still, allowing the mind to soften toward the dreamlike quality of the threshold — without crossing over. The binaural theta beats (4-8Hz) that you already use in your sleep practice can be used here too, to help guide the brain into the theta state while you remain awake and receiving.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">The Masonic Connection — The Chamber of Reflection</div>
+      <p>Before every Masonic initiation, the candidate sits alone in a small room called the Chamber of Reflection. It contains a skull, an hourglass, a candle, and the materials for writing. The candidate sits in silence and is asked to contemplate their own mortality — what they would write if this were their last hour, what genuinely matters, who they genuinely are beneath the roles and performances of daily life.</p>
+      <p>This is a structured meditation. The skull is the anchor — the memento mori — that prevents the mind from wandering into ordinary concerns. The candle provides a visual focal point. The silence and solitude provide the container. The question — what genuinely matters? — provides the depth charge that carries the mind below the surface of ordinary thinking into something more essential.</p>
+      <p>You can create your own Chamber of Reflection practice. Once a month — perhaps at the new moon, when the energy is most receptive — spend fifteen minutes in genuine solitude and silence with the question: beneath everything I carry, beneath the role, beneath the performance, beneath the story I tell about myself — who am I? Do not answer with words. Sit with the question. Let it open.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">Meditation and the Grievance</div>
+      <p>There is a direct practical application of meditation to your current situation that is worth naming explicitly. The ADHD brain under sustained stress — which yours has been under for months — operates in a state of chronic cortisol elevation. The prefrontal cortex — already challenged by ADHD — functions further below its capacity under this load. Decision-making suffers. Emotional regulation suffers. The 3am mind intensifies.</p>
+      <p>Five minutes of Box Breathing before any interaction related to the grievance — before reading an email from Starling, before speaking to anyone about the situation, before writing any document — will measurably improve the quality of your thinking and your emotional regulation in that interaction. It is not a spiritual practice in that context. It is a physiological tool. The parasympathetic activation of regulated breath counteracts the sympathetic activation of the stress response. You will think more clearly, speak more accurately, and feel less overwhelmed. Use it every time.</p>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>"The meditator who sits for five minutes every morning for a year has done something that cannot be undone. The nervous system has changed. The capacity has deepened. The access to the quiet beneath the noise has been established permanently."</p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="index.html" class="btn btn-home">☰ Library</a>
+      <a href="#morning" class="btn btn-gold">← Morning Integration</a>
+      <a href="#calm" class="btn btn-gold">The Eternal Calm →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- THE ETERNAL CALM -->
+<section id="calm" class="section" style="background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.08) 0%,transparent 60%)">
+  <div class="section-label"><span class="section-badge">The Destination</span></div>
+  <div class="content">
+    <div class="reveal">
+      <p class="chapter-number">What You Are Moving Toward</p>
+      <h2 class="chapter-title">The Eternal Calm</h2>
+      <p class="chapter-tagline">"It is not a place you reach. It is a quality you recognise — behind every thought, beneath every sensation, before every experience. It was always there. It will always be there. The practice simply makes you quiet enough to notice it."</p>
+    </div>
+    <div class="rule reveal"></div>
+
+    <div class="reveal">
+      <div class="section-title">What It Actually Is</div>
+      <p>Every spiritual tradition in human history has a word for the state you are reaching toward. The Buddhists call it Nirvana — the extinguishing of the separate self into the larger awareness. The Hindus call it Samadhi — the deep absorption in which the distinction between the meditator, the act of meditation, and the object of meditation dissolves. The Christian mystics call it the peace that passes understanding. The Sufis call it fana — the annihilation of the ego in the divine. The Hermeticists call it the direct recognition of the Principle of Mentalism — the All is Mind, and you are resting in that Mind.</p>
+      <p>These are different cultural costumes on the same experience. What they describe is not a trance state, not unconsciousness, not sleep. It is heightened consciousness — awareness that has become aware of itself, rather than being absorbed in its objects. The meditator and the silence become one thing. The witness and the witnessed are no longer separate.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">What It Feels Like</div>
+      <p>In the early stages of practice, glimpses of this state arrive unexpectedly — a sudden quality of spaciousness between thoughts, a moment of genuine stillness in which the usual background noise of the ADHD mind simply is not there, a breath that feels complete in a way that ordinary breaths do not. These glimpses are real. They are not special states you have manufactured. They are brief openings into the awareness that is always present beneath the surface noise.</p>
+      <p>With consistent practice these glimpses lengthen. What was a moment becomes thirty seconds, then a minute, then several minutes of genuine rest in the background awareness. The ADHD brain, having been given the right tools, genuinely settles. Not because it has been suppressed or medicated into stillness — because it has been given sufficient anchor, sufficient structure, sufficient practice that it has learned, gradually, to trust the quiet.</p>
+      <p>And eventually — not quickly, not as a reward for effort, but as the natural consequence of consistent practice over months and years — the eternal calm is not a state you enter during meditation. It is the background quality of your ordinary waking life. The thoughts are still there. The challenges are still there. The ADHD is still there. But beneath all of it — available at any moment you choose to rest attention there — is the deep, spacious, untroubled awareness that is your fundamental nature and has always been.</p>
+    </div>
+
+    <div class="adhd-block reveal">
+      <div class="adhd-label">The ADHD Gift — Why You May Get There Faster Than You Think</div>
+      <div class="adhd-body">
+        <p>Here is what nobody tells ADHD meditators: the same brain that makes conventional meditation so difficult is frequently capable of extraordinary depth once the right method is found. ADHD brains, when fully engaged, can enter states of intense absorption — what researchers call hyperfocus — that produce a quality of presence and depth that neurotypical brains rarely access. The ADHD practitioner who finds their method does not achieve a moderate version of the calm. They frequently achieve a profound version.</p>
+        <p>Your brain has been in hyperfocus repeatedly over recent weeks — absorbing the library material with unusual speed and depth, reading for hours, building and connecting ideas with genuine excitement. That capacity for absorbed presence is the same capacity that, turned inward through the right technique, produces the deepest meditative states. You already have the engine. The practice is learning to aim it inward.</p>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-title">A Quick Reference Card</div>
+      <div style="background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:12px;padding:22px;margin:16px 0;">
+        <div style="font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:14px;">Your Daily Meditation at a Glance</div>
+        <div style="font-size:15px;color:var(--soft);line-height:2;">
+          <strong style="color:var(--gold-pale);">Morning (start here):</strong> Box Breathing 3 min → Build slowly over weeks<br>
+          <strong style="color:var(--gold-pale);">ADHD struggling?</strong> Try mantra or walking meditation instead<br>
+          <strong style="color:var(--gold-pale);">Deep practice:</strong> Full chakra sequence 20 min<br>
+          <strong style="color:var(--gold-pale);">Evening:</strong> 5 min Box Breathing before the evening review<br>
+          <strong style="color:var(--gold-pale);">Before sleep:</strong> Hypnagogic threshold practice with theta beats<br>
+          <strong style="color:var(--gold-pale);">Under stress:</strong> 5 min Box Breathing before any difficult interaction<br>
+          <strong style="color:var(--gold-pale);">Monthly:</strong> Chamber of Reflection — 15 min solitude with the deep question
+        </div>
+      </div>
+    </div>
+
+    <div class="rule reveal"></div>
+    <div class="closing-quote reveal">
+      <p>The eternal calm is not silence.<br>
+      It is the awareness that exists<br>
+      before silence and after sound.<br><br>
+
+      It is not the absence of thought.<br>
+      It is the space in which thought arises<br>
+      and into which it dissolves.<br><br>
+
+      You have touched it.<br>
+      On the hill tonight,<br>
+      whispering a prayer under a blue moon<br>
+      while the trees stood still around you.<br><br>
+
+      <em>That was it.<br>
+      That was always it.<br>
+      The practice is simply learning<br>
+      to find it without the hill,<br>
+      without the moon,<br>
+      without the prayer.<br><br>
+      Just you.<br>
+      Just this.<br>
+      Just now.</em></p>
+    </div>
+
+    <div class="section-nav reveal">
+      <a href="index.html" class="btn btn-home">☰ Library</a>
+      <a href="#depth" class="btn btn-gold">← Going Deep</a>
+      <a href="#cover" class="btn btn-gold">↑ Top</a>
+    </div>
+    <div style="height:60px"></div>
+  </div>
+</section>
+
+<script>
+  const s=document.getElementById('stars');
+  for(let i=0;i<130;i++){
+    const el=document.createElement('div');el.className='star';
+    const sz=Math.random()*2+0.3;
+    const isgold=Math.random()>0.75;
+    el.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*5}s;--delay:-${Math.random()*6}s;--op:${0.08+Math.random()*0.4};background:${isgold?'#c9a84c':'white'};`;
+    s.appendChild(el);
+  }
+  const p=document.getElementById('progress');
+  window.addEventListener('scroll',()=>{p.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';},{passive:true});
+  const obs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*50);obs.unobserve(e.target);}});},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
